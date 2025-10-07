@@ -15,13 +15,12 @@ import {
   git,
   figma,
   docker,
-  carrent,
-  jobit,
-  tripguide,
   threejs,
   ey,
   metrodata,
   japfa,
+  covid,
+  graph,
 } from "../assets";
 
 export const navLinks = [
@@ -31,7 +30,15 @@ export const navLinks = [
   },
   {
     id: "work",
-    title: "Work",
+    title: "Experience",
+  },
+  {
+    id: "projects",
+    title: "Projects",
+  },
+  {
+    id: "tech",
+    title: "Technologies",
   },
   {
     id: "contact",
@@ -186,28 +193,49 @@ const testimonials = [
 
 const projects = [
   {
-    name: "Car Rent",
+    name: "COVID-19 Classification",
     description:
-      "Web-based platform that allows users to search, book, and manage car rentals from various providers, providing a convenient and efficient solution for transportation needs.",
+      "Performed analysis on CNN models (XCeption vs ResNet-50) for better X-ray COVID-19 classification. Implemented transfer learning with ImageNet weights on a COVID X-ray dataset, achieving 94.50% validation accuracy with Xception, which outperformed the ResNet-50 model (85.11% accuracy).",
     tags: [
       {
-        name: "react",
+        name: "python",
         color: "blue-text-gradient",
       },
       {
-        name: "mongodb",
+        name: "tensorflow/keras",
         color: "green-text-gradient",
       },
       {
-        name: "tailwind",
+        name: "ML",
         color: "pink-text-gradient",
       },
     ],
-    image: carrent,
+    image: covid,
     source_code_link: "https://github.com/",
   },
   {
-    name: "Job IT",
+    name: "Jakarta Route Optimization",
+    description:
+      "Modeled Jakarta's road network as a 46-node weighted graph and implemented Dijkstra's shortest-path and Kruskal's MST to compare individual route minimization vs. total network cost.",
+    tags: [
+      {
+        name: "python",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "algorithms",
+        color: "purple-blue-text-gradient",
+      },
+      {
+        name: "graphs",
+        color: "pink-text-gradient",
+      },
+    ],
+    image: graph,
+    source_code_link: "https://github.com/Eternal128/Dijkstra-VS-Kruskal-for-Jakarta-Route-Optimization.git",
+  },
+  {
+    name: "Jakarta Route",
     description:
       "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
     tags: [
@@ -224,7 +252,7 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: jobit,
+    image: graph,
     source_code_link: "https://github.com/",
   },
   {
@@ -245,7 +273,7 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: tripguide,
+    image: covid,
     source_code_link: "https://github.com/",
   },
 ];

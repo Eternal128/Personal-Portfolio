@@ -25,9 +25,8 @@ import ey from "./company/ey.png"
 import metrodata from "./company/metrodata.png";
 import japfa from "./company/japfa.png";
 
-import carrent from "./carrent.png";
-import jobit from "./jobit.png";
-import tripguide from "./tripguide.png";
+import covid from './covid-19.png';
+import graph from './graph.png';
 
 export {
   logo,
@@ -51,10 +50,9 @@ export {
   tailwind,
   typescript,
   threejs,
-  carrent,
-  jobit,
-  tripguide,
   ey,
   metrodata,
   japfa,
+  covid,
+  graph,
 };

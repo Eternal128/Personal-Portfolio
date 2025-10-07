@@ -40,6 +40,28 @@
       rgba(60, 51, 80, 0) 100%);
 }
 
+.blue-gradient {
+  background: #84b3e8;
+  /* fallback for old browsers */
+  background: linear-gradient(90deg,
+      #84b3e8 0%,
+      #d1e6ff 100%);
+  background: -webkit-linear-gradient(90deg,
+      #84b3e8 0%,
+      #d1e6ff 100%);
+}
+
+.dark-blue-gradient {
+  background: #204774;
+  /* fallback for old browsers */
+  background: linear-gradient(-90deg,
+      #204774 0%,
+      #d1e6ff 100%);
+  background: -webkit-linear-gradient(90deg,
+      #204774 0%,
+      #d1e6ff 100%);
+}
+
 .green-pink-gradient {
   background: "#00cea8";
   background: linear-gradient(90.13deg, #00cea8 1.9%, #bf61ff 97.5%);
@@ -107,27 +129,76 @@
   -webkit-text-fill-color: transparent;
 }
 
-.blue-gradient {
-  background: #84b3e8;
-  /* fallback for old browsers */
-  background: linear-gradient(90deg,
-      #84b3e8 0%,
-      #d1e6ff 100%);
-  background: -webkit-linear-gradient(90deg,
-      #84b3e8 0%,
-      #d1e6ff 100%);
+/* Purple to Blue */
+.purple-blue-text-gradient {
+  background: linear-gradient(to top, #8e2de2, #4a00e0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-.dark-blue-gradient {
-  background: #204774;
-  /* fallback for old browsers */
-  background: linear-gradient(-90deg,
-      #204774 0%,
-      #d1e6ff 100%);
-  background: -webkit-linear-gradient(90deg,
-      #204774 0%,
-      #d1e6ff 100%);
+/* Cyan to Purple */
+.cyan-purple-text-gradient {
+  background: linear-gradient(to top, #00c6ff, #0072ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
+
+/* Pink to Orange */
+.pink-orange-text-gradient {
+  background: linear-gradient(to top, #ff758c, #ff7eb3);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Red to Yellow */
+.red-yellow-text-gradient {
+  background: linear-gradient(to top, #f83600, #f9d423);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Teal to Lime */
+.teal-lime-text-gradient {
+  background: linear-gradient(to top, #00b09b, #96c93d);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Gold Shine */
+.gold-text-gradient {
+  background: linear-gradient(to top, #f6d365, #fda085);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Silver Metallic */
+.silver-text-gradient {
+  background: linear-gradient(to top, #bdc3c7, #2c3e50);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Ocean Blue */
+.ocean-text-gradient {
+  background: linear-gradient(to top, #2193b0, #6dd5ed);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Sunset Glow */
+.sunset-text-gradient {
+  background: linear-gradient(to top, #ff9966, #ff5e62);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Neon Glow (good for dark mode) */
+.neon-text-gradient {
+  background: linear-gradient(to top, #00f5a0, #00d9f5);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 
 /* canvas- styles */
 .canvas-loader {
