@@ -33,12 +33,16 @@ export const navLinks = [
     title: "Experience",
   },
   {
+    id: "tech",
+    title: "Technical Skills",
+  },
+  {
     id: "projects",
     title: "Projects",
   },
   {
-    id: "tech",
-    title: "Technologies",
+    id: "testimonials",
+    title: "Testimonials",
   },
   {
     id: "contact",
@@ -69,6 +73,7 @@ const technologies = [
   {
     name: "HTML 5",
     icon: html,
+    
   },
   {
     name: "CSS 3",
@@ -167,7 +172,7 @@ const experiences = [
 const testimonials = [
   {
     testimonial:
-      "I thought it was impossible to make a website as beautiful as our product, but Rick proved me wrong.",
+      "Goat is James",
     name: "Sara Lee",
     designation: "CFO",
     company: "Acme Co",
@@ -175,7 +180,7 @@ const testimonials = [
   },
   {
     testimonial:
-      "I've never met a web developer who truly cares about their clients' success like Rick does.",
+      "James is the GOAT",
     name: "Chris Brown",
     designation: "COO",
     company: "DEF Corp",
@@ -183,11 +188,19 @@ const testimonials = [
   },
   {
     testimonial:
-      "After Rick optimized our website, our traffic increased by 50%. We can't thank them enough!",
+      "James is so tuff",
     name: "Lisa Wang",
     designation: "CTO",
     company: "456 Enterprises",
     image: "https://randomuser.me/api/portraits/women/6.jpg",
+  },
+  {
+    testimonial:
+      "I’ve had the pleasure of working alongside James in several CS projects, and I can honestly say he’s one of the most driven and technically talented  people I know. ",
+    name: "Abdullah Alhidary",
+    designation: "CS Student",
+    company: "University of Toronto",
+    image: "https://pbs.twimg.com/media/GyHdy2fXIAEpDQW.png",
   },
 ];
 

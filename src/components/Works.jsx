@@ -8,6 +8,7 @@ import { SectionWrapper } from "../hoc";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
 
+// Project card with index, name, description, tags (technical skills related to it), image of project, and github repo
 const ProjectCard = ({
   index,
   name,
