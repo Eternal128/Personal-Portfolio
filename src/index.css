@@ -118,6 +118,17 @@
       #d1e6ff 100%);
 }
 
+.dark-blue-gradient {
+  background: #204774;
+  /* fallback for old browsers */
+  background: linear-gradient(-90deg,
+      #204774 0%,
+      #d1e6ff 100%);
+  background: -webkit-linear-gradient(90deg,
+      #204774 0%,
+      #d1e6ff 100%);
+}
+
 /* canvas- styles */
 .canvas-loader {
   font-size: 10px;
