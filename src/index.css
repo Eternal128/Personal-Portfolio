@@ -107,6 +107,17 @@
   -webkit-text-fill-color: transparent;
 }
 
+.blue-gradient {
+  background: #84b3e8;
+  /* fallback for old browsers */
+  background: linear-gradient(90deg,
+      #84b3e8 0%,
+      #d1e6ff 100%);
+  background: -webkit-linear-gradient(90deg,
+      #84b3e8 0%,
+      #d1e6ff 100%);
+}
+
 /* canvas- styles */
 .canvas-loader {
   font-size: 10px;
