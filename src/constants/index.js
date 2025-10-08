@@ -56,18 +56,26 @@ const services = [
   {
     title: "Web Developer",
     icon: web,
+    description: "I love building aesthetically-pleasing websites!",
+    skills: ["React", "Tailwind CSS", "Three.js"]
   },
   {
     title: "AI Developer",
     icon: mobile,
+    description: "Interned in AI and Data Ernst and Young.",
+    skills: ["Python", "TensorFlow", "Azure AI", "OpenAI"]
   },
   {
     title: "Frontend Developer",
     icon: backend,
+    description: "I love creating stunning user interfaces!",
+    skills: ["React", "TypeScript", "Framer Motion", "CSS"]
   },
   {
     title: "Content Creator",
     icon: creator,
+    description: "I love editing animes in my free-time and I have a tiktok with 1M+ monthly views!",
+    skills: ["Video Editing", "Design", "Storytelling", "Social Media"]
   },
 ];
 
@@ -75,54 +83,80 @@ const technologies = [
   {
     name: "Python",
     icon: python,
-  },
-  {
-    name: "CSS 3",
-    icon: css,
+    level: "Expert",
+    description: "Primary language for AI/ML development, automation, and data processing"
   },
   {
     name: "JavaScript",
     icon: javascript,
-  },
-  {
-    name: "TypeScript",
-    icon: typescript,
+    level: "Expert",
+    description: "Full-stack development with React, Node.js, and modern frameworks"
   },
   {
     name: "React JS",
     icon: reactjs,
+    level: "Advanced",
+    description: "Building dynamic UIs with hooks, context, and state management"
   },
   {
-    name: "Redux Toolkit",
-    icon: redux,
-  },
-  {
-    name: "Tailwind CSS",
-    icon: tailwind,
-  },
-  {
-    name: "Node JS",
-    icon: nodejs,
-  },
-  {
-    name: "MongoDB",
-    icon: mongodb,
+    name: "TypeScript",
+    icon: typescript,
+    level: "Advanced",
+    description: "Type-safe development for scalable applications"
   },
   {
     name: "Three JS",
     icon: threejs,
+    level: "Advanced",
+    description: "Creating immersive 3D web experiences and visualizations"
   },
   {
-    name: "git",
+    name: "Tailwind CSS",
+    icon: tailwind,
+    level: "Expert",
+    description: "Utility-first styling for rapid, responsive UI development"
+  },
+  {
+    name: "Node JS",
+    icon: nodejs,
+    level: "Advanced",
+    description: "Backend development with Express and REST APIs"
+  },
+  {
+    name: "MongoDB",
+    icon: mongodb,
+    level: "Intermediate",
+    description: "NoSQL database for flexible data storage solutions"
+  },
+  {
+    name: "CSS 3",
+    icon: css,
+    level: "Expert",
+    description: "Advanced styling with animations and responsive design"
+  },
+  {
+    name: "Redux Toolkit",
+    icon: redux,
+    level: "Intermediate",
+    description: "State management for complex React applications"
+  },
+  {
+    name: "Git",
     icon: git,
+    level: "Advanced",
+    description: "Version control for collaborative development"
   },
   {
-    name: "figma",
+    name: "Figma",
     icon: figma,
+    level: "Intermediate",
+    description: "UI/UX design and prototyping for web applications"
   },
   {
-    name: "docker",
+    name: "Docker",
     icon: docker,
+    level: "Intermediate",
+    description: "Containerization for consistent deployment environments"
   },
 ];
 
