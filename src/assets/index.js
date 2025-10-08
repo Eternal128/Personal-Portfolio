@@ -20,6 +20,11 @@ import redux from "./tech/redux.png";
 import tailwind from "./tech/tailwind.png";
 import typescript from "./tech/typescript.png";
 import threejs from "./tech/threejs.svg";
+import python from "./tech/python.png";
+import flutter from "./tech/flutter.png";
+import dart from "./tech/dart.png";
+import cplusplus from "./tech/cplusplus.png";
+
 
 import ey from "./company/ey.png"
 import metrodata from "./company/metrodata.png";
@@ -27,6 +32,8 @@ import japfa from "./company/japfa.png";
 
 import covid from './covid-19.png';
 import graph from './graph.png';
+import portfolio from './portfolio.png';
+
 
 export {
   logo,
@@ -50,9 +57,14 @@ export {
   tailwind,
   typescript,
   threejs,
+  python,
+  flutter,
+  dart,
+  cplusplus,
   ey,
   metrodata,
   japfa,
   covid,
   graph,
+  portfolio,
 };

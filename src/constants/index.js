@@ -16,11 +16,13 @@ import {
   figma,
   docker,
   threejs,
+  python,
   ey,
   metrodata,
   japfa,
   covid,
   graph,
+  portfolio,
 } from "../assets";
 
 export const navLinks = [
@@ -71,9 +73,8 @@ const services = [
 
 const technologies = [
   {
-    name: "HTML 5",
-    icon: html,
-    
+    name: "Python",
+    icon: python,
   },
   {
     name: "CSS 3",
@@ -163,7 +164,8 @@ const experiences = [
       "Built a Microsoft Word proposal generator that integrates Excel client data with WHO-sourced immunization data, scraping over 25,000 data points using BeautifulSoup.",
       "Enabled contextual proposal revisions via an interactive chatbot system.",
       "Engineered a speech-driven interviewer using Azure AI Speech SDK with incomplete-sentence detection, showcasing integration of speech recognition and natural language understanding.",
-      "Worked on-site as part of the AI and Data division.",
+      "Created REST APIs and tested with Postman and built the project in Docker",
+      "Created 10+ end-to-end features for 5+ companies from scratch"
     ],
   },
 ];
@@ -172,31 +174,23 @@ const experiences = [
 const testimonials = [
   {
     testimonial:
-      "Goat is James",
-    name: "Sara Lee",
-    designation: "CFO",
-    company: "Acme Co",
-    image: "https://randomuser.me/api/portraits/women/4.jpg",
+      "He’s the perfect mix of brains, humor, and calm in the chaos.",
+    name: "Daniel Kim",
+    designation: "Actuarial Science Student",
+    company: "University of Toronto",
+    image: "https://media.licdn.com/dms/image/v2/D4E03AQHN1JZBb1gCKA/profile-displayphoto-scale_400_400/B4EZjIa9CiGoAo-/0/1755709166793?e=1762992000&v=beta&t=8mPrId0UqY9uz_T0x43JTGVXQQMrEHtkj9t_A3LFGZ8",
   },
   {
     testimonial:
-      "James is the GOAT",
-    name: "Chris Brown",
-    designation: "COO",
-    company: "DEF Corp",
-    image: "https://randomuser.me/api/portraits/men/5.jpg",
+      "I went to high school with James. He’s the kind of person who made group projects actually fun and successful.",
+    name: "Yung Jui Lai",
+    designation: "Engineering Student",
+    company: "University of Manchester",
+    image: "https://media.licdn.com/dms/image/v2/D4E03AQGmiFjpMYO4Xg/profile-displayphoto-scale_400_400/B4EZmZu1RGKYAg-/0/1759220816396?e=1762992000&v=beta&t=VWLedTVIDHdBPbHhExhkxJBT4BXXd4VRCyE4x0uVaso",
   },
   {
     testimonial:
-      "James is so tuff",
-    name: "Lisa Wang",
-    designation: "CTO",
-    company: "456 Enterprises",
-    image: "https://randomuser.me/api/portraits/women/6.jpg",
-  },
-  {
-    testimonial:
-      "I’ve had the pleasure of working alongside James in several CS projects, and I can honestly say he’s one of the most driven and technically talented  people I know. ",
+      "I’ve worked with James on several CS projects and he’s easily one of the most driven and talented people I know. ",
     name: "Abdullah Alhidary",
     designation: "CS Student",
     company: "University of Toronto",
@@ -206,30 +200,30 @@ const testimonials = [
 
 const projects = [
   {
-    name: "COVID-19 Classification",
+    name: "COVID-19 X-Ray Classification",
     description:
-      "Performed analysis on CNN models (XCeption vs ResNet-50) for better X-ray COVID-19 classification. Implemented transfer learning with ImageNet weights on a COVID X-ray dataset, achieving 94.50% validation accuracy with Xception, which outperformed the ResNet-50 model (85.11% accuracy).",
+      "Deep learning analysis comparing CNN architectures (Xception vs ResNet-50) for COVID-19 detection from chest X-rays. Implemented transfer learning with ImageNet weights, achieving 94.50% validation accuracy with Xception, significantly outperforming ResNet-50 (85.11% accuracy).",
     tags: [
       {
         name: "python",
         color: "blue-text-gradient",
       },
       {
-        name: "tensorflow/keras",
+        name: "tensorflow",
         color: "green-text-gradient",
       },
       {
-        name: "ML",
+        name: "deep-learning",
         color: "pink-text-gradient",
       },
     ],
     image: covid,
-    source_code_link: "https://github.com/",
+    source_code_link: "https://github.com/Eternal128/COVID-19-Classification",
   },
   {
     name: "Jakarta Route Optimization",
     description:
-      "Modeled Jakarta's road network as a 46-node weighted graph and implemented Dijkstra's shortest-path and Kruskal's MST to compare individual route minimization vs. total network cost.",
+      "Graph theory project modeling Jakarta's road network as a 46-node weighted graph. Implemented and compared Dijkstra's shortest-path algorithm with Kruskal's Minimum Spanning Tree to analyze individual route optimization versus total network cost minimization.",
     tags: [
       {
         name: "python",
@@ -240,53 +234,53 @@ const projects = [
         color: "purple-blue-text-gradient",
       },
       {
-        name: "graphs",
-        color: "pink-text-gradient",
+        name: "graph-theory",
+        color: "gold-text-gradient",
       },
     ],
     image: graph,
-    source_code_link: "https://github.com/Eternal128/Dijkstra-VS-Kruskal-for-Jakarta-Route-Optimization.git",
+    source_code_link: "https://github.com/Eternal128/Dijkstra-VS-Kruskal-for-Jakarta-Route-Optimization",
   },
   {
-    name: "Jakarta Route",
+    name: "Personal Portfolio",
     description:
-      "Web application that enables users to search for job openings, view estimated salary ranges for positions, and locate available jobs based on their current location.",
+      "Modern 3D portfolio website built with React Three Fiber and Framer Motion. Features interactive 3D models, smooth animations, and a responsive design showcasing projects, experience, and technical skills with an immersive user experience.",
     tags: [
       {
         name: "react",
-        color: "blue-text-gradient",
+        color: "ocean-text-gradient",
       },
       {
-        name: "restapi",
-        color: "green-text-gradient",
+        name: "threejs",
+        color: "sunset-text-gradient",
       },
       {
-        name: "scss",
-        color: "pink-text-gradient",
+        name: "tailwind",
+        color: "neon-text-gradient",
+      },
+      {
+        name: "javascript",
+        color: "cyan-purple-text-gradient",
       },
     ],
-    image: graph,
-    source_code_link: "https://github.com/",
+    image: portfolio, // Replace with actual portfolio screenshot
+    source_code_link: "https://github.com/Eternal128/Personal-Portfolio.git",
   },
   {
-    name: "Trip Guide",
+    name: "Meal App",
     description:
-      "A comprehensive travel booking platform that allows users to book flights, hotels, and rental cars, and offers curated recommendations for popular destinations.",
+      "An app with cooking recipes and filterable menus to show filters e.g. gluten-free, vegetarian, vegan",
     tags: [
       {
-        name: "nextjs",
+        name: "dart",
         color: "blue-text-gradient",
       },
       {
-        name: "supabase",
+        name: "flutter",
         color: "green-text-gradient",
       },
-      {
-        name: "css",
-        color: "pink-text-gradient",
-      },
     ],
-    image: covid,
+    image: covid, // Replace with actual project screenshot
     source_code_link: "https://github.com/",
   },
 ];
