@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { styles } from "../styles";
+import { github } from '../assets';
 
 const SocialLink = ({ platform, icon, url, color, delay }) => {
   const [isHovered, setIsHovered] = useState(false);
@@ -81,7 +82,7 @@ const End = () => {
     },
     {
       platform: "GitHub",
-      icon: "💻",
+      icon: github,
       url: "https://github.com/Eternal128",
       color: "rgba(88, 166, 255, 0.5)",
       delay: 0.6,
