@@ -1,96 +1,103 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { styles } from "../styles";
-import { github } from '../assets';
 
-const SocialLink = ({ platform, icon, url, color, delay }) => {
-  const [isHovered, setIsHovered] = useState(false);
+const DURATION = 0.25;
+const STAGGER = 0.025;
 
+const FlipLink = ({ children, href }) => {
   return (
     <motion.a
-      href={url}
+      initial="initial"
+      whileHover="hovered"
+      href={href}
       target="_blank"
       rel="noopener noreferrer"
-      initial={{ opacity: 0, y: 50 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay, duration: 0.8, ease: "easeOut" }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      className="relative group"
+      className="relative block overflow-hidden whitespace-nowrap text-sm sm:text-base md:text-lg font-bold uppercase"
+      style={{
+        lineHeight: 1,
+      }}
     >
-      <motion.div
-        whileHover={{ scale: 1.1, rotate: 5 }}
-        whileTap={{ scale: 0.95 }}
-        className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 flex flex-col items-center justify-center bg-tertiary rounded-2xl border-2 border-transparent hover:border-[#d1e6ff] transition-all duration-300"
-        style={{
-          boxShadow: isHovered ? `0 0 40px ${color}` : 'none',
-        }}
-      >
-        {/* Icon */}
-        <motion.div
-          animate={{ scale: isHovered ? 1.2 : 1, rotate: isHovered ? 360 : 0 }}
-          transition={{ duration: 0.6 }}
-          className="text-5xl sm:text-6xl md:text-7xl mb-2"
-        >
-          {icon}
-        </motion.div>
-
-        {/* Platform Name */}
-        <motion.p
-          animate={{ y: isHovered ? -5 : 0 }}
-          className="text-white font-bold text-lg sm:text-xl"
-        >
-          {platform}
-        </motion.p>
-
-        {/* Hover Overlay */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 0.1 : 0 }}
-          className="absolute inset-0 rounded-2xl"
-          style={{ background: color }}
-        />
-      </motion.div>
-
-      {/* Decorative Corner */}
-      <motion.div
-        initial={{ scale: 0 }}
-        animate={{ scale: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.3 }}
-        className="absolute -top-2 -right-2 w-6 h-6 bg-[#d1e6ff] rounded-full"
-      />
+      <div>
+        {children.split("").map((l, i) => (
+          <motion.span
+            variants={{
+              initial: {
+                y: 0,
+              },
+              hovered: {
+                y: "-100%",
+              },
+            }}
+            transition={{
+              duration: DURATION,
+              ease: "easeInOut",
+              delay: STAGGER * i,
+            }}
+            className="inline-block text-white"
+            key={i}
+          >
+            {l}
+          </motion.span>
+        ))}
+      </div>
+      <div className="absolute inset-0">
+        {children.split("").map((l, i) => (
+          <motion.span
+            variants={{
+              initial: {
+                y: "100%",
+              },
+              hovered: {
+                y: 0,
+              },
+            }}
+            transition={{
+              duration: DURATION,
+              ease: "easeInOut",
+              delay: STAGGER * i,
+            }}
+            className="inline-block bg-gradient-to-r from-[#d1e6ff] to-[#84b3e8] bg-clip-text text-transparent"
+            key={i}
+          >
+            {l}
+          </motion.span>
+        ))}
+      </div>
     </motion.a>
   );
 };
 
 const End = () => {
-  const socials = [
-    {
-      platform: "LinkedIn",
-      icon: "💼",
-      url: "https://linkedin.com/in/jameswilliamhanzell", // Replace with your LinkedIn
-      color: "rgba(10, 102, 194, 0.5)",
-      delay: 0.2,
-    },
-    {
-      platform: "TikTok",
-      icon: "🎵",
-      url: "https://tiktok.com/@yourhandle", // Replace with your TikTok
-      color: "rgba(254, 44, 85, 0.5)",
-      delay: 0.4,
-    },
-    {
-      platform: "GitHub",
-      icon: github,
-      url: "https://github.com/Eternal128",
-      color: "rgba(88, 166, 255, 0.5)",
-      delay: 0.6,
-    },
-  ];
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  });
+
+  // Semicircle moves up from top middle as you scroll
+  const circleY = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]);
 
   return (
-    <section className="relative w-full min-h-screen bg-black overflow-hidden py-20 flex items-center justify-center">
+    <section
+      ref={ref}
+      className="relative w-full min-h-screen bg-black overflow-hidden flex items-center justify-center"
+    >
+      {/* White Semicircle Overlay that moves up from top middle */}
+      <motion.div
+        style={{
+          y: circleY,
+        }}
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-[50vh] pointer-events-none z-20"
+      >
+        <div
+          className="w-full h-full rounded-b-full bg-white"
+          style={{
+            boxShadow: "0 20px 60px rgba(255, 255, 255, 0.1)",
+          }}
+        />
+      </motion.div>
+
       {/* Animated Grid Background */}
       <div className="absolute inset-0 opacity-10">
         <div
@@ -100,13 +107,13 @@ const End = () => {
               linear-gradient(rgba(209, 230, 255, 0.1) 1px, transparent 1px),
               linear-gradient(90deg, rgba(209, 230, 255, 0.1) 1px, transparent 1px)
             `,
-            backgroundSize: '50px 50px',
+            backgroundSize: "50px 50px",
           }}
         />
       </div>
 
       {/* Floating Particles */}
-      {[...Array(15)].map((_, i) => (
+      {[...Array(20)].map((_, i) => (
         <motion.div
           key={i}
           className="absolute w-2 h-2 bg-[#d1e6ff] rounded-full"
@@ -126,72 +133,102 @@ const End = () => {
         />
       ))}
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
-        {/* Header */}
+      {/* Main Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center justify-between gap-12">
+        {/* Left Side - Main Heading */}
         <motion.div
-          initial={{ opacity: 0, y: -30 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, x: -50 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="text-center mb-16"
+          transition={{ duration: 0.8, delay: 0.3 }}
+          className="flex-1"
         >
-          <motion.p
-            className={`${styles.sectionSubText} text-center`}
-          >
-            Connect with me
-          </motion.p>
-          <motion.h2
-            className={`${styles.sectionHeadText} text-center`}
-          >
-            Let's Stay in <span className="text-[#d1e6ff]">Touch</span>
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-            className="mt-4 text-secondary text-[17px] max-w-3xl mx-auto"
-          >
-            Follow my journey, check out my code, or connect professionally.
+          <p className={`${styles.sectionSubText}`}>Connect with me</p>
+          <h2 className={`${styles.sectionHeadText} mt-4`}>
+            Let's Build
             <br />
-            I'm always open to collaborations and new opportunities!
-          </motion.p>
+            <span className="text-[#d1e6ff]">Together</span>
+          </h2>
+          <p className="mt-6 text-secondary text-[17px] max-w-xl leading-relaxed">
+            I'm always open to new opportunities, collaborations, and
+            interesting projects. Whether you want to work together or just
+            say hi, feel free to reach out!
+          </p>
+
+          {/* Email */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.5 }}
+            className="mt-8"
+          >
+            <p className="text-secondary text-sm uppercase tracking-wider mb-2">
+              Email
+            </p>
+            <a
+              href="mailto:james.hanzell@mail.utoronto.ca"
+              className="text-white text-xl font-semibold hover:text-[#d1e6ff] transition-colors"
+            >
+              james.hanzell@mail.utoronto.ca
+            </a>
+          </motion.div>
+
+          {/* Location */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.6 }}
+            className="mt-6"
+          >
+            <p className="text-secondary text-sm uppercase tracking-wider mb-2">
+              Location
+            </p>
+            <p className="text-white text-xl font-semibold">
+              Toronto, Ontario 🇨🇦
+            </p>
+          </motion.div>
         </motion.div>
 
-        {/* Social Links */}
-        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12 lg:gap-16">
-          {socials.map((social, index) => (
-            <SocialLink key={social.platform} {...social} />
-          ))}
-        </div>
-
-        {/* Footer Text */}
+        {/* Right Side - Social Links (Small) */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
+          initial={{ opacity: 0, x: 50 }}
+          whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: 0.8, duration: 1 }}
-          className="text-center mt-20"
+          transition={{ duration: 0.8, delay: 0.4 }}
+          className="flex flex-col gap-6 items-start lg:items-end"
         >
-          <p className="text-secondary text-sm">
-            © 2025 James William Hanzell. Built with passion and code.
-          </p>
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-            }}
-            className="inline-block mt-4 text-2xl"
-          >
-            ❤️
-          </motion.div>
+          <div className="text-right">
+            <p className="text-secondary text-xs uppercase tracking-wider mb-4">
+              Follow Me
+            </p>
+            <div className="flex flex-col gap-3 items-start lg:items-end">
+              <FlipLink href="https://linkedin.com/in/jameswilliamhanzell">
+                LinkedIn
+              </FlipLink>
+              <FlipLink href="https://github.com/Eternal128">GitHub</FlipLink>
+              <FlipLink href="https://tiktok.com/@yourhandle">
+                TikTok
+              </FlipLink>
+            </div>
+          </div>
         </motion.div>
       </div>
 
-      {/* Decorative Circles */}
+      {/* Footer */}
+      <div className="absolute bottom-8 left-0 right-0 z-10">
+        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+          <p className="text-secondary text-sm">
+            © 2025 James William Hanzell
+          </p>
+          <p className="text-secondary text-sm">
+            Built with Fun
+          </p>
+        </div>
+      </div>
+
+      {/* Decorative Elements */}
       <motion.div
         animate={{
           rotate: 360,
@@ -199,9 +236,9 @@ const End = () => {
         transition={{
           duration: 20,
           repeat: Infinity,
-          ease: "linear"
+          ease: "linear",
         }}
-        className="absolute top-20 right-20 w-64 h-64 border border-[#d1e6ff]/20 rounded-full"
+        className="absolute top-20 right-20 w-64 h-64 border border-[#d1e6ff]/20 rounded-full pointer-events-none"
       />
       <motion.div
         animate={{
@@ -210,9 +247,9 @@ const End = () => {
         transition={{
           duration: 25,
           repeat: Infinity,
-          ease: "linear"
+          ease: "linear",
         }}
-        className="absolute bottom-20 left-20 w-48 h-48 border border-[#d1e6ff]/20 rounded-full"
+        className="absolute bottom-20 left-20 w-48 h-48 border border-[#d1e6ff]/20 rounded-full pointer-events-none"
       />
     </section>
   );
