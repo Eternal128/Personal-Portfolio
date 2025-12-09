@@ -236,7 +236,7 @@ const projects = [
   {
     name: "COVID-19 X-Ray Classification",
     description:
-      "Deep learning analysis comparing CNN architectures (Xception vs ResNet-50) for COVID-19 detection from chest X-rays. Implemented transfer learning with ImageNet weights, achieving 94.50% validation accuracy with Xception, significantly outperforming ResNet-50 (85.11% accuracy).",
+      "Deep learning analysis comparing CNN architectures (Xception vs ResNet-50) for COVID-19 detection from chest X-rays",
     tags: [
       {
         name: "python",
@@ -257,7 +257,7 @@ const projects = [
   {
     name: "Jakarta Route Optimization",
     description:
-      "Graph theory project modeling Jakarta's road network as a 46-node weighted graph. Implemented and compared Dijkstra's shortest-path algorithm with Kruskal's Minimum Spanning Tree to analyze individual route optimization versus total network cost minimization.",
+      "Graph theory project modeling Jakarta's road network as a 46-node weighted graph compraing Dijkstra VS Kruskal's Algorithm.",
     tags: [
       {
         name: "python",
@@ -278,7 +278,7 @@ const projects = [
   {
     name: "Personal Portfolio",
     description:
-      "Modern 3D portfolio website built with React Three Fiber and Framer Motion. Features interactive 3D models, smooth animations, and a responsive design showcasing projects, experience, and technical skills with an immersive user experience.",
+      "A Modern 3D portfolio website built with React Three Fiber and Framer Motion.",
     tags: [
       {
         name: "react",

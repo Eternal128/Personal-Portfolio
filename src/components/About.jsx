@@ -91,11 +91,10 @@ const About = () => {
         variants={fadeIn("", "", 0.1, 1)}
         className='mt-4 text-secondary text-[17px] max-w-3xl leading-[30px]'
       >
-        I'm a passionate and aesthetically-driven Web Developer and AI Developer
-        who enjoys building elegant, high-impact solutions. My commitment to beautiful design
-        extends to video editing and content creation (with 2.7M+ TikTok views). As a quick
+        I'm driven to build websites I'm proud of building! My commitment to beautiful design
+        extends to video editing and content creation (with 2.7M+ monthly TikTok views). As a quick
         and curious learner, I'm highly adaptable and confident in adopting new technologies to
-        deliver efficient, user-friendly results. Let's build a better future together!
+        deliver efficient, user-friendly results!
       </motion.p>
 
       <div className='mt-20 flex flex-wrap gap-10'>
