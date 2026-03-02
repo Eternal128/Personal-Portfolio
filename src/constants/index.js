@@ -83,79 +83,79 @@ const technologies = [
   {
     name: "Python",
     icon: python,
-    level: "Expert",
+    level: "Intermediate",
     description: "Primary language for AI/ML development, automation, and data processing"
   },
   {
     name: "JavaScript",
     icon: javascript,
-    level: "Expert",
+    level: "Intermediate",
     description: "Full-stack development with React, Node.js, and modern frameworks"
   },
   {
     name: "React JS",
     icon: reactjs,
-    level: "Advanced",
+    level: "Intermediate",
     description: "Building dynamic UIs with hooks, context, and state management"
   },
   {
     name: "TypeScript",
     icon: typescript,
-    level: "Advanced",
+    level: "Beginner",
     description: "Type-safe development for scalable applications"
   },
   {
     name: "Three JS",
     icon: threejs,
-    level: "Advanced",
+    level: "Beginner",
     description: "Creating immersive 3D web experiences and visualizations"
   },
   {
     name: "Tailwind CSS",
     icon: tailwind,
-    level: "Expert",
+    level: "Beginner",
     description: "Utility-first styling for rapid, responsive UI development"
   },
   {
     name: "Node JS",
     icon: nodejs,
-    level: "Advanced",
+    level: "Beginner",
     description: "Backend development with Express and REST APIs"
   },
   {
     name: "MongoDB",
     icon: mongodb,
-    level: "Intermediate",
+    level: "Beginner",
     description: "NoSQL database for flexible data storage solutions"
   },
   {
     name: "CSS 3",
     icon: css,
-    level: "Expert",
+    level: "Beginner",
     description: "Advanced styling with animations and responsive design"
   },
   {
     name: "Redux Toolkit",
     icon: redux,
-    level: "Intermediate",
+    level: "Beginner",
     description: "State management for complex React applications"
   },
   {
     name: "Git",
     icon: git,
-    level: "Advanced",
+    level: "Beginner",
     description: "Version control for collaborative development"
   },
   {
     name: "Figma",
     icon: figma,
-    level: "Intermediate",
+    level: "Beginner",
     description: "UI/UX design and prototyping for web applications"
   },
   {
     name: "Docker",
     icon: docker,
-    level: "Intermediate",
+    level: "Beginner",
     description: "Containerization for consistent deployment environments"
   },
 ];
