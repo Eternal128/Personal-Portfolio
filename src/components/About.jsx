@@ -2,16 +2,16 @@ import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { createPortal } from 'react-dom';
 
-import { gojo, virus, road, james, meal, chess, about, } from '../assets';
+import { gojo, virus, road, james, meal, chess, about, music, } from '../assets';
 
 const CARDS = [
   { src: virus, href: '#projects', label: 'COVID-19 X-Ray Classification' },
   { src: road,  href: '#projects', label: 'Jakarta Route Optimization Using Dijkstra and Kruskal\'s Algorithm' },
   { src: chess, href: '#projects', label: 'Arcade Games Using Java' },
-  { src: about,  href: '#about',    label: 'About Me', isAbout: true },   // ← center top: scrolls to bio
-  { src: meal,  href: '#projects', label: 'Meal App' },
+  { src: about,  href: '#about',    label: 'About Me', isAbout: true },   
+  { src: music,  href: '#projects', label: 'Spotify Recommendation' },
   { src: virus, href: '#projects', label: 'Deep Learning Research' },
-  { src: meal,  href: '#projects', label: 'Flutter Mobile App' },
+  { src: meal,  href: '#projects', label: 'Meal App' },
   { src: road,  href: '#projects', label: 'Graph Theory Project' },
   { src: gojo,  href: '#projects', label: 'Tiktok Edits' },
 ];
@@ -44,7 +44,7 @@ const AnimatedPill = ({ children }) => {
         {/* Exiting arrow */}
         <motion.div
           animate={{ x: hovered ? 14 : 0, y: hovered ? -14 : 0, opacity: hovered ? 0 : 1 }}
-          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
@@ -54,7 +54,7 @@ const AnimatedPill = ({ children }) => {
         {/* Entering arrow */}
         <motion.div
           animate={{ x: hovered ? 0 : -14, y: hovered ? 0 : 14, opacity: hovered ? 1 : 0 }}
-          transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
         >
           <svg width="11" height="11" viewBox="0 0 12 12" fill="none">

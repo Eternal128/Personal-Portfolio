@@ -38,8 +38,10 @@ import gojo from './projects/gojo.png';
 import virus from './projects/covid.jpeg';
 import road from './projects/road.jpeg';
 import james from './projects/james.png';
-import meal from './projects/meal.png';
+import meal from './projects/meal.jpeg';
 import chess from './projects/chess.jpeg';
+import about from './projects/about.jpg';
+import music from './projects/music.jpeg';
 
 
 export {
@@ -80,4 +82,6 @@ export {
   james,
   meal,
   chess,
+  about,
+  music,
 };
