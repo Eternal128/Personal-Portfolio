@@ -26,69 +26,39 @@ const Hero = () => {
           font-family: 'DM Sans', sans-serif;
         }
 
-        /* ── MIST LAYER ── */
-        /* Three soft fog orbs positioned exactly like the reference:
-           top-left, center-right, bottom-left */
         .mist-orb {
           position: absolute;
           border-radius: 50%;
-          /* Heavy blur = fog, not glow */
           filter: blur(90px);
           pointer-events: none;
         }
-
         .mist-orb-1 {
-          /* top-left blob — the big dominant one */
-          width: 55vw;
-          height: 55vw;
-          top: -18vw;
-          left: -12vw;
+          width: 55vw; height: 55vw;
+          top: -18vw; left: -12vw;
           background: radial-gradient(ellipse at center,
-            rgba(255,255,255,0.18) 0%,
-            rgba(255,255,255,0.07) 40%,
-            transparent 70%
-          );
+            rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.07) 40%, transparent 70%);
           animation: mistDrift1 14s ease-in-out infinite alternate;
         }
-
         .mist-orb-2 {
-          /* center — the brightest, curves like a ribbon */
-          width: 60vw;
-          height: 70vw;
-          top: -10vw;
-          left: 20vw;
+          width: 60vw; height: 70vw;
+          top: -10vw; left: 20vw;
           background: radial-gradient(ellipse 60% 80% at 50% 40%,
-            rgba(255,255,255,0.22) 0%,
-            rgba(255,255,255,0.08) 45%,
-            transparent 70%
-          );
+            rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 45%, transparent 70%);
           filter: blur(70px);
           animation: mistDrift2 18s ease-in-out infinite alternate;
         }
-
         .mist-orb-3 {
-          /* bottom-right tail */
-          width: 50vw;
-          height: 50vw;
-          bottom: -15vw;
-          right: -5vw;
+          width: 50vw; height: 50vw;
+          bottom: -15vw; right: -5vw;
           background: radial-gradient(ellipse at center,
-            rgba(255,255,255,0.10) 0%,
-            transparent 65%
-          );
+            rgba(255,255,255,0.10) 0%, transparent 65%);
           animation: mistDrift3 20s ease-in-out infinite alternate;
         }
-
         .mist-orb-4 {
-          /* subtle bottom-left fill */
-          width: 35vw;
-          height: 35vw;
-          bottom: 0;
-          left: 5vw;
+          width: 35vw; height: 35vw;
+          bottom: 0; left: 5vw;
           background: radial-gradient(ellipse at center,
-            rgba(255,255,255,0.07) 0%,
-            transparent 60%
-          );
+            rgba(255,255,255,0.07) 0%, transparent 60%);
           filter: blur(100px);
           animation: mistDrift1 22s ease-in-out infinite alternate-reverse;
         }
@@ -106,7 +76,6 @@ const Hero = () => {
           to   { transform: translate(-4vw, -3vh) scale(1.08); }
         }
 
-        /* ── CONTENT ── */
         .mist-content {
           position: relative;
           z-index: 10;
@@ -126,7 +95,6 @@ const Hero = () => {
           background: rgba(255,255,255,0.06);
           border: 1px solid rgba(255,255,255,0.12);
           backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
           padding: 8px 20px;
           border-radius: 100px;
           margin-bottom: 42px;
@@ -135,12 +103,17 @@ const Hero = () => {
           transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
         }
         .mist-pill.vis { opacity: 1; transform: translateY(0); }
-
         .mist-pill-dot {
           width: 6px; height: 6px;
           border-radius: 50%;
           background: #fff;
           flex-shrink: 0;
+          box-shadow: 0 0 6px rgba(255,255,255,0.8);
+          animation: pillPulse 2s ease-in-out infinite;
+        }
+        @keyframes pillPulse {
+          0%, 100% { opacity: 1; transform: scale(1); }
+          50% { opacity: 0.6; transform: scale(0.8); }
         }
         .mist-pill span {
           font-size: 13px;
@@ -149,19 +122,37 @@ const Hero = () => {
           letter-spacing: 0.04em;
         }
 
-        /* Name */
+        /* Name — platinum shimmer */
         .mist-name {
           font-size: clamp(58px, 9vw, 138px);
           font-weight: 300;
-          color: #fff;
           line-height: 1.03;
           letter-spacing: -0.02em;
           margin: 0;
           opacity: 0;
           transform: translateY(20px);
           transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
+          background: linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #e8e8e8 20%,
+            #ffffff 35%,
+            #c8c8c8 50%,
+            #ffffff 65%,
+            #d4d4d4 80%,
+            #ffffff 100%
+          );
+          background-size: 200% auto;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          background-clip: text;
+          animation: platinumShimmer 6s linear infinite;
         }
         .mist-name.vis { opacity: 1; transform: translateY(0); }
+        @keyframes platinumShimmer {
+          0% { background-position: 0% center; }
+          100% { background-position: 200% center; }
+        }
 
         /* Sub */
         .mist-sub {
@@ -178,7 +169,7 @@ const Hero = () => {
         }
         .mist-sub.vis { opacity: 1; transform: translateY(0); }
 
-        /* Buttons row */
+        /* CTA Button */
         .mist-btns {
           display: flex;
           gap: 12px;
@@ -190,26 +181,87 @@ const Hero = () => {
         .mist-btns.vis { opacity: 1; transform: translateY(0); }
 
         .mist-btn-primary {
-          padding: 13px 36px;
+          position: relative;
+          padding: 14px 40px;
           border-radius: 100px;
-          border: 1.5px solid rgba(255,255,255,0.5);
-          background: transparent;
+          border: none;
+          background: linear-gradient(
+            135deg,
+            #2a2a2a 0%,
+            #1a1a1a 40%,
+            #252525 60%,
+            #1a1a1a 100%
+          );
           color: #fff;
           font-family: 'DM Sans', sans-serif;
           font-size: 15px;
           font-weight: 300;
-          letter-spacing: 0.02em;
+          letter-spacing: 0.06em;
           cursor: pointer;
           text-decoration: none;
           display: inline-block;
-          transition: background 0.2s, border-color 0.2s;
-        }
-        .mist-btn-primary:hover {
-          background: rgba(255,255,255,0.08);
-          border-color: rgba(255,255,255,0.8);
+          overflow: hidden;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          box-shadow:
+            0 0 0 1px rgba(255,255,255,0.08),
+            0 4px 20px rgba(0,0,0,0.4),
+            inset 0 1px 0 rgba(255,255,255,0.05);
         }
 
-        /* Scroll bar */
+        /* Shimmer border overlay */
+        .mist-btn-primary::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 100px;
+          padding: 1.5px;
+          background: linear-gradient(
+            135deg,
+            rgba(255,255,255,0.0) 0%,
+            rgba(255,255,255,0.35) 25%,
+            rgba(255,255,255,0.0) 50%,
+            rgba(255,255,255,0.15) 75%,
+            rgba(255,255,255,0.0) 100%
+          );
+          background-size: 300% 300%;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: destination-out;
+          mask-composite: exclude;
+          animation: borderShimmer 4s linear infinite;
+        }
+
+        /* Glow halo on hover */
+        .mist-btn-primary::after {
+          content: '';
+          position: absolute;
+          inset: -2px;
+          border-radius: 100px;
+          background: transparent;
+          box-shadow: 0 0 0px rgba(255,255,255,0);
+          transition: box-shadow 3s ease;
+          pointer-events: none;
+        }
+
+        .mist-btn-primary:hover {
+          transform: translateY(-2px);
+          box-shadow:
+            0 0 0 1px rgba(255,255,255,0.2),
+            0 6px 30px rgba(0,0,0,0.5),
+            0 0 25px rgba(255,255,255,0.04),
+            inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        .mist-btn-primary:hover::after {
+          box-shadow:
+            0 0 20px 2px rgba(255,255,255,0.08),
+            0 0 40px 4px rgba(200,200,200,0.04);
+        }
+
+        @keyframes borderShimmer {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 300% 50%; }
+        }
+
+        /* Scroll indicator */
         .mist-scrollbar {
           position: absolute;
           bottom: 32px;
@@ -222,7 +274,6 @@ const Hero = () => {
           transition: opacity 0.8s ease 1s;
         }
         .mist-scrollbar.vis { opacity: 1; }
-
         .mist-sb-line {
           flex: 1;
           max-width: 220px;
@@ -262,14 +313,11 @@ const Hero = () => {
       `}</style>
 
       <section className="mist-hero">
-
-        {/* Mist orbs — pure CSS, no canvas */}
         <div className="mist-orb mist-orb-1" />
         <div className="mist-orb mist-orb-2" />
         <div className="mist-orb mist-orb-3" />
         <div className="mist-orb mist-orb-4" />
 
-        {/* Center content */}
         <div className="mist-content">
           <div className={`mist-pill${loaded ? ' vis' : ''}`}>
             <div className="mist-pill-dot" />
@@ -281,7 +329,7 @@ const Hero = () => {
           </h1>
 
           <p className={`mist-sub${loaded ? ' vis' : ''}`}>
-            I love turning my random ideas into life!
+            Elevate your brand with custom identity and package design. Showcase your story through bold visuals and strategic design solutions.
           </p>
 
           <div className={`mist-btns${loaded ? ' vis' : ''}`}>
@@ -289,7 +337,6 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Scroll indicator */}
         <div className={`mist-scrollbar${loaded ? ' vis' : ''}`}>
           <div className="mist-sb-line" />
           <span className="mist-sb-text">Scroll down</span>
@@ -299,7 +346,6 @@ const Hero = () => {
           <span className="mist-sb-text">to see projects</span>
           <div className="mist-sb-line" />
         </div>
-
       </section>
     </>
   );

@@ -1,258 +1,372 @@
-import React, { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
-import { styles } from "../styles";
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
 
 const DURATION = 0.25;
 const STAGGER = 0.025;
 
-const FlipLink = ({ children, href }) => {
-  return (
-    <motion.a
-      initial="initial"
-      whileHover="hovered"
-      href={href}
-      target="_blank"
-      rel="noopener noreferrer"
-      className="relative block overflow-hidden whitespace-nowrap text-sm sm:text-base md:text-lg font-bold uppercase"
-      style={{
-        lineHeight: 1,
-      }}
-    >
-      <div>
-        {children.split("").map((l, i) => (
-          <motion.span
-            variants={{
-              initial: {
-                y: 0,
-              },
-              hovered: {
-                y: "-100%",
-              },
-            }}
-            transition={{
-              duration: DURATION,
-              ease: "easeInOut",
-              delay: STAGGER * i,
-            }}
-            className="inline-block text-white"
-            key={i}
-          >
-            {l}
-          </motion.span>
-        ))}
-      </div>
-      <div className="absolute inset-0">
-        {children.split("").map((l, i) => (
-          <motion.span
-            variants={{
-              initial: {
-                y: "100%",
-              },
-              hovered: {
-                y: 0,
-              },
-            }}
-            transition={{
-              duration: DURATION,
-              ease: "easeInOut",
-              delay: STAGGER * i,
-            }}
-            className="inline-block bg-gradient-to-r from-[#d1e6ff] to-[#84b3e8] bg-clip-text text-transparent"
-            key={i}
-          >
-            {l}
-          </motion.span>
-        ))}
-      </div>
-    </motion.a>
-  );
-};
-
-const End = () => {
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"],
-  });
-
-  // Semicircle moves up from top middle as you scroll
-  const circleY = useTransform(scrollYProgress, [0, 1], ["0%", "-100%"]);
-
-  return (
-    <section
-      ref={ref}
-      className="relative w-full min-h-screen bg-black overflow-hidden flex items-center justify-center"
-    >
-      {/* White Semicircle Overlay that moves up from top middle */}
-      <motion.div
-        style={{
-          y: circleY,
-        }}
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[100vw] h-[50vh] pointer-events-none z-20"
-      >
-        <div
-          className="w-full h-full rounded-b-full bg-white"
-          style={{
-            boxShadow: "0 20px 60px rgba(255, 255, 255, 0.1)",
-          }}
-        />
-      </motion.div>
-
-      {/* Animated Grid Background */}
-      <div className="absolute inset-0 opacity-10">
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `
-              linear-gradient(rgba(209, 230, 255, 0.1) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(209, 230, 255, 0.1) 1px, transparent 1px)
-            `,
-            backgroundSize: "50px 50px",
-          }}
-        />
-      </div>
-
-      {/* Floating Particles */}
-      {[...Array(20)].map((_, i) => (
-        <motion.div
+const FlipLink = ({ children, href }) => (
+  <motion.a
+    initial="initial"
+    whileHover="hovered"
+    href={href}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="relative block overflow-hidden whitespace-nowrap text-[13px] uppercase tracking-[0.15em] font-light"
+    style={{ lineHeight: 1.2, fontFamily: "'DM Sans', sans-serif" }}
+  >
+    <div>
+      {children.split("").map((l, i) => (
+        <motion.span
           key={i}
-          className="absolute w-2 h-2 bg-[#d1e6ff] rounded-full"
-          style={{
-            left: `${Math.random() * 100}%`,
-            top: `${Math.random() * 100}%`,
-          }}
-          animate={{
-            y: [0, -30, 0],
-            opacity: [0.2, 0.8, 0.2],
-          }}
-          transition={{
-            duration: 3 + Math.random() * 2,
-            repeat: Infinity,
-            delay: Math.random() * 2,
-          }}
-        />
+          variants={{ initial: { y: 0 }, hovered: { y: "-100%" } }}
+          transition={{ duration: DURATION, ease: "easeInOut", delay: STAGGER * i }}
+          className="inline-block text-white"
+        >
+          {l === " " ? "\u00A0" : l}
+        </motion.span>
       ))}
-
-      {/* Main Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-6 w-full flex flex-col lg:flex-row items-center justify-between gap-12">
-        {/* Left Side - Main Heading */}
-        <motion.div
-          initial={{ opacity: 0, x: -50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
-          className="flex-1"
+    </div>
+    <div className="absolute inset-0">
+      {children.split("").map((l, i) => (
+        <motion.span
+          key={i}
+          variants={{ initial: { y: "100%" }, hovered: { y: 0 } }}
+          transition={{ duration: DURATION, ease: "easeInOut", delay: STAGGER * i }}
+          className="inline-block"
+          style={{ color: 'rgba(255,255,255,0.45)' }}
         >
-          <p className={`${styles.sectionSubText}`}>Connect with me</p>
-          <h2 className={`${styles.sectionHeadText} mt-4`}>
-            Let's Build
-            <br />
-            <span className="text-[#d1e6ff]">Together</span>
-          </h2>
-          <p className="mt-6 text-secondary text-[17px] max-w-xl leading-relaxed">
-            I'm always open to new opportunities, collaborations, and
-            interesting projects. Whether you want to work together or just
-            say hi, feel free to reach out!
-          </p>
+          {l === " " ? "\u00A0" : l}
+        </motion.span>
+      ))}
+    </div>
+  </motion.a>
+);
 
-          {/* Email */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.5 }}
-            className="mt-8"
-          >
-            <p className="text-secondary text-sm uppercase tracking-wider mb-2">
-              Email
-            </p>
-            <a
-              href="mailto:james.hanzell@mail.utoronto.ca"
-              className="text-white text-xl font-semibold hover:text-[#d1e6ff] transition-colors"
+const ContactEnd = () => {
+  const [form, setForm] = useState({ name: '', email: '', message: '' });
+  const [sent, setSent] = useState(false);
+
+  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Hook up your emailjs here
+    setSent(true);
+  };
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap');
+
+        .contact-section {
+          position: relative;
+          width: 100%;
+          min-height: 100vh;
+          background: #000;
+          overflow: hidden;
+          font-family: 'DM Sans', sans-serif;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+        }
+
+        /* Mist orbs — same language as hero */
+        .contact-orb {
+          position: absolute;
+          border-radius: 50%;
+          pointer-events: none;
+        }
+        .contact-orb-1 {
+          width: 60vw; height: 60vw;
+          bottom: -20vw; left: -10vw;
+          background: radial-gradient(ellipse at center,
+            rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 40%, transparent 70%);
+          filter: blur(80px);
+          animation: cDrift1 18s ease-in-out infinite alternate;
+        }
+        .contact-orb-2 {
+          width: 50vw; height: 50vw;
+          top: -15vw; right: 10vw;
+          background: radial-gradient(ellipse at center,
+            rgba(255,255,255,0.12) 0%, transparent 65%);
+          filter: blur(90px);
+          animation: cDrift2 22s ease-in-out infinite alternate;
+        }
+        @keyframes cDrift1 {
+          from { transform: translate(0,0) scale(1); }
+          to   { transform: translate(4vw, -3vh) scale(1.06); }
+        }
+        @keyframes cDrift2 {
+          from { transform: translate(0,0) scale(1); }
+          to   { transform: translate(-3vw, 4vh) scale(1.04); }
+        }
+
+        /* Form inputs */
+        .contact-input {
+          width: 100%;
+          background: rgba(255,255,255,0.03);
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 12px;
+          padding: 14px 18px;
+          color: #fff;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 14px;
+          font-weight: 300;
+          outline: none;
+          transition: border-color 0.3s ease, background 0.3s ease;
+          resize: none;
+        }
+        .contact-input::placeholder {
+          color: rgba(255,255,255,0.22);
+        }
+        .contact-input:focus {
+          border-color: rgba(255,255,255,0.22);
+          background: rgba(255,255,255,0.05);
+        }
+
+        /* Submit button */
+        .contact-submit {
+          position: relative;
+          padding: 13px 36px;
+          border-radius: 100px;
+          border: none;
+          background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 40%, #252525 60%, #1a1a1a 100%);
+          color: #fff;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 14px;
+          font-weight: 300;
+          letter-spacing: 0.06em;
+          cursor: pointer;
+          overflow: hidden;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+        }
+        .contact-submit::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          border-radius: 100px;
+          padding: 1.5px;
+          background: linear-gradient(135deg,
+            rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.35) 25%,
+            rgba(255,255,255,0.0) 50%, rgba(255,255,255,0.15) 75%,
+            rgba(255,255,255,0.0) 100%);
+          background-size: 300% 300%;
+          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+          -webkit-mask-composite: destination-out;
+          mask-composite: exclude;
+          animation: borderShimmer2 4s linear infinite;
+        }
+        .contact-submit:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 6px 30px rgba(0,0,0,0.5), 0 0 25px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08);
+        }
+        @keyframes borderShimmer2 {
+          0% { background-position: 0% 50%; }
+          100% { background-position: 300% 50%; }
+        }
+
+        /* Available pill */
+        .avail-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: rgba(255,255,255,0.05);
+          border: 1px solid rgba(255,255,255,0.1);
+          padding: 7px 16px;
+          border-radius: 100px;
+          margin-bottom: 28px;
+        }
+        .avail-dot {
+          width: 6px; height: 6px;
+          border-radius: 50%;
+          background: #6ee99e;
+          box-shadow: 0 0 6px rgba(110,233,158,0.7);
+          animation: availPulse 2s ease-in-out infinite;
+        }
+        @keyframes availPulse {
+          0%,100% { opacity: 1; }
+          50% { opacity: 0.5; }
+        }
+      `}</style>
+
+      <section id="contact" className="contact-section">
+        <div className="contact-orb contact-orb-1" />
+        <div className="contact-orb contact-orb-2" />
+
+        {/* Main content */}
+        <div className="relative z-10 max-w-7xl mx-auto w-full px-6 sm:px-16 py-24">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
+
+            {/* Left — info */}
+            <motion.div
+              initial={{ opacity: 0, x: -40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
             >
-              james.hanzell@mail.utoronto.ca
-            </a>
-          </motion.div>
+              <div className="avail-pill">
+                <div className="avail-dot" />
+                <span className="text-[12px] font-light tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                  Available For Work
+                </span>
+              </div>
 
-          {/* Location */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mt-6"
-          >
-            <p className="text-secondary text-sm uppercase tracking-wider mb-2">
-              Location
-            </p>
-            <p className="text-white text-xl font-semibold">
-              Toronto, Ontario 🇨🇦
-            </p>
-          </motion.div>
-        </motion.div>
+              <h2
+                className="font-light leading-none tracking-tight mb-6"
+                style={{
+                  fontSize: 'clamp(36px, 5vw, 72px)',
+                  background: 'linear-gradient(135deg, #ffffff 0%, #e8e8e8 30%, #ffffff 60%, #c8c8c8 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Curious about what<br />we can create<br />
+                <span style={{ color: 'rgba(255,255,255,0.4)', WebkitTextFillColor: 'rgba(255,255,255,0.4)' }}>
+                  together?
+                </span>
+              </h2>
 
-        {/* Right Side - Social Links (Small) */}
-        <motion.div
-          initial={{ opacity: 0, x: 50 }}
-          whileInView={{ opacity: 1, x: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="flex flex-col gap-6 items-start lg:items-end"
-        >
-          <div className="text-right">
-            <p className="text-secondary text-xs uppercase tracking-wider mb-4">
-              Follow Me
-            </p>
-            <div className="flex flex-col gap-3 items-start lg:items-end">
-              <FlipLink href="https://linkedin.com/in/jameswilliamhanzell">
-                LinkedIn
-              </FlipLink>
-              <FlipLink href="https://github.com/Eternal128">GitHub</FlipLink>
-              <FlipLink href="https://tiktok.com/@yourhandle">
-                TikTok
-              </FlipLink>
-            </div>
+              <p
+                className="text-[14px] font-light leading-relaxed max-w-sm mb-10"
+                style={{ color: 'rgba(255,255,255,0.4)' }}
+              >
+                Whether you want to work together or just say hi, I'd love to hear from you!
+              </p>
+
+              {/* Contact details */}
+              <div className="space-y-6 mb-12">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.18em] mb-1.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Email</p>
+                  <a
+                    href="mailto:james.hanzell@mail.utoronto.ca"
+                    className="text-white text-[15px] font-light hover:opacity-60 transition-opacity"
+                  >
+                    james.hanzell@mail.utoronto.ca
+                  </a>
+                </div>
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.18em] mb-1.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Location</p>
+                  <p className="text-white text-[15px] font-light">Toronto, Ontario </p>
+                </div>
+              </div>
+
+              {/* Social links */}
+              <div>
+                <p className="text-[10px] uppercase tracking-[0.18em] mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>Follow Me</p>
+                <div className="flex items-center gap-8">
+                  <FlipLink href="https://linkedin.com/in/jameswilliamhanzell">LinkedIn</FlipLink>
+                  <div className="h-3 w-[1px]" style={{ background: 'rgba(255,255,255,0.1)' }} />
+                  <FlipLink href="https://github.com/Eternal128">GitHub</FlipLink>
+                  <div className="h-3 w-[1px]" style={{ background: 'rgba(255,255,255,0.1)' }} />
+                  <FlipLink href="https://tiktok.com/@yourhandle">TikTok</FlipLink>
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Right — form */}
+            <motion.div
+              initial={{ opacity: 0, x: 40 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.9, delay: 0.15, ease: [0.25, 0.46, 0.45, 0.94] }}
+            >
+              {sent ? (
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex flex-col items-center justify-center h-full py-20"
+                >
+                  <div
+                    className="w-14 h-14 rounded-full flex items-center justify-center mb-6"
+                    style={{ border: '1px solid rgba(255,255,255,0.15)' }}
+                  >
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  </div>
+                  <p className="text-white text-[18px] font-light text-center">Message sent.</p>
+                  <p className="mt-2 text-[13px] font-light text-center" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                    I'll get back to you as soon as possible.
+                  </p>
+                </motion.div>
+              ) : (
+                <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                      Your Name
+                    </label>
+                    <input
+                      className="contact-input"
+                      type="text"
+                      name="name"
+                      value={form.name}
+                      onChange={handleChange}
+                      placeholder="What's your name?"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                      Your Email
+                    </label>
+                    <input
+                      className="contact-input"
+                      type="email"
+                      name="email"
+                      value={form.email}
+                      onChange={handleChange}
+                      placeholder="What's your email address?"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
+                      Your Message
+                    </label>
+                    <textarea
+                      className="contact-input"
+                      name="message"
+                      value={form.message}
+                      onChange={handleChange}
+                      placeholder="What do you want to say?"
+                      rows={6}
+                      required
+                    />
+                  </div>
+                  <div className="flex items-center justify-between mt-2">
+                    <button type="submit" className="contact-submit">
+                      Send Message
+                    </button>
+                    <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                      I usually reply within 24h
+                    </p>
+                  </div>
+                </form>
+              )}
+            </motion.div>
           </div>
-        </motion.div>
-      </div>
-
-      {/* Footer */}
-      <div className="absolute bottom-8 left-0 right-0 z-10">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
-          <p className="text-secondary text-sm">
-            © 2025 James William Hanzell
-          </p>
-          <p className="text-secondary text-sm">
-            Built with Fun
-          </p>
         </div>
-      </div>
 
-      {/* Decorative Elements */}
-      <motion.div
-        animate={{
-          rotate: 360,
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="absolute top-20 right-20 w-64 h-64 border border-[#d1e6ff]/20 rounded-full pointer-events-none"
-      />
-      <motion.div
-        animate={{
-          rotate: -360,
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: "linear",
-        }}
-        className="absolute bottom-20 left-20 w-48 h-48 border border-[#d1e6ff]/20 rounded-full pointer-events-none"
-      />
-    </section>
+        {/* Footer */}
+        <div
+          className="relative z-10 px-6 sm:px-16 pb-10"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
+        >
+          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 pt-8">
+            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>
+              © 2025 James William Hanzell
+            </p>
+            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>
+              Built with React
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
   );
 };
 
-export default End;
+export default ContactEnd;
