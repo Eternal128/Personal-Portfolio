@@ -1,29 +1,15 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 
-// ─────────────────────────────────────────────────────────────
-//  STEP 1 — Replace these with your real image imports
-//  e.g.  import myPhoto from '../assets/james.jpg';
-//        import proj1   from '../assets/project1.jpg';
-// ─────────────────────────────────────────────────────────────
-// import myPhoto from '../assets/james.jpg';
-// import proj1   from '../assets/project1.jpg';
-// import proj2   from '../assets/project2.jpg';
-// import proj3   from '../assets/project3.jpg';
-// import proj4   from '../assets/project4.jpg';
-// import proj5   from '../assets/project5.jpg';
+import { gojo, virus, road, james, meal, chess} from '../assets';
 
-// ─────────────────────────────────────────────────────────────
-//  STEP 2 — Swap the `src` strings below for your imports
-//  e.g.  { src: proj1 }  instead of  { src: 'https://...' }
-// ─────────────────────────────────────────────────────────────
 const COLS = [
   {
     key: 'L',
     delay: 0.10,
     cards: [
-      { src: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85' },
-      { src: 'https://images.unsplash.com/photo-1600369672770-985fd30004eb?w=800&q=85' },
+      { src: virus },
+      { src: road },
     ],
   },
   {
@@ -31,57 +17,47 @@ const COLS = [
     delay: 0.00,
     cards: [
       {
-        src: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&q=85',
-        isAbout: true,  // shows "About Me" badge in the center
-        tall: true,     // this card is taller than the rest
+        src: gojo,
+        isAbout: true, 
+        tall: true,  
       },
-      { src: 'https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=800&q=85' },
+      { src: gojo },
     ],
   },
   {
     key: 'R',
     delay: 0.16,
     cards: [
-      { src: 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800&q=85' },
-      { src: 'https://images.unsplash.com/photo-1493397212122-2b85dda8106b?w=800&q=85' },
+      { src: meal },
+      { src: chess },
     ],
   },
 ];
 
-// ─────────────────────────────────────────────────────────────
-//  STEP 3 — Edit all your personal info here
-// ─────────────────────────────────────────────────────────────
-const BIO = {
-  // \n = line break in the title
-  name: 'Meet\nJames.',
 
-  description: `I'm James, a passionate Web Developer & AI Engineer based in Toronto. I specialize in crafting bold digital experiences and intelligent systems that captivate and inspire, blending creativity with technical strategy to elevate products.`,
+const BIO = {
+  name: 'HEY THERE!',
+
+  description: `I'm James, a student who loves building things that I are fun to build! I'm proud of my ability to learn quickly and think fast on my feet!`,
 
   skills: [
     'Web Development',
     'AI Engineering',
     'React',
-    'Three.js',
     'Python',
     'Figma',
     'TensorFlow',
-    'Node.js',
   ],
 
   experience: [
     { role: 'AI Development Intern',    company: 'Ernst & Young (EY)',   date: '2025'      },
     { role: 'Software Engineer Intern', company: 'Metrodata Group',       date: '2024'      },
     { role: 'Software Engineer Intern', company: 'PT. Japfa Comfeed',     date: '2023'      },
-    { role: 'CS Student',               company: 'University of Toronto', date: 'Currently' },
+    { role: 'Computer Science Student', company: 'University of Toronto', date: 'Currently' },
   ],
 
-  // swap for:  photo: myPhoto
-  photo: 'https://images.unsplash.com/photo-1556228578-8c89e6adf883?w=800&q=85',
+  photo: gojo,
 };
-
-// ─────────────────────────────────────────────────────────────
-//  internals — no need to edit below this line
-// ─────────────────────────────────────────────────────────────
 
 const ArrowIcon = () => (
   <svg width="10" height="10" viewBox="0 0 12 12" fill="none" style={{ flexShrink: 0 }}>
@@ -99,9 +75,6 @@ const ArrowIcon = () => (
 const Card = ({ src, isAbout, tall, colDelay, idx }) => {
   const [hovered, setHovered] = useState(false);
 
-  // tall center card = 578 px
-  // short center card = 292 px
-  // all side cards = 308 px
   const isCenterCard = tall || isAbout !== undefined;
   const h = tall ? 578 : isCenterCard ? 292 : 308;
 
@@ -193,7 +166,7 @@ const Card = ({ src, isAbout, tall, colDelay, idx }) => {
         </div>
       )}
 
-      {/* ── "View Casestudy" pill — slides up on hover ── */}
+      {/* ── "View Casestudy" — slides up on hover ── */}
       <div
         style={{
           position: 'absolute',
@@ -251,10 +224,10 @@ const About = () => (
       /* Meet James two-col layout */
       .meet-grid {
         display: grid;
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 2fr 1fr;
         gap: 72px;
-        max-width: 1180px;
-        align-items: start;
+        max-width: 1800px;
+        align-items: center;
       }
 
       /* responsive */
@@ -302,7 +275,6 @@ const About = () => (
         }}
       >
         <div className="meet-grid">
-
           {/* ── left: all text ── */}
           <div>
 
@@ -394,8 +366,9 @@ const About = () => (
             style={{
               borderRadius: 16,
               overflow: 'hidden',
-              aspectRatio: '3/4',
+              aspectRatio: '1/1',
               background: '#111',
+              justifySelf: 'end',
             }}
           >
             <img
@@ -405,7 +378,7 @@ const About = () => (
                 width: '100%',
                 height: '100%',
                 objectFit: 'cover',
-                objectPosition: '80% center',
+                objectPosition: 'right',
                 filter: 'grayscale(100%) brightness(0.84)',
                 display: 'block',
               }}

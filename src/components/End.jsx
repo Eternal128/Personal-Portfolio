@@ -223,7 +223,7 @@ const ContactEnd = () => {
                   backgroundClip: 'text',
                 }}
               >
-                Curious about what<br />we can create<br />
+                Curious about me and what <br />we can create<br />
                 <span style={{ color: 'rgba(255,255,255,0.4)', WebkitTextFillColor: 'rgba(255,255,255,0.4)' }}>
                   together?
                 </span>

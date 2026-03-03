@@ -34,6 +34,13 @@ import covid from './covid-19.png';
 import graph from './graph.png';
 import portfolio from './portfolio.png';
 
+import gojo from './projects/gojo.png';
+import virus from './projects/covid.jpeg';
+import road from './projects/road.jpeg';
+import james from './projects/james.png';
+import meal from './projects/meal.png';
+import chess from './projects/chess.jpeg';
+
 
 export {
   logo,
@@ -67,4 +74,10 @@ export {
   covid,
   graph,
   portfolio,
+  gojo,
+  virus,
+  road,
+  james,
+  meal,
+  chess,
 };
