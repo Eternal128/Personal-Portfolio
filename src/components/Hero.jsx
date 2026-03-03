@@ -329,7 +329,7 @@ const Hero = () => {
           </h1>
 
           <p className={`mist-sub${loaded ? ' vis' : ''}`}>
-            Elevate your brand with custom identity and package design. Showcase your story through bold visuals and strategic design solutions.
+            If it's fun, I'm IN!
           </p>
 
           <div className={`mist-btns${loaded ? ' vis' : ''}`}>
