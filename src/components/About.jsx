@@ -90,7 +90,7 @@ const Card = ({ src, isAbout, tall, colDelay, idx }) => {
       style={{
         position: 'relative',
         overflow: 'hidden',
-        borderRadius: 14,
+        borderRadius: 5,
         background: '#111',
         cursor: 'pointer',
         height: h,

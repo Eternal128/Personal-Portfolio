@@ -162,16 +162,18 @@ const technologies = [
 
 const experiences = [
   {
-    title: "Software Engineer Intern",
-    company_name: "PT. Japfa Comfeed Indonesia",
-    icon: japfa,
+    title: "AI Development Intern",
+    company_name: "Ernst & Young (EY)",
+    icon: ey,
     iconBg: "#2c4f76",
-    date: "June 2023 - July 2023",
+    date: "June 2025 - September 2025",
     points: [
-      "Developed a company document-processing system powered by OpenAI API and LangChain.",
-      "Implemented support for multi-file PDF reading, vectorization, and semantic retrieval.",
-      "Enabled employees to upload internal documents and query information with cited page references.",
-      "Collaborated remotely with the company’s IT and AI integration teams.",
+      "Developed automated pipelines for social media sentiment analysis using Selenium and Playwright.",
+      "Built a Microsoft Word proposal generator that integrates Excel client data with WHO-sourced immunization data, scraping over 25,000 data points using BeautifulSoup.",
+      "Enabled contextual proposal revisions via an interactive chatbot system.",
+      "Engineered a speech-driven interviewer using Azure AI Speech SDK with incomplete-sentence detection, showcasing integration of speech recognition and natural language understanding.",
+      "Created REST APIs and tested with Postman and built the project in Docker",
+      "Created 10+ end-to-end features for 5+ companies from scratch"
     ],
   },
   {
@@ -188,18 +190,16 @@ const experiences = [
     ],
   },
   {
-    title: "AI Development Intern",
-    company_name: "Ernst & Young (EY)",
-    icon: ey,
+    title: "Software Engineer Intern",
+    company_name: "PT. Japfa Comfeed Indonesia",
+    icon: japfa,
     iconBg: "#2c4f76",
-    date: "June 2025 - September 2025",
+    date: "June 2023 - July 2023",
     points: [
-      "Developed automated pipelines for social media sentiment analysis using Selenium and Playwright.",
-      "Built a Microsoft Word proposal generator that integrates Excel client data with WHO-sourced immunization data, scraping over 25,000 data points using BeautifulSoup.",
-      "Enabled contextual proposal revisions via an interactive chatbot system.",
-      "Engineered a speech-driven interviewer using Azure AI Speech SDK with incomplete-sentence detection, showcasing integration of speech recognition and natural language understanding.",
-      "Created REST APIs and tested with Postman and built the project in Docker",
-      "Created 10+ end-to-end features for 5+ companies from scratch"
+      "Developed a company document-processing system powered by OpenAI API and LangChain.",
+      "Implemented support for multi-file PDF reading, vectorization, and semantic retrieval.",
+      "Enabled employees to upload internal documents and query information with cited page references.",
+      "Collaborated remotely with the company’s IT and AI integration teams.",
     ],
   },
 ];
