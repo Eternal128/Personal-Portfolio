@@ -8,8 +8,14 @@ const COLS = [
     key: 'L',
     delay: 0.10,
     cards: [
-      { src: virus },
-      { src: road },
+      {
+        src: virus,
+        tall: true,
+      },
+      {
+        src: road ,
+        tall: true,
+      },
     ],
   },
   {
@@ -21,15 +27,28 @@ const COLS = [
         isAbout: true, 
         tall: true,  
       },
-      { src: gojo },
+      {
+        src: gojo,
+        tall: true,
+      },
+      {
+        src: gojo,
+        tall: true,
+      }
     ],
   },
   {
     key: 'R',
     delay: 0.16,
     cards: [
-      { src: meal },
-      { src: chess },
+      {
+        src: meal,
+        tall: true
+      },
+      {
+        src: chess,
+        tall: true
+      },
     ],
   },
 ];
@@ -242,7 +261,7 @@ const About = () => (
 
     <section
       id="about"
-      style={{ fontFamily: "'DM Sans', sans-serif", background: '#000' }}
+      style={{ fontFamily: "'DM Sans', sans-serif", background: 'transparent' }}
     >
 
       {/* ════ GALLERY ════ */}
