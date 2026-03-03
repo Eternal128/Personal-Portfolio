@@ -1,11 +1,13 @@
 import { BrowserRouter } from "react-router-dom";
 
-import { About, Contact, Experience, Feedbacks, Hero, Navbar, Tech, Works, StarsCanvas, End } from './components';
+import { About, Contact, Experience, Feedbacks, Hero, Navbar, Tech, Works, StarsCanvas, End, CustomCursor } from './components';
+
 
 const App = () => {
   return (
     <BrowserRouter>
       {/* Single full-page star field behind everything */}
+      <CustomCursor />
       <div className="fixed inset-0 z-0" style={{ background: '#000' }}>
         <StarsCanvas />
       </div>
