@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { createPortal } from 'react-dom';
 
-import { gojo, virus, road, james, meal, chess, about, music, } from '../assets';
+import { gojo, virus, road, james, meal, chess, about, music, machine, project } from '../assets';
 
 const CARDS = [
   { src: virus, href: '#projects', label: 'COVID-19 X-Ray Classification' },
@@ -10,9 +10,9 @@ const CARDS = [
   { src: chess, href: '#projects', label: 'Arcade Games Using Java' },
   { src: about,  href: '#about',    label: 'About Me', isAbout: true },   
   { src: music,  href: '#projects', label: 'Spotify Recommendation' },
-  { src: virus, href: '#projects', label: 'Deep Learning Research' },
+  { src: project, href: '#projects', label: 'Portfolio website' },
   { src: meal,  href: '#projects', label: 'Meal App' },
-  { src: road,  href: '#projects', label: 'Graph Theory Project' },
+  { src: machine,  href: '#projects', label: 'Machine Learning Projects' },
   { src: gojo,  href: '#projects', label: 'Tiktok Edits' },
 ];
 
