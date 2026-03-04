@@ -42,6 +42,8 @@ import meal from './projects/meal.jpeg';
 import chess from './projects/chess.jpeg';
 import about from './projects/about.jpg';
 import music from './projects/music.jpeg';
+import machine from './projects/machine.png';
+import project from './projects/project.png';
 
 
 export {
@@ -84,4 +86,6 @@ export {
   chess,
   about,
   music,
+  machine,
+  project,
 };
