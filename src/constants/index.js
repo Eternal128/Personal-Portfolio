@@ -23,6 +23,14 @@ import {
   covid,
   graph,
   portfolio,
+  virus,
+  road,
+  james,
+  meal,
+  chess,
+  about,
+  music,
+  machine,
 } from "../assets";
 
 export const navLinks = [
@@ -113,7 +121,7 @@ const technologies = [
   {
     name: "Tailwind CSS",
     icon: tailwind,
-    level: "Beginner",
+    level: "Intermediate",
     description: "Utility-first styling for rapid, responsive UI development"
   },
   {
@@ -143,7 +151,7 @@ const technologies = [
   {
     name: "Git",
     icon: git,
-    level: "Beginner",
+    level: "Expert",
     description: "Version control for collaborative development"
   },
   {
@@ -251,7 +259,7 @@ const projects = [
         color: "pink-text-gradient",
       },
     ],
-    image: covid,
+    image: virus,
     source_code_link: "https://github.com/Eternal128/COVID-19-Classification",
   },
   {
@@ -272,13 +280,13 @@ const projects = [
         color: "gold-text-gradient",
       },
     ],
-    image: graph,
+    image: road,
     source_code_link: "https://github.com/Eternal128/Dijkstra-VS-Kruskal-for-Jakarta-Route-Optimization",
   },
   {
     name: "Personal Portfolio",
     description:
-      "A Modern 3D portfolio website built with React Three Fiber and Framer Motion.",
+      "A Modern 3D portfolio website built with React and Framer Motion.",
     tags: [
       {
         name: "react",
@@ -297,7 +305,7 @@ const projects = [
         color: "cyan-purple-text-gradient",
       },
     ],
-    image: portfolio, // Replace with actual portfolio screenshot
+    image: portfolio, 
     source_code_link: "https://github.com/Eternal128/Personal-Portfolio.git",
   },
   {
@@ -314,8 +322,59 @@ const projects = [
         color: "green-text-gradient",
       },
     ],
-    image: covid, // Replace with actual project screenshot
-    source_code_link: "https://github.com/",
+    image: meal, 
+    source_code_link: "https://github.com/Eternal128/meal-app.git",
+  },
+    {
+    name: "Spotify Music Recommender",
+    description:
+      "A simple app to suggest music to users",
+    tags: [
+      {
+        name: "python",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "torch",
+        color: "sunset-text-gradient",
+      },
+    ],
+    image: music, 
+    source_code_link: "https://github.com/Eternal128/CSC111-Project-2.git",
+  },
+  {
+    name: "Arcade Game using Java",
+    description:
+      "Chess puzzle, wordle, and block blast game using Java",
+    tags: [
+      {
+        name: "Java",
+        color: "neon-text-gradient",
+      },
+      {
+        name: "Rapid API",
+        color: "purple-blue-text-gradient",
+      },
+    ],
+    image: chess, 
+    source_code_link: "https://github.com/akashngb/gamegrid.git",
+  },
+  {
+    name: "Machine Learning Projects",
+    description:
+      "Several machine learning projects I've been working on to hone my skills in ML.",
+    tags: [
+      {
+        name: "python",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "matplotlib",
+        color: "cyan-purple-text-gradient",
+      },
+    ],
+    image: machine, 
+    source_code_link: "https://github.com/Eternal128/machine-learning-projects.git",
   },
 ];
 
