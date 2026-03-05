@@ -376,7 +376,7 @@ const Hero = () => {
           </h1>
 
           <p className={`mist-sub${loaded ? ' vis' : ''}`}>
-            Building intelligent systems and ambitious ideas through software.
+            A computer science student building ambitious ideas through code.
           </p>
 
           <div className={`mist-btns${loaded ? ' vis' : ''}`}>
