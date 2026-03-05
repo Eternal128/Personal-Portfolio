@@ -16,52 +16,48 @@ const CARDS = [
   { src: gojo,    href: 'https://tiktok.com/@eternalglazer',                                                 label: 'TikTok Edits' },
 ];
 
-// Animated diagonal arrow pill
-const AnimatedPill = ({ children }) => {
-  const [hovered, setHovered] = useState(false);
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        position: 'absolute', bottom: 10, left: 10, right: 10, zIndex: 6,
-        borderRadius: 8,
-        background: 'rgba(255,255,255,0.06)',
-        border: '1px solid rgba(255,255,255,0.12)',
-        backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-        padding: '10px 16px', display: 'flex', alignItems: 'center',
-        justifyContent: 'space-between',
-        fontSize: 11, fontWeight: 300,
-        color: 'rgba(255,255,255,0.7)', letterSpacing: '0.1em',
-        textTransform: 'uppercase',
-        fontFamily: "'DM Sans', sans-serif",
-        overflow: 'hidden',
-      }}
-    >
-      <span>{children}</span>
-      <div style={{ position: 'relative', width: 14, height: 14, overflow: 'hidden', flexShrink: 0 }}>
-        <motion.div
-          animate={{ x: hovered ? 14 : 0, y: hovered ? -14 : 0, opacity: hovered ? 0 : 1 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-            <path d="M1 11L11 1M11 1H4M11 1V8" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </motion.div>
-        <motion.div
-          animate={{ x: hovered ? 0 : -14, y: hovered ? 0 : 14, opacity: hovered ? 1 : 0 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-        >
-          <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
-            <path d="M1 11L11 1M11 1H4M11 1V8" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </motion.div>
-      </div>
+// Arrow animation now driven by card-level hovered prop
+const AnimatedPill = ({ children, hovered }) => (
+  <div
+    style={{
+      position: 'absolute', bottom: 10, left: 10, right: 10, zIndex: 6,
+      borderRadius: 8,
+      background: 'rgba(255,255,255,0.06)',
+      border: '1px solid rgba(255,255,255,0.12)',
+      backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+      padding: '10px 16px', display: 'flex', alignItems: 'center',
+      justifyContent: 'space-between',
+      fontSize: 11, fontWeight: 300,
+      color: 'rgba(255,255,255,0.7)', letterSpacing: '0.1em',
+      textTransform: 'uppercase',
+      fontFamily: "'DM Sans', sans-serif",
+      overflow: 'hidden',
+      pointerEvents: 'none',
+    }}
+  >
+    <span>{children}</span>
+    <div style={{ position: 'relative', width: 14, height: 14, overflow: 'hidden', flexShrink: 0 }}>
+      <motion.div
+        animate={{ x: hovered ? 14 : 0, y: hovered ? -14 : 0, opacity: hovered ? 0 : 1 }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+          <path d="M1 11L11 1M11 1H4M11 1V8" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </motion.div>
+      <motion.div
+        animate={{ x: hovered ? 0 : -14, y: hovered ? 0 : 14, opacity: hovered ? 1 : 0 }}
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+      >
+        <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+          <path d="M1 11L11 1M11 1H4M11 1V8" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </motion.div>
     </div>
-  );
-};
+  </div>
+);
 
 const CursorLabel = ({ label, x, y }) =>
   createPortal(
@@ -91,7 +87,6 @@ const CursorLabel = ({ label, x, y }) =>
     document.body
   );
 
-// ─── PARALLAX CARD WRAPPER ────────────────────────────────────────────────────
 const ParallaxCard = ({ children, speed = 0 }) => {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -99,7 +94,6 @@ const ParallaxCard = ({ children, speed = 0 }) => {
     offset: ['start end', 'end start'],
   });
   const y = useTransform(scrollYProgress, [0, 1], [speed * -1, speed]);
-
   return (
     <motion.div ref={ref} style={{ y }}>
       {children}
@@ -111,9 +105,7 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
   const [hovered, setHovered] = useState(false);
   const [pos, setPos] = useState({ x: 0, y: 0 });
 
-  const handleMouseMove = (e) => {
-    setPos({ x: e.clientX, y: e.clientY });
-  };
+  const handleMouseMove = (e) => setPos({ x: e.clientX, y: e.clientY });
 
   const handleAboutClick = (e) => {
     if (isAbout) {
@@ -154,7 +146,6 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
         pointerEvents: 'none',
       }} />
 
-      {/* bottom vignette */}
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, height: '60%',
         background: 'linear-gradient(to top, rgba(0,0,0,0.45), transparent)',
@@ -163,18 +154,16 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
         pointerEvents: 'none', zIndex: 1,
       }} />
 
-      {/* Cursor label */}
       {hovered && <CursorLabel label={label} x={pos.x} y={pos.y} />}
 
-      {/* Bottom pill */}
+      {/* Pass card-level hovered down so arrow animates on image hover */}
       {!isAbout && (
-        <AnimatedPill>View Github Repo</AnimatedPill>
+        <AnimatedPill hovered={hovered}>View Github Repo</AnimatedPill>
       )}
     </motion.a>
   );
 };
 
-// ─── GALLERY GRID ─────────────────────────────────────────────────────────────
 const GalleryGrid = () => (
   <div style={{ width: '100%', padding: '80px 48px 0' }}>
     <div style={{ position: 'relative', width: '100%', overflow: 'visible', padding: '0 24px' }}>
@@ -186,7 +175,6 @@ const GalleryGrid = () => (
           alignItems: 'center',
           width: '100%',
         }}>
-          {/* LEFT */}
           <ParallaxCard speed={30}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[0,1,2].map(i => (
@@ -195,7 +183,6 @@ const GalleryGrid = () => (
             </div>
           </ParallaxCard>
 
-          {/* CENTER */}
           <ParallaxCard speed={50}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, transform: 'translateY(-28px)' }}>
               {[3,4,5].map((i,idx) => (
@@ -204,7 +191,6 @@ const GalleryGrid = () => (
             </div>
           </ParallaxCard>
 
-          {/* RIGHT */}
           <ParallaxCard speed={30}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[6,7,8].map((i,idx) => (
@@ -214,7 +200,6 @@ const GalleryGrid = () => (
           </ParallaxCard>
         </div>
 
-        {/* ── See all projects link ── */}
         <motion.div
           initial={{ opacity: 0, y: 12 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -226,11 +211,9 @@ const GalleryGrid = () => (
             href="#projects"
             style={{
               fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13,
-              fontWeight: 300,
+              fontSize: 13, fontWeight: 300,
               color: 'rgba(255,255,255,0.55)',
-              letterSpacing: '0.08em',
-              textTransform: 'uppercase',
+              letterSpacing: '0.08em', textTransform: 'uppercase',
               textDecoration: 'underline',
               textDecorationColor: 'rgba(255,255,255,0.25)',
               textUnderlineOffset: '4px',
@@ -254,7 +237,6 @@ const GalleryGrid = () => (
   </div>
 );
 
-// ─── BIO DATA ─────────────────────────────────────────────────────────────────
 const BIO = {
   name: 'HEY THERE!',
   description: `I'm James, a student who loves building things that are fun to build! I'm proud of my ability to learn quickly and think fast on my feet!`,
@@ -268,7 +250,6 @@ const BIO = {
   photo: james,
 };
 
-// ─── ABOUT SECTION ────────────────────────────────────────────────────────────
 const About = () => {
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -301,7 +282,6 @@ const About = () => {
         ref={sectionRef}
         style={{ fontFamily: "'DM Sans', sans-serif", background: 'transparent', overflow: 'hidden' }}
       >
-
         <motion.div style={{ y: galleryY }}>
           <GalleryGrid />
         </motion.div>
