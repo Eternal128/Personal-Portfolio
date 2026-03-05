@@ -230,7 +230,7 @@ const ContactEnd = () => {
               <div>
                 <p className="text-[10px] uppercase tracking-[0.18em] mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>Follow Me</p>
                 <div className="flex items-center gap-8">
-                  <FlipLink href="https://linkedin.com/in/jameswilliamhanzell">LinkedIn</FlipLink>
+                  <FlipLink href="https://www.linkedin.com/in/james-william-hanzell/">LinkedIn</FlipLink>
                   <div className="h-3 w-[1px]" style={{ background: 'rgba(255,255,255,0.1)' }} />
                   <FlipLink href="https://github.com/Eternal128">GitHub</FlipLink>
                   <div className="h-3 w-[1px]" style={{ background: 'rgba(255,255,255,0.1)' }} />
@@ -240,7 +240,7 @@ const ContactEnd = () => {
             </motion.div>
 
             {/* Right — form */}
-            <motion.div
+            <motion.divc
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -289,7 +289,7 @@ const ContactEnd = () => {
                   </div>
                 </form>
               )}
-            </motion.div>
+            </motion.divc>
           </div>
         </div>
 
