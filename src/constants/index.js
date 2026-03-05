@@ -260,7 +260,7 @@ const projects = [
       },
     ],
     image: virus,
-    source_code_link: "https://github.com/Eternal128/COVID-19-Classification",
+    source_code_link: "https://github.com/Eternal128/COVID-19-Chest-X-Ray-Classification-using-XCeption-Model-VS-ResNet-50.git",
   },
   {
     name: "Jakarta Route Optimization",
