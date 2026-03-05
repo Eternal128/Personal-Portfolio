@@ -5,10 +5,10 @@ import { createPortal } from 'react-dom';
 import { gojo, virus, road, james, meal, chess, about, music, machine, project } from '../assets';
 
 const CARDS = [
-  { src: virus,   href: 'https://github.com/Eternal128/COVID-19-Classification',                             label: 'COVID-19 X-Ray Classification' },
+  { src: virus,   href: 'https://github.com/Eternal128/COVID-19-Chest-X-Ray-Classification-using-XCeption-Model-VS-ResNet-50.git',                             label: 'COVID-19 X-Ray Classification' },
   { src: road,    href: 'https://github.com/Eternal128/Dijkstra-VS-Kruskal-for-Jakarta-Route-Optimization',  label: "Jakarta Route Optimization" },
   { src: chess,   href: 'https://github.com/akashngb/gamegrid',                                              label: 'Arcade Games Using Java' },
-  { src: about,   href: '#about',   label: 'About Me', isAbout: true },
+  { src: about,   href: '#about-bio',   label: 'About Me', isAbout: true },
   { src: music,   href: 'https://github.com/Eternal128/CSC111-Project-2',                                    label: 'Spotify Recommendation' },
   { src: project, href: 'https://github.com/Eternal128/Personal-Portfolio',                                  label: 'Portfolio Website' },
   { src: meal,    href: 'https://github.com/Eternal128/meal-app',                                            label: 'Meal App' },
@@ -122,7 +122,6 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
     }
   };
 
-  // For external links (GitHub, TikTok), open in new tab
   const isExternal = href.startsWith('http');
 
   return (
@@ -271,20 +270,14 @@ const BIO = {
 
 // ─── ABOUT SECTION ────────────────────────────────────────────────────────────
 const About = () => {
-  // Section-level parallax ref
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
   });
 
-  // Gallery drifts up at 0.55x scroll speed (floats slower = comes forward)
   const galleryY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-
-  // Bio text drifts at a slightly different rate for depth separation
   const bioTextY = useTransform(scrollYProgress, [0, 1], [40, -40]);
-
-  // Photo drifts slightly faster than text — creates split-depth feel
   const bioPhotoY = useTransform(scrollYProgress, [0, 1], [80, -20]);
 
   return (
@@ -309,12 +302,10 @@ const About = () => {
         style={{ fontFamily: "'DM Sans', sans-serif", background: 'transparent', overflow: 'hidden' }}
       >
 
-        {/* Gallery with section-level parallax wrapper */}
         <motion.div style={{ y: galleryY }}>
           <GalleryGrid />
         </motion.div>
 
-        {/* Bio section */}
         <motion.div
           id="about-bio"
           className="meet-inner"
@@ -327,7 +318,6 @@ const About = () => {
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 64px' }}>
             <div className="meet-grid">
 
-              {/* Text column — drifts at bioTextY */}
               <motion.div style={{ y: bioTextY }}>
                 <h2 style={{ fontSize: 'clamp(56px, 8vw, 108px)', fontWeight: 300, color: '#fff', letterSpacing: '-0.025em', lineHeight: 0.96, marginBottom: 28, whiteSpace: 'pre-line' }}>
                   {BIO.name}
@@ -353,7 +343,6 @@ const About = () => {
                 ))}
               </motion.div>
 
-              {/* Photo column — drifts slightly faster for depth */}
               <motion.div
                 style={{
                   y: bioPhotoY,
