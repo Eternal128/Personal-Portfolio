@@ -85,7 +85,7 @@ const ContactEnd = () => {
           position: relative;
           width: 100%;
           min-height: 100vh;
-          background: #000;
+          background: transparent;
           overflow: hidden;
           font-family: 'DM Sans', sans-serif;
           display: flex;
