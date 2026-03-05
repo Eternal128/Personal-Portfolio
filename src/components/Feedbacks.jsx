@@ -7,13 +7,6 @@ import {
 
 const TESTIMONIALS = [
   {
-    name: "Michelle Kim",
-    role: "Freelancer, Lindt & Sprüngli",
-    text: "He's the smartest person I know!",
-    rating: 5,
-    avatar: "https://pbs.twimg.com/media/GyHdy2fXIAEpDQW.png",
-  },
-  {
     name: "Daniel Kim",
     role: "Actuarial Science, U of T",
     text: "He's the perfect mix of brains and humor!",

@@ -195,6 +195,18 @@
   cursor: auto;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+* {
+  -webkit-overflow-scrolling: touch;
+}
+
+body {
+  overscroll-behavior: none;
+}
+
 a,
 button,
 [role="button"],

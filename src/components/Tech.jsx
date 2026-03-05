@@ -162,7 +162,8 @@ const Tech = () => {
         id="tech"
         style={{ background: "transparent", padding: "100px 0 80px", fontFamily: "'DM Sans', sans-serif" }}
       >
-        <div style={{ maxWidth: 1100, margin: "0 auto", padding: "0 24px" }}>
+        {/* Aligned to match projects/testimonials: max-w-7xl mx-auto px-6 sm:px-16 */}
+        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
 
           {/* Header */}
           <motion.div

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
+import emailjs from '@emailjs/browser';
 
 const DURATION = 0.25;
 const STAGGER = 0.025;
@@ -43,15 +44,36 @@ const FlipLink = ({ children, href }) => (
 );
 
 const ContactEnd = () => {
-  const [form, setForm] = useState({ name: '', email: '', message: '' });
-  const [sent, setSent] = useState(false);
+  const [form, setForm]       = useState({ name: '', email: '', message: '' });
+  const [sent, setSent]       = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError]     = useState('');
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Hook up your emailjs here
-    setSent(true);
+    setLoading(true);
+    setError('');
+
+    emailjs.send(
+      import.meta.env.VITE_APP_EMAILJS_SERVICE_ID,
+      import.meta.env.VITE_APP_EMAILJS_TEMPLATE_ID,
+      {
+        name:    form.name,
+        email:   form.email,
+        message: form.message,
+      },
+      import.meta.env.VITE_APP_EMAILJS_PUBLIC_KEY
+    ).then(() => {
+      setLoading(false);
+      setSent(true);
+      setForm({ name: '', email: '', message: '' });
+    }).catch((err) => {
+      setLoading(false);
+      console.error(err);
+      setError('Something went wrong. Please try again.');
+    });
   };
 
   return (
@@ -71,38 +93,6 @@ const ContactEnd = () => {
           justify-content: center;
         }
 
-        /* Mist orbs — same language as hero */
-        .contact-orb {
-          position: absolute;
-          border-radius: 50%;
-          pointer-events: none;
-        }
-        .contact-orb-1 {
-          width: 60vw; height: 60vw;
-          bottom: -20vw; left: -10vw;
-          background: radial-gradient(ellipse at center,
-            rgba(255,255,255,0.10) 0%, rgba(255,255,255,0.04) 40%, transparent 70%);
-          filter: blur(80px);
-          animation: cDrift1 18s ease-in-out infinite alternate;
-        }
-        .contact-orb-2 {
-          width: 50vw; height: 50vw;
-          top: -15vw; right: 10vw;
-          background: radial-gradient(ellipse at center,
-            rgba(255,255,255,0.12) 0%, transparent 65%);
-          filter: blur(90px);
-          animation: cDrift2 22s ease-in-out infinite alternate;
-        }
-        @keyframes cDrift1 {
-          from { transform: translate(0,0) scale(1); }
-          to   { transform: translate(4vw, -3vh) scale(1.06); }
-        }
-        @keyframes cDrift2 {
-          from { transform: translate(0,0) scale(1); }
-          to   { transform: translate(-3vw, 4vh) scale(1.04); }
-        }
-
-        /* Form inputs */
         .contact-input {
           width: 100%;
           background: rgba(255,255,255,0.03);
@@ -117,15 +107,12 @@ const ContactEnd = () => {
           transition: border-color 0.3s ease, background 0.3s ease;
           resize: none;
         }
-        .contact-input::placeholder {
-          color: rgba(255,255,255,0.22);
-        }
+        .contact-input::placeholder { color: rgba(255,255,255,0.22); }
         .contact-input:focus {
           border-color: rgba(255,255,255,0.22);
           background: rgba(255,255,255,0.05);
         }
 
-        /* Submit button */
         .contact-submit {
           position: relative;
           padding: 13px 36px;
@@ -139,35 +126,32 @@ const ContactEnd = () => {
           letter-spacing: 0.06em;
           cursor: pointer;
           overflow: hidden;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
           box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
         }
+        .contact-submit:disabled { opacity: 0.5; cursor: not-allowed; }
         .contact-submit::before {
           content: '';
           position: absolute;
           inset: 0;
           border-radius: 100px;
           padding: 1.5px;
-          background: linear-gradient(135deg,
-            rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.35) 25%,
-            rgba(255,255,255,0.0) 50%, rgba(255,255,255,0.15) 75%,
-            rgba(255,255,255,0.0) 100%);
-          background-size: 300% 300%;
+          background: transparent;
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: destination-out;
           mask-composite: exclude;
-          animation: borderShimmer2 4s linear infinite;
+          transition: background 0.4s ease;
         }
-        .contact-submit:hover {
+        .contact-submit:not(:disabled):hover {
           transform: translateY(-2px);
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 6px 30px rgba(0,0,0,0.5), 0 0 25px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08);
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 6px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
         }
-        @keyframes borderShimmer2 {
-          0% { background-position: 0% 50%; }
-          100% { background-position: 300% 50%; }
+        .contact-submit:not(:disabled):hover::before {
+          background: linear-gradient(135deg,
+            rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.22) 50%,
+            rgba(255,255,255,0.0) 100%);
         }
 
-        /* Available pill */
         .avail-pill {
           display: inline-flex;
           align-items: center;
@@ -192,10 +176,7 @@ const ContactEnd = () => {
       `}</style>
 
       <section id="contact" className="contact-section">
-        <div className="contact-orb contact-orb-1" />
-        <div className="contact-orb contact-orb-2" />
 
-        {/* Main content */}
         <div className="relative z-10 max-w-7xl mx-auto w-full px-6 sm:px-16 py-24">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
 
@@ -223,37 +204,29 @@ const ContactEnd = () => {
                   backgroundClip: 'text',
                 }}
               >
-                Curious about me and what <br />we can create<br />
+                Curious about me and what<br />we can create<br />
                 <span style={{ color: 'rgba(255,255,255,0.4)', WebkitTextFillColor: 'rgba(255,255,255,0.4)' }}>
                   together?
                 </span>
               </h2>
 
-              <p
-                className="text-[14px] font-light leading-relaxed max-w-sm mb-10"
-                style={{ color: 'rgba(255,255,255,0.4)' }}
-              >
+              <p className="text-[14px] font-light leading-relaxed max-w-sm mb-10" style={{ color: 'rgba(255,255,255,0.4)' }}>
                 Whether you want to work together or just say hi, I'd love to hear from you!
               </p>
 
-              {/* Contact details */}
               <div className="space-y-6 mb-12">
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.18em] mb-1.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Email</p>
-                  <a
-                    href="mailto:james.hanzell@mail.utoronto.ca"
-                    className="text-white text-[15px] font-light hover:opacity-60 transition-opacity"
-                  >
+                  <a href="mailto:james.hanzell@mail.utoronto.ca" className="text-white text-[15px] font-light hover:opacity-60 transition-opacity">
                     james.hanzell@mail.utoronto.ca
                   </a>
                 </div>
                 <div>
                   <p className="text-[10px] uppercase tracking-[0.18em] mb-1.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Location</p>
-                  <p className="text-white text-[15px] font-light">Toronto, Ontario </p>
+                  <p className="text-white text-[15px] font-light">Toronto, Ontario</p>
                 </div>
               </div>
 
-              {/* Social links */}
               <div>
                 <p className="text-[10px] uppercase tracking-[0.18em] mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>Follow Me</p>
                 <div className="flex items-center gap-8">
@@ -279,10 +252,7 @@ const ContactEnd = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center h-full py-20"
                 >
-                  <div
-                    className="w-14 h-14 rounded-full flex items-center justify-center mb-6"
-                    style={{ border: '1px solid rgba(255,255,255,0.15)' }}
-                  >
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-6" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
@@ -295,50 +265,23 @@ const ContactEnd = () => {
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   <div>
-                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                      Your Name
-                    </label>
-                    <input
-                      className="contact-input"
-                      type="text"
-                      name="name"
-                      value={form.name}
-                      onChange={handleChange}
-                      placeholder="What's your name?"
-                      required
-                    />
+                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Your Name</label>
+                    <input className="contact-input" type="text" name="name" value={form.name} onChange={handleChange} placeholder="What's your name?" required />
                   </div>
                   <div>
-                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                      Your Email
-                    </label>
-                    <input
-                      className="contact-input"
-                      type="email"
-                      name="email"
-                      value={form.email}
-                      onChange={handleChange}
-                      placeholder="What's your email address?"
-                      required
-                    />
+                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Your Email</label>
+                    <input className="contact-input" type="email" name="email" value={form.email} onChange={handleChange} placeholder="What's your email address?" required />
                   </div>
                   <div>
-                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>
-                      Your Message
-                    </label>
-                    <textarea
-                      className="contact-input"
-                      name="message"
-                      value={form.message}
-                      onChange={handleChange}
-                      placeholder="What do you want to say?"
-                      rows={6}
-                      required
-                    />
+                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Your Message</label>
+                    <textarea className="contact-input" name="message" value={form.message} onChange={handleChange} placeholder="What do you want to say?" rows={6} required />
                   </div>
+                  {error && (
+                    <p className="text-[12px] font-light" style={{ color: 'rgba(255,100,100,0.8)' }}>{error}</p>
+                  )}
                   <div className="flex items-center justify-between mt-2">
-                    <button type="submit" className="contact-submit">
-                      Send Message
+                    <button type="submit" className="contact-submit" disabled={loading}>
+                      {loading ? 'Sending...' : 'Send Message'}
                     </button>
                     <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.2)' }}>
                       I usually reply within 24h
@@ -351,17 +294,10 @@ const ContactEnd = () => {
         </div>
 
         {/* Footer */}
-        <div
-          className="relative z-10 px-6 sm:px-16 pb-10"
-          style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}
-        >
+        <div className="relative z-10 px-6 sm:px-16 pb-10" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
           <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 pt-8">
-            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>
-              © 2025 James William Hanzell
-            </p>
-            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>
-              Built with React
-            </p>
+            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>© 2025 James William Hanzell</p>
+            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>Built with React</p>
           </div>
         </div>
       </section>

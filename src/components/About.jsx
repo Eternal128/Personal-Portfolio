@@ -5,18 +5,18 @@ import { createPortal } from 'react-dom';
 import { gojo, virus, road, james, meal, chess, about, music, machine, project } from '../assets';
 
 const CARDS = [
-  { src: virus, href: '#projects', label: 'COVID-19 X-Ray Classification' },
-  { src: road,  href: '#projects', label: 'Jakarta Route Optimization Using Dijkstra and Kruskal\'s Algorithm' },
-  { src: chess, href: '#projects', label: 'Arcade Games Using Java' },
-  { src: about,  href: '#about',    label: 'About Me', isAbout: true },   
-  { src: music,  href: '#projects', label: 'Spotify Recommendation' },
-  { src: project, href: '#projects', label: 'Portfolio website' },
-  { src: meal,  href: '#projects', label: 'Meal App' },
-  { src: machine,  href: '#projects', label: 'Machine Learning Projects' },
-  { src: gojo,  href: '#projects', label: 'Tiktok Edits' },
+  { src: virus,   href: 'https://github.com/Eternal128/COVID-19-Classification',                             label: 'COVID-19 X-Ray Classification' },
+  { src: road,    href: 'https://github.com/Eternal128/Dijkstra-VS-Kruskal-for-Jakarta-Route-Optimization',  label: "Jakarta Route Optimization" },
+  { src: chess,   href: 'https://github.com/akashngb/gamegrid',                                              label: 'Arcade Games Using Java' },
+  { src: about,   href: '#about',   label: 'About Me', isAbout: true },
+  { src: music,   href: 'https://github.com/Eternal128/CSC111-Project-2',                                    label: 'Spotify Recommendation' },
+  { src: project, href: 'https://github.com/Eternal128/Personal-Portfolio',                                  label: 'Portfolio Website' },
+  { src: meal,    href: 'https://github.com/Eternal128/meal-app',                                            label: 'Meal App' },
+  { src: machine, href: 'https://github.com/Eternal128/machine-learning-projects',                           label: 'Machine Learning Projects' },
+  { src: gojo,    href: 'https://tiktok.com/@eternalglazer',                                                 label: 'TikTok Edits' },
 ];
 
-// Animated diagonal arrow pill — arrow flies top-right on hover, new one enters from bottom-left
+// Animated diagonal arrow pill
 const AnimatedPill = ({ children }) => {
   const [hovered, setHovered] = useState(false);
   return (
@@ -39,9 +39,7 @@ const AnimatedPill = ({ children }) => {
       }}
     >
       <span>{children}</span>
-      {/* Arrow container — clips two arrows, one exits top-right, one enters from bottom-left */}
       <div style={{ position: 'relative', width: 14, height: 14, overflow: 'hidden', flexShrink: 0 }}>
-        {/* Exiting arrow */}
         <motion.div
           animate={{ x: hovered ? 14 : 0, y: hovered ? -14 : 0, opacity: hovered ? 0 : 1 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -51,7 +49,6 @@ const AnimatedPill = ({ children }) => {
             <path d="M1 11L11 1M11 1H4M11 1V8" stroke="rgba(255,255,255,0.85)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </motion.div>
-        {/* Entering arrow */}
         <motion.div
           animate={{ x: hovered ? 0 : -14, y: hovered ? 0 : 14, opacity: hovered ? 1 : 0 }}
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
@@ -125,11 +122,16 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
     }
   };
 
+  // For external links (GitHub, TikTok), open in new tab
+  const isExternal = href.startsWith('http');
+
   return (
     <motion.a
       data-gallery="true"
       href={href}
       onClick={handleAboutClick}
+      target={isExternal ? '_blank' : undefined}
+      rel={isExternal ? 'noopener noreferrer' : undefined}
       initial={{ clipPath: 'inset(0 0 100% 0 round 10px)' }}
       animate={{ clipPath: 'inset(0 0 0% 0 round 10px)' }}
       transition={{ duration: 0.75, delay: animDelay * 0.6, ease: [0.16, 1, 0.3, 1] }}
@@ -165,7 +167,7 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
       {/* Cursor label */}
       {hovered && <CursorLabel label={label} x={pos.x} y={pos.y} />}
 
-      {/* Bottom pill — no pill for About Me card, animated arrow pill for others */}
+      {/* Bottom pill */}
       {!isAbout && (
         <AnimatedPill>View Github Repo</AnimatedPill>
       )}
@@ -174,7 +176,6 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
 };
 
 // ─── GALLERY GRID ─────────────────────────────────────────────────────────────
-// Each column gets a different parallax speed for depth
 const GalleryGrid = () => (
   <div style={{ width: '100%', padding: '80px 48px 0' }}>
     <div style={{ position: 'relative', width: '100%', overflow: 'visible', padding: '0 24px' }}>
@@ -186,7 +187,7 @@ const GalleryGrid = () => (
           alignItems: 'center',
           width: '100%',
         }}>
-          {/* LEFT — slowest parallax */}
+          {/* LEFT */}
           <ParallaxCard speed={30}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[0,1,2].map(i => (
@@ -195,7 +196,7 @@ const GalleryGrid = () => (
             </div>
           </ParallaxCard>
 
-          {/* CENTER — medium parallax + vertical offset */}
+          {/* CENTER */}
           <ParallaxCard speed={50}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6, transform: 'translateY(-28px)' }}>
               {[3,4,5].map((i,idx) => (
@@ -204,7 +205,7 @@ const GalleryGrid = () => (
             </div>
           </ParallaxCard>
 
-          {/* RIGHT — fastest parallax */}
+          {/* RIGHT */}
           <ParallaxCard speed={30}>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
               {[6,7,8].map((i,idx) => (
@@ -213,6 +214,42 @@ const GalleryGrid = () => (
             </div>
           </ParallaxCard>
         </div>
+
+        {/* ── See all projects link ── */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+          style={{ display: 'flex', justifyContent: 'center', marginTop: 36 }}
+        >
+          <a
+            href="#projects"
+            style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: 13,
+              fontWeight: 300,
+              color: 'rgba(255,255,255,0.55)',
+              letterSpacing: '0.08em',
+              textTransform: 'uppercase',
+              textDecoration: 'underline',
+              textDecorationColor: 'rgba(255,255,255,0.25)',
+              textUnderlineOffset: '4px',
+              transition: 'color 0.2s ease, text-decoration-color 0.2s ease',
+              cursor: 'pointer',
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.color = 'rgba(255,255,255,0.9)';
+              e.currentTarget.style.textDecorationColor = 'rgba(255,255,255,0.6)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.color = 'rgba(255,255,255,0.55)';
+              e.currentTarget.style.textDecorationColor = 'rgba(255,255,255,0.25)';
+            }}
+          >
+            See all projects
+          </a>
+        </motion.div>
       </div>
     </div>
   </div>
@@ -233,70 +270,113 @@ const BIO = {
 };
 
 // ─── ABOUT SECTION ────────────────────────────────────────────────────────────
-const About = () => (
-  <>
-    <style>{`
-      @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap');
-      .meet-grid {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 72px;
-        max-width: 1800px;
-        align-items: center;
-      }
-      @media (max-width: 900px) {
-        .meet-grid  { grid-template-columns: 1fr !important; gap: 48px !important; }
-        .meet-inner { padding: 56px 24px 80px !important; }
-      }
-    `}</style>
+const About = () => {
+  // Section-level parallax ref
+  const sectionRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  });
 
-    <section id="about" style={{ fontFamily: "'DM Sans', sans-serif", background: 'transparent' }}>
+  // Gallery drifts up at 0.55x scroll speed (floats slower = comes forward)
+  const galleryY = useTransform(scrollYProgress, [0, 1], [60, -60]);
 
-      <GalleryGrid />
+  // Bio text drifts at a slightly different rate for depth separation
+  const bioTextY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
-      {/* ── id here so the "About Me" card can scroll to it ── */}
-      <motion.div
-        id="about-bio"
-        className="meet-inner"
-        initial={{ opacity: 0, y: 36 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.1 }}
-        transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
-        style={{ padding: '72px 64px 100px', borderTop: '1px solid rgba(255,255,255,0.055)', marginTop: 52 }}
+  // Photo drifts slightly faster than text — creates split-depth feel
+  const bioPhotoY = useTransform(scrollYProgress, [0, 1], [80, -20]);
+
+  return (
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap');
+        .meet-grid {
+          display: grid;
+          grid-template-columns: 2fr 1fr;
+          gap: 72px;
+          width: 100%;
+          align-items: center;
+        }
+        @media (max-width: 900px) {
+          .meet-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+        }
+      `}</style>
+
+      <section
+        id="about"
+        ref={sectionRef}
+        style={{ fontFamily: "'DM Sans', sans-serif", background: 'transparent', overflow: 'hidden' }}
       >
-        <div className="meet-grid">
-          <div>
-            <h2 style={{ fontSize: 'clamp(56px, 8vw, 108px)', fontWeight: 300, color: '#fff', letterSpacing: '-0.025em', lineHeight: 0.96, marginBottom: 28, whiteSpace: 'pre-line' }}>
-              {BIO.name}
-            </h2>
-            <p style={{ fontSize: 15, fontWeight: 300, color: 'rgba(255,255,255,0.48)', lineHeight: 1.82, maxWidth: 500, marginBottom: 34 }}>
-              {BIO.description}
-            </p>
-            <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 28 }} />
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 34 }}>
-              {BIO.skills.map(s => (
-                <span key={s} style={{ fontSize: 12, fontWeight: 300, color: 'rgba(255,255,255,0.64)', padding: '7px 15px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.03)', letterSpacing: '0.02em' }}>
-                  {s}
-                </span>
-              ))}
-            </div>
-            <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 0 }} />
-            {BIO.experience.map((e, i) => (
-              <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.3fr 1.5fr 0.75fr', padding: '17px 0', borderTop: '1px solid rgba(255,255,255,0.06)', gap: 8, alignItems: 'center' }}>
-                <span style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.60)' }}>{e.role}</span>
-                <span style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.60)' }}>{e.company}</span>
-                <span style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.26)', textAlign: 'right' }}>{e.date}</span>
-              </div>
-            ))}
-          </div>
 
-          <div style={{ borderRadius: 10, overflow: 'hidden', aspectRatio: '1/1', background: '#111', justifySelf: 'end' }}>
-            <img src={BIO.photo} alt="James William Hanzell" style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right', filter: 'grayscale(100%) brightness(0.84)', display: 'block' }} />
+        {/* Gallery with section-level parallax wrapper */}
+        <motion.div style={{ y: galleryY }}>
+          <GalleryGrid />
+        </motion.div>
+
+        {/* Bio section */}
+        <motion.div
+          id="about-bio"
+          className="meet-inner"
+          initial={{ opacity: 0, y: 36 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
+          style={{ padding: '72px 0 100px', borderTop: '1px solid rgba(255,255,255,0.055)', marginTop: 52 }}
+        >
+          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 64px' }}>
+            <div className="meet-grid">
+
+              {/* Text column — drifts at bioTextY */}
+              <motion.div style={{ y: bioTextY }}>
+                <h2 style={{ fontSize: 'clamp(56px, 8vw, 108px)', fontWeight: 300, color: '#fff', letterSpacing: '-0.025em', lineHeight: 0.96, marginBottom: 28, whiteSpace: 'pre-line' }}>
+                  {BIO.name}
+                </h2>
+                <p style={{ fontSize: 15, fontWeight: 300, color: 'rgba(255,255,255,0.48)', lineHeight: 1.82, maxWidth: 500, marginBottom: 34 }}>
+                  {BIO.description}
+                </p>
+                <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 28 }} />
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 34 }}>
+                  {BIO.skills.map(s => (
+                    <span key={s} style={{ fontSize: 12, fontWeight: 300, color: 'rgba(255,255,255,0.64)', padding: '7px 15px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.03)', letterSpacing: '0.02em' }}>
+                      {s}
+                    </span>
+                  ))}
+                </div>
+                <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 0 }} />
+                {BIO.experience.map((e, i) => (
+                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.3fr 1.5fr 0.75fr', padding: '17px 0', borderTop: '1px solid rgba(255,255,255,0.06)', gap: 8, alignItems: 'center' }}>
+                    <span style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.60)' }}>{e.role}</span>
+                    <span style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.60)' }}>{e.company}</span>
+                    <span style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.26)', textAlign: 'right' }}>{e.date}</span>
+                  </div>
+                ))}
+              </motion.div>
+
+              {/* Photo column — drifts slightly faster for depth */}
+              <motion.div
+                style={{
+                  y: bioPhotoY,
+                  borderRadius: 10,
+                  overflow: 'hidden',
+                  aspectRatio: '1/1',
+                  background: '#111',
+                  justifySelf: 'end',
+                }}
+              >
+                <img
+                  src={BIO.photo}
+                  alt="James William Hanzell"
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right', filter: 'grayscale(100%) brightness(0.84)', display: 'block' }}
+                />
+              </motion.div>
+
+            </div>
           </div>
-        </div>
-      </motion.div>
-    </section>
-  </>
-);
+        </motion.div>
+      </section>
+    </>
+  );
+};
 
 export default About;
