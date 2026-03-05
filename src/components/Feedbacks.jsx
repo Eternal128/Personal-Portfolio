@@ -145,7 +145,7 @@ const Feedbacks = () => {
 
       <section
         id="testimonials"
-        className="w-full bg-black py-28 overflow-hidden"
+        className="w-full bg-transparent py-28 overflow-hidden"
       >
         {/* Header */}
         <div className="px-6 sm:px-16 max-w-7xl mx-auto mb-20">
