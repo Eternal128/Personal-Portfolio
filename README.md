@@ -76,3 +76,6 @@ Deployed on Vercel. Add your `.env` variables under **Settings → Environment V
 - Email: james.hanzell@mail.utoronto.ca
 - LinkedIn: [james-william-hanzell](https://www.linkedin.com/in/james-william-hanzell/)
 - GitHub: [@Eternal128](https://github.com/Eternal128)
+
+**Website**
+https://jameswilliamhanzell.vercel.app/
