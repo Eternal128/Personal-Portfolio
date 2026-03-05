@@ -239,7 +239,9 @@ const GalleryGrid = () => (
 
 const BIO = {
   name: 'HEY THERE!',
-  description: `I'm James, a student who loves building things that are fun to build! I'm proud of my ability to learn quickly and think fast on my feet!`,
+  description: `
+
+I'm a Computer Science student at the University of Toronto with internship experience at Ernst & Young, Metrodata Group, and PT. Japfa Comfeed. I have a a habit of building things nobody asked for but everyone ends up wanting.`,
   skills: ['Web Development', 'AI Engineering', 'React', 'Python', 'Figma', 'TensorFlow'],
   experience: [
     { role: 'AI Development Intern',    company: 'Ernst & Young (EY)',    date: '2025'      },
