@@ -7,10 +7,11 @@ const App = () => {
   return (
     <BrowserRouter>
       {/* Single full-page star field behind everything */}
+      <div className="fixed inset-0 z-0" style={{ background: '#000' }} />
       <CustomCursor />
-      <div className="fixed inset-0 z-0" style={{ background: '#000' }}>
+      {/* <div className="fixed inset-0 z-0" style={{ background: '#000' }}>
         <StarsCanvas />
-      </div>
+      </div> */}
 
       <div className="relative z-10" style={{ background: 'transparent' }}>
         <Navbar />

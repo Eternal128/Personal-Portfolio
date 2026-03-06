@@ -5,36 +5,34 @@ import { createPortal } from 'react-dom';
 import { gojo, virus, road, james, meal, chess, about, music, machine, project } from '../assets';
 
 const CARDS = [
-  { src: virus,   href: 'https://github.com/Eternal128/COVID-19-Chest-X-Ray-Classification-using-XCeption-Model-VS-ResNet-50.git',                             label: 'COVID-19 X-Ray Classification' },
-  { src: road,    href: 'https://github.com/Eternal128/Dijkstra-VS-Kruskal-for-Jakarta-Route-Optimization',  label: "Jakarta Route Optimization" },
-  { src: chess,   href: 'https://github.com/akashngb/gamegrid',                                              label: 'Arcade Games Using Java' },
-  { src: about,   href: '#about-bio',   label: 'About Me', isAbout: true },
-  { src: music,   href: 'https://github.com/Eternal128/CSC111-Project-2',                                    label: 'Spotify Recommendation' },
-  { src: project, href: 'https://github.com/Eternal128/Personal-Portfolio',                                  label: 'Portfolio Website' },
-  { src: meal,    href: 'https://github.com/Eternal128/meal-app',                                            label: 'Meal App' },
-  { src: machine, href: 'https://github.com/Eternal128/machine-learning-projects',                           label: 'Machine Learning Projects' },
-  { src: gojo,    href: 'https://tiktok.com/@eternalglazer',                                                 label: 'TikTok Edits' },
+  { src: virus,   href: 'https://github.com/Eternal128/COVID-19-Chest-X-Ray-Classification-using-XCeption-Model-VS-ResNet-50.git', label: 'COVID-19 X-Ray Classification' },
+  { src: road,    href: 'https://github.com/Eternal128/Dijkstra-VS-Kruskal-for-Jakarta-Route-Optimization',                        label: 'Jakarta Route Optimization' },
+  { src: chess,   href: 'https://github.com/akashngb/gamegrid',                                                                    label: 'Arcade Games Using Java' },
+  { src: about,   href: '#about-bio', label: 'About Me', isAbout: true },
+  { src: music,   href: 'https://github.com/Eternal128/CSC111-Project-2',                                                          label: 'Spotify Recommendation' },
+  { src: project, href: 'https://github.com/Eternal128/Personal-Portfolio',                                                        label: 'Portfolio Website' },
+  { src: meal,    href: 'https://github.com/Eternal128/meal-app',                                                                  label: 'Meal App' },
+  { src: machine, href: 'https://github.com/Eternal128/machine-learning-projects',                                                 label: 'Machine Learning Projects' },
+  { src: gojo,    href: 'https://tiktok.com/@eternalglazer',                                                                       label: 'TikTok Edits' },
 ];
 
-// Arrow animation now driven by card-level hovered prop
+const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768;
+
 const AnimatedPill = ({ children, hovered }) => (
-  <div
-    style={{
-      position: 'absolute', bottom: 10, left: 10, right: 10, zIndex: 6,
-      borderRadius: 8,
-      background: 'rgba(255,255,255,0.06)',
-      border: '1px solid rgba(255,255,255,0.12)',
-      backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
-      padding: '10px 16px', display: 'flex', alignItems: 'center',
-      justifyContent: 'space-between',
-      fontSize: 11, fontWeight: 300,
-      color: 'rgba(255,255,255,0.7)', letterSpacing: '0.1em',
-      textTransform: 'uppercase',
-      fontFamily: "'DM Sans', sans-serif",
-      overflow: 'hidden',
-      pointerEvents: 'none',
-    }}
-  >
+  <div style={{
+    position: 'absolute', bottom: 10, left: 10, right: 10, zIndex: 6,
+    borderRadius: 8,
+    background: 'rgba(255,255,255,0.06)',
+    border: '1px solid rgba(255,255,255,0.12)',
+    backdropFilter: 'blur(20px)', WebkitBackdropFilter: 'blur(20px)',
+    padding: '10px 16px', display: 'flex', alignItems: 'center',
+    justifyContent: 'space-between',
+    fontSize: 11, fontWeight: 300,
+    color: 'rgba(255,255,255,0.7)', letterSpacing: '0.1em',
+    textTransform: 'uppercase',
+    fontFamily: "'DM Sans', sans-serif",
+    overflow: 'hidden', pointerEvents: 'none',
+  }}>
     <span>{children}</span>
     <div style={{ position: 'relative', width: 14, height: 14, overflow: 'hidden', flexShrink: 0 }}>
       <motion.div
@@ -62,24 +60,16 @@ const AnimatedPill = ({ children, hovered }) => (
 const CursorLabel = ({ label, x, y }) =>
   createPortal(
     <div style={{
-      position: 'fixed',
-      left: x,
-      top: y,
+      position: 'fixed', left: x, top: y,
       transform: 'translate(-50%, calc(-100% - 12px))',
-      zIndex: 99999,
-      pointerEvents: 'none',
+      zIndex: 99999, pointerEvents: 'none',
       borderRadius: '100px',
       background: 'rgba(8,8,8,0.72)',
       border: '1px solid rgba(255,255,255,0.12)',
-      backdropFilter: 'blur(24px)',
-      WebkitBackdropFilter: 'blur(24px)',
-      padding: '8px 18px',
-      fontSize: 11,
-      fontWeight: 300,
-      color: 'rgba(255,255,255,0.85)',
-      letterSpacing: '0.08em',
-      textTransform: 'uppercase',
-      whiteSpace: 'nowrap',
+      backdropFilter: 'blur(24px)', WebkitBackdropFilter: 'blur(24px)',
+      padding: '8px 18px', fontSize: 11, fontWeight: 300,
+      color: 'rgba(255,255,255,0.85)', letterSpacing: '0.08em',
+      textTransform: 'uppercase', whiteSpace: 'nowrap',
       fontFamily: "'DM Sans', sans-serif",
     }}>
       {label}
@@ -89,16 +79,9 @@ const CursorLabel = ({ label, x, y }) =>
 
 const ParallaxCard = ({ children, speed = 0 }) => {
   const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ['start end', 'end start'],
-  });
-  const y = useTransform(scrollYProgress, [0, 1], [speed * -1, speed]);
-  return (
-    <motion.div ref={ref} style={{ y }}>
-      {children}
-    </motion.div>
-  );
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
+  const y = useTransform(scrollYProgress, [0, 1], isMobile() ? [0, 0] : [speed * -1, speed]);
+  return <motion.div ref={ref} style={{ y }}>{children}</motion.div>;
 };
 
 const Card = ({ src, href, label, animDelay, isAbout }) => {
@@ -132,8 +115,8 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
       style={{
         position: 'relative', display: 'block', overflow: 'hidden',
         borderRadius: 3, background: '#111',
-        aspectRatio: '1 / 1',
-        width: '100%', textDecoration: 'none', flexShrink: 0,
+        aspectRatio: '1 / 1', width: '100%',
+        textDecoration: 'none', flexShrink: 0,
         cursor: 'none',
       }}
     >
@@ -145,7 +128,6 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
         transition: 'filter 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)',
         pointerEvents: 'none',
       }} />
-
       <div style={{
         position: 'absolute', bottom: 0, left: 0, right: 0, height: '60%',
         background: 'linear-gradient(to top, rgba(0,0,0,0.45), transparent)',
@@ -153,129 +135,172 @@ const Card = ({ src, href, label, animDelay, isAbout }) => {
         transition: 'opacity 0.4s ease',
         pointerEvents: 'none', zIndex: 1,
       }} />
-
       {hovered && <CursorLabel label={label} x={pos.x} y={pos.y} />}
-
-      {/* Pass card-level hovered down so arrow animates on image hover */}
-      {!isAbout && (
-        <AnimatedPill hovered={hovered}>View Github Repo</AnimatedPill>
-      )}
+      {!isAbout && <AnimatedPill hovered={hovered}>View Github Repo</AnimatedPill>}
     </motion.a>
   );
 };
 
 const GalleryGrid = () => (
-  <div style={{ width: '100%', padding: '80px 48px 0' }}>
-    <div style={{ position: 'relative', width: '100%', overflow: 'visible', padding: '0 24px' }}>
-      <div style={{ maxWidth: 2000, margin: '0 auto' }}>
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: '1fr 1.2fr 1fr',
-          gap: 6,
-          alignItems: 'center',
-          width: '100%',
-        }}>
-          <ParallaxCard speed={30}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {[0,1,2].map(i => (
-                <Card key={i} src={CARDS[i].src} href={CARDS[i].href} label={CARDS[i].label} animDelay={0.04 + i * 0.06} />
-              ))}
-            </div>
-          </ParallaxCard>
+  <>
+    <style>{`
+      .gallery-wrapper { width: 100%; padding: 80px 48px 0; }
+      .gallery-inner { position: relative; width: 100%; overflow: visible; padding: 0 24px; }
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.2fr 1fr;
+        gap: 6px;
+        align-items: center;
+        width: 100%;
+      }
+      .gallery-col-center { transform: translateY(-28px); }
 
-          <ParallaxCard speed={50}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6, transform: 'translateY(-28px)' }}>
-              {[3,4,5].map((i,idx) => (
-                <Card key={i} src={CARDS[i].src} href={CARDS[i].href} label={CARDS[i].label} isAbout={CARDS[i].isAbout} animDelay={idx * 0.06} />
-              ))}
-            </div>
-          </ParallaxCard>
+      @media (max-width: 767px) {
+        .gallery-wrapper { padding: 40px 12px 0; }
+        .gallery-inner { padding: 0; }
+        .gallery-grid { grid-template-columns: 1fr 1fr; gap: 6px; }
+        .gallery-col-center { transform: none !important; }
+      }
+    `}</style>
+    <div className="gallery-wrapper">
+      <div className="gallery-inner">
+        <div style={{ maxWidth: 2000, margin: '0 auto' }}>
+          <div className="gallery-grid">
+            <ParallaxCard speed={30}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {[0,1,2].map(i => (
+                  <Card key={i} src={CARDS[i].src} href={CARDS[i].href} label={CARDS[i].label} animDelay={0.04 + i * 0.06} />
+                ))}
+              </div>
+            </ParallaxCard>
 
-          <ParallaxCard speed={30}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {[6,7,8].map((i,idx) => (
-                <Card key={i} src={CARDS[i].src} href={CARDS[i].href} label={CARDS[i].label} animDelay={0.08 + idx * 0.06} />
-              ))}
-            </div>
-          </ParallaxCard>
-        </div>
+            <ParallaxCard speed={50}>
+              <div className="gallery-col-center" style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {[3,4,5].map((i,idx) => (
+                  <Card key={i} src={CARDS[i].src} href={CARDS[i].href} label={CARDS[i].label} isAbout={CARDS[i].isAbout} animDelay={idx * 0.06} />
+                ))}
+              </div>
+            </ParallaxCard>
 
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
-          style={{ display: 'flex', justifyContent: 'center', marginTop: 36 }}
-        >
-          <a
-            href="#projects"
-            style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: 13, fontWeight: 300,
-              color: 'rgba(255,255,255,0.55)',
-              letterSpacing: '0.08em', textTransform: 'uppercase',
-              textDecoration: 'underline',
-              textDecorationColor: 'rgba(255,255,255,0.25)',
-              textUnderlineOffset: '4px',
-              transition: 'color 0.2s ease, text-decoration-color 0.2s ease',
-              cursor: 'pointer',
-            }}
-            onMouseEnter={e => {
-              e.currentTarget.style.color = 'rgba(255,255,255,0.9)';
-              e.currentTarget.style.textDecorationColor = 'rgba(255,255,255,0.6)';
-            }}
-            onMouseLeave={e => {
-              e.currentTarget.style.color = 'rgba(255,255,255,0.55)';
-              e.currentTarget.style.textDecorationColor = 'rgba(255,255,255,0.25)';
-            }}
+            <ParallaxCard speed={30}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {[6,7,8].map((i,idx) => (
+                  <Card key={i} src={CARDS[i].src} href={CARDS[i].href} label={CARDS[i].label} animDelay={0.08 + idx * 0.06} />
+                ))}
+              </div>
+            </ParallaxCard>
+          </div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
+            style={{ display: 'flex', justifyContent: 'center', marginTop: 36 }}
           >
-            See all projects
-          </a>
-        </motion.div>
+            <a
+              href="#projects"
+              style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: 13, fontWeight: 300,
+                color: 'rgba(255,255,255,0.55)',
+                letterSpacing: '0.08em', textTransform: 'uppercase',
+                textDecoration: 'underline',
+                textDecorationColor: 'rgba(255,255,255,0.25)',
+                textUnderlineOffset: '4px',
+                transition: 'color 0.2s ease, text-decoration-color 0.2s ease',
+                cursor: 'pointer',
+              }}
+              onMouseEnter={e => {
+                e.currentTarget.style.color = 'rgba(255,255,255,0.9)';
+                e.currentTarget.style.textDecorationColor = 'rgba(255,255,255,0.6)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.color = 'rgba(255,255,255,0.55)';
+                e.currentTarget.style.textDecorationColor = 'rgba(255,255,255,0.25)';
+              }}
+            >
+              See all projects
+            </a>
+          </motion.div>
+        </div>
       </div>
     </div>
-  </div>
+  </>
 );
 
 const BIO = {
   name: 'HEY THERE!',
-  description: `
-
-I'm a Computer Science student at the University of Toronto with internship experience at Ernst & Young, Metrodata Group, and PT. Japfa Comfeed. I have a habit of building things nobody asked for but end up wanting. Outside of coding, I also create anime edits and visual content as a creative outlet.`,
+  description: `I'm a Computer Science student at the University of Toronto with internship experience at Ernst & Young, Metrodata Group, and PT. Japfa Comfeed. I have a habit of building things nobody asked for but end up wanting. Outside of coding, I also create anime edits and visual content as a creative outlet.`,
   skills: ['Web Development', 'AI Engineering', 'React', 'Python', 'Figma', 'TensorFlow'],
   experience: [
-    { role: 'AI Development Intern',    company: 'Ernst & Young (EY)',    date: '2025'      },
-    { role: 'Software Engineer Intern', company: 'Metrodata Group',        date: '2024'      },
-    { role: 'Software Engineer Intern', company: 'PT. Japfa Comfeed',      date: '2023'      },
-    { role: 'Computer Science Student', company: 'University of Toronto',  date: 'Currently' },
+    { role: 'AI Development Intern',    company: 'Ernst & Young (EY)',   date: '2025'      },
+    { role: 'Software Engineer Intern', company: 'Metrodata Group',       date: '2024'      },
+    { role: 'Software Engineer Intern', company: 'PT. Japfa Comfeed',     date: '2023'      },
+    { role: 'Computer Science Student', company: 'University of Toronto', date: 'Currently' },
   ],
   photo: james,
 };
 
 const About = () => {
   const sectionRef = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ['start end', 'end start'],
-  });
+  const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
 
-  const galleryY = useTransform(scrollYProgress, [0, 1], [60, -60]);
-  const bioTextY = useTransform(scrollYProgress, [0, 1], [40, -40]);
-  const bioPhotoY = useTransform(scrollYProgress, [0, 1], [80, -20]);
+  const galleryY  = useTransform(scrollYProgress, [0, 1], isMobile() ? [0, 0] : [60, -60]);
+  const bioTextY  = useTransform(scrollYProgress, [0, 1], isMobile() ? [0, 0] : [40, -40]);
+  const bioPhotoY = useTransform(scrollYProgress, [0, 1], isMobile() ? [0, 0] : [80, -20]);
 
   return (
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap');
+
         .meet-grid {
           display: grid;
           grid-template-columns: 2fr 1fr;
           gap: 72px;
           width: 100%;
+          align-items: start;
+        }
+        .bio-section { padding: 72px 0 100px; }
+        .bio-inner   { max-width: 1280px; margin: 0 auto; padding: 0 64px; }
+
+        .exp-row {
+          display: grid;
+          grid-template-columns: 1.3fr 1.5fr 0.75fr;
+          padding: 17px 0;
+          border-top: 1px solid rgba(255,255,255,0.06);
+          gap: 8px;
           align-items: center;
         }
-        @media (max-width: 900px) {
+
+        @media (max-width: 767px) {
+          .meet-grid {
+            grid-template-columns: 1fr !important;
+            gap: 32px !important;
+          }
+          .bio-section { padding: 40px 0 60px; }
+          .bio-inner   { padding: 0 20px !important; }
+
+          .exp-row {
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+          }
+          .exp-date {
+            grid-column: 1 / -1;
+            text-align: left !important;
+            font-size: 11px !important;
+            color: rgba(255,255,255,0.2) !important;
+          }
+          .photo-col {
+            justify-self: stretch !important;
+            max-width: 200px;
+          }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
           .meet-grid { grid-template-columns: 1fr !important; gap: 48px !important; }
+          .bio-inner { padding: 0 32px !important; }
         }
       `}</style>
 
@@ -290,42 +315,59 @@ const About = () => {
 
         <motion.div
           id="about-bio"
-          className="meet-inner"
           initial={{ opacity: 0, y: 36 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
           transition={{ duration: 0.9, ease: [0.25, 0.46, 0.45, 0.94] }}
-          style={{ padding: '72px 0 100px', borderTop: '1px solid rgba(255,255,255,0.055)', marginTop: 52 }}
+          className="bio-section"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.055)', marginTop: 52 }}
         >
-          <div style={{ maxWidth: 1280, margin: '0 auto', padding: '0 64px' }}>
+          <div className="bio-inner">
             <div className="meet-grid">
 
               <motion.div style={{ y: bioTextY }}>
-                <h2 style={{ fontSize: 'clamp(56px, 8vw, 108px)', fontWeight: 300, color: '#fff', letterSpacing: '-0.025em', lineHeight: 0.96, marginBottom: 28, whiteSpace: 'pre-line' }}>
+                <h2 style={{
+                  fontSize: 'clamp(36px, 8vw, 108px)',
+                  fontWeight: 300, color: '#fff',
+                  letterSpacing: '-0.025em', lineHeight: 0.96,
+                  marginBottom: 28,
+                }}>
                   {BIO.name}
                 </h2>
-                <p style={{ fontSize: 15, fontWeight: 300, color: 'rgba(255,255,255,0.48)', lineHeight: 1.82, maxWidth: 500, marginBottom: 34 }}>
+                <p style={{
+                  fontSize: 15, fontWeight: 300,
+                  color: 'rgba(255,255,255,0.48)',
+                  lineHeight: 1.82, maxWidth: 500, marginBottom: 34,
+                }}>
                   {BIO.description}
                 </p>
                 <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 28 }} />
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 34 }}>
                   {BIO.skills.map(s => (
-                    <span key={s} style={{ fontSize: 12, fontWeight: 300, color: 'rgba(255,255,255,0.64)', padding: '7px 15px', borderRadius: '100px', border: '1px solid rgba(255,255,255,0.10)', background: 'rgba(255,255,255,0.03)', letterSpacing: '0.02em' }}>
+                    <span key={s} style={{
+                      fontSize: 12, fontWeight: 300,
+                      color: 'rgba(255,255,255,0.64)',
+                      padding: '7px 15px', borderRadius: '100px',
+                      border: '1px solid rgba(255,255,255,0.10)',
+                      background: 'rgba(255,255,255,0.03)',
+                      letterSpacing: '0.02em',
+                    }}>
                       {s}
                     </span>
                   ))}
                 </div>
-                <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 0 }} />
+                <div style={{ height: 1, background: 'rgba(255,255,255,0.08)' }} />
                 {BIO.experience.map((e, i) => (
-                  <div key={i} style={{ display: 'grid', gridTemplateColumns: '1.3fr 1.5fr 0.75fr', padding: '17px 0', borderTop: '1px solid rgba(255,255,255,0.06)', gap: 8, alignItems: 'center' }}>
+                  <div key={i} className="exp-row">
                     <span style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.60)' }}>{e.role}</span>
                     <span style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.60)' }}>{e.company}</span>
-                    <span style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.26)', textAlign: 'right' }}>{e.date}</span>
+                    <span className="exp-date" style={{ fontSize: 13, fontWeight: 300, color: 'rgba(255,255,255,0.26)', textAlign: 'right' }}>{e.date}</span>
                   </div>
                 ))}
               </motion.div>
 
               <motion.div
+                className="photo-col"
                 style={{
                   y: bioPhotoY,
                   borderRadius: 10,
@@ -338,7 +380,12 @@ const About = () => {
                 <img
                   src={BIO.photo}
                   alt="James William Hanzell"
-                  style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'right', filter: 'grayscale(100%) brightness(0.84)', display: 'block' }}
+                  style={{
+                    width: '100%', height: '100%',
+                    objectFit: 'cover', objectPosition: 'right',
+                    filter: 'grayscale(100%) brightness(0.84)',
+                    display: 'block',
+                  }}
                 />
               </motion.div>
 
