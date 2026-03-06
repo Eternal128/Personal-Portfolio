@@ -370,7 +370,7 @@ const About = () => {
                 className="photo-col"
                 style={{
                   y: bioPhotoY,
-                  borderRadius: 10,
+                  borderRadius: 3,
                   overflow: 'hidden',
                   aspectRatio: '1/1',
                   background: '#111',
