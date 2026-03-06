@@ -7,18 +7,15 @@ A sleek, minimal portfolio built with React and Framer Motion. Features parallax
 - **Hero Section** — Parallax scroll with multi-layer depth, shimmer name text, and animated scroll indicator
 - **About / Gallery** — 3-column masonry image grid with grayscale-to-color hover, custom cursor labels, and per-card parallax
 - **Experience** — Vertical timeline of professional roles
-- **Technical Skills** — 3D floating technology balls with interactive rotation
+- **Technical Skills** — Clean cards with technical skill mastery
 - **Projects** — Tilt-enabled project cards with GitHub links
-- **Testimonials** — Auto-scrolling infinite carousel that pauses on hover
-- **Contact** — EmailJS-powered contact form with 3D Earth globe
-- **End Section** — Physics-based falling text using Matter.js
+- **Testimonials** — Auto-scrolling infinite carousel that slows down on hover
+- **Contact** — EmailJS-powered contact form with clean UI
 
 ## 🛠️ Tech Stack
 
 - **React + Vite** — UI and build tooling
 - **Framer Motion** — Animations, parallax, and scroll effects
-- **Three.js / React Three Fiber / Drei** — 3D models and tech balls
-- **Matter.js** — Physics engine for the end section
 - **Tailwind CSS** — Utility styling
 - **EmailJS** — Contact form email delivery
 - **react-parallax-tilt** — Tilt effects on project cards
@@ -68,7 +65,7 @@ src/
 
 ## 🚀 Deployment
 
-Deployed on Vercel. Add your `.env` variables under **Settings → Environment Variables** in the Vercel dashboard, then any `git push` to `main` triggers an automatic redeploy.
+Deployed on Vercel. 
 
 ## 📧 Contact
 
