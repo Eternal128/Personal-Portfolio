@@ -143,22 +143,10 @@ const technologies = [
     description: "Advanced styling with animations and responsive design"
   },
   {
-    name: "Redux Toolkit",
-    icon: redux,
-    level: "Beginner",
-    description: "State management for complex React applications"
-  },
-  {
     name: "Git",
     icon: git,
     level: "Expert",
     description: "Version control for collaborative development"
-  },
-  {
-    name: "Figma",
-    icon: figma,
-    level: "Beginner",
-    description: "UI/UX design and prototyping for web applications"
   },
   {
     name: "Docker",
