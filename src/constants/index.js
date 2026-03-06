@@ -137,12 +137,6 @@ const technologies = [
     description: "NoSQL database for flexible data storage solutions"
   },
   {
-    name: "CSS 3",
-    icon: css,
-    level: "Beginner",
-    description: "Advanced styling with animations and responsive design"
-  },
-  {
     name: "Git",
     icon: git,
     level: "Expert",
