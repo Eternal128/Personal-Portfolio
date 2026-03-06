@@ -241,7 +241,7 @@ const BIO = {
   name: 'HEY THERE!',
   description: `
 
-I'm a Computer Science student at the University of Toronto with internship experience at Ernst & Young, Metrodata Group, and PT. Japfa Comfeed. I have a a habit of building things nobody asked for but everyone ends up wanting.`,
+I'm a Computer Science student at the University of Toronto with internship experience at Ernst & Young, Metrodata Group, and PT. Japfa Comfeed. I have a habit of building things nobody asked for but end up wanting. Outside of coding, I also create anime edits and visual content as a creative outlet.`,
   skills: ['Web Development', 'AI Engineering', 'React', 'Python', 'Figma', 'TensorFlow'],
   experience: [
     { role: 'AI Development Intern',    company: 'Ernst & Young (EY)',    date: '2025'      },
