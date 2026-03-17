@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { navLinks } from "../constants";
 
+const smoothScrollTo = (id) => {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
@@ -60,6 +66,7 @@ const Navbar = () => {
           gap: 10px;
           text-decoration: none;
           flex-shrink: 0;
+          cursor: pointer;
         }
 
         .nav-logo-icon {
@@ -107,6 +114,10 @@ const Navbar = () => {
           letter-spacing: 0.02em;
           transition: color 0.2s ease, background 0.2s ease;
           white-space: nowrap;
+          cursor: pointer;
+          background: none;
+          border: none;
+          font-family: 'DM Sans', sans-serif;
         }
 
         .nav-link:hover,
@@ -240,6 +251,10 @@ const Navbar = () => {
           text-decoration: none;
           letter-spacing: -0.01em;
           transition: color 0.2s;
+          cursor: pointer;
+          background: none;
+          border: none;
+          font-family: 'DM Sans', sans-serif;
         }
 
         .nav-mobile-link:hover { color: #fff; }
@@ -256,14 +271,17 @@ const Navbar = () => {
       <div className={`nav-mobile-menu${menuOpen ? ' open' : ''}`}>
         <button className="nav-mobile-close" onClick={() => setMenuOpen(false)}>✕</button>
         {navLinks.map((nav) => (
-          <a
+          <button
             key={nav.id}
-            href={`#${nav.id}`}
             className="nav-mobile-link"
-            onClick={() => { setActive(nav.title); setMenuOpen(false); }}
+            onClick={() => {
+              setActive(nav.title);
+              setMenuOpen(false);
+              smoothScrollTo(nav.id);
+            }}
           >
             {nav.title}
-          </a>
+          </button>
         ))}
       </div>
 
@@ -271,10 +289,13 @@ const Navbar = () => {
         <div className={`nav-bar${scrolled ? ' scrolled' : ''}`}>
 
           {/* Logo */}
-          <a
-            href="#hero"
+          <button
             className="nav-logo"
-            onClick={() => { setActive(""); window.scrollTo(0, 0); }}
+            style={{ background: 'none', border: 'none' }}
+            onClick={() => {
+              setActive("");
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            }}
           >
             <div className="nav-logo-icon">
               <svg viewBox="0 0 14 14" fill="none">
@@ -285,19 +306,21 @@ const Navbar = () => {
               </svg>
             </div>
             <span className="nav-logo-text">James Hanzell</span>
-          </a>
+          </button>
 
           {/* Center links */}
           <div className="nav-links">
             {navLinks.map((nav) => (
-              <a
+              <button
                 key={nav.id}
-                href={`#${nav.id}`}
                 className={`nav-link${active === nav.title ? ' active' : ''}`}
-                onClick={() => setActive(nav.title)}
+                onClick={() => {
+                  setActive(nav.title);
+                  smoothScrollTo(nav.id);
+                }}
               >
                 {nav.title}
-              </a>
+              </button>
             ))}
           </div>
 

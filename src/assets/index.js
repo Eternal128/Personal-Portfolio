@@ -44,6 +44,8 @@ import about from './projects/about.jpg';
 import music from './projects/music.jpeg';
 import machine from './projects/machine.png';
 import project from './projects/project.png';
+import stressball from './projects/stressball.png';
+import roomie from './projects/roomie.png';
 
 
 export {
@@ -88,4 +90,6 @@ export {
   music,
   machine,
   project,
+  stressball,
+  roomie,
 };

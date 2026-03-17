@@ -218,15 +218,16 @@ const Hero = () => {
         }
         .mist-btns.vis { opacity: 1; transform: translateY(0); }
 
+        /* Button with contact-submit style */
         .mist-btn-primary {
           position: relative;
-          padding: 14px 40px;
+          padding: 13px 40px;
           border-radius: 100px;
           border: none;
           background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 40%, #252525 60%, #1a1a1a 100%);
           color: #fff;
           font-family: 'DM Sans', sans-serif;
-          font-size: 15px;
+          font-size: 14px;
           font-weight: 300;
           letter-spacing: 0.06em;
           cursor: pointer;
@@ -242,33 +243,20 @@ const Hero = () => {
           inset: 0;
           border-radius: 100px;
           padding: 1.5px;
-          background: linear-gradient(135deg,
-            rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.35) 25%,
-            rgba(255,255,255,0.0) 50%, rgba(255,255,255,0.15) 75%,
-            rgba(255,255,255,0.0) 100%);
-          background-size: 300% 300%;
+          background: transparent;
           -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
           -webkit-mask-composite: destination-out;
           mask-composite: exclude;
-          animation: borderShimmer 4s linear infinite;
-        }
-        .mist-btn-primary::after {
-          content: '';
-          position: absolute;
-          inset: -2px;
-          border-radius: 100px;
-          background: transparent;
-          box-shadow: 0 0 0px rgba(255,255,255,0);
-          transition: box-shadow 3s ease;
-          pointer-events: none;
+          transition: background 0.4s ease;
         }
         .mist-btn-primary:hover {
           transform: translateY(-2px);
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 6px 30px rgba(0,0,0,0.5), 0 0 25px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.08);
+          box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 6px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
         }
-        @keyframes borderShimmer {
-          0% { background-position: 0% 50%; }
-          100% { background-position: 300% 50%; }
+        .mist-btn-primary:hover::before {
+          background: linear-gradient(135deg,
+            rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.22) 50%,
+            rgba(255,255,255,0.0) 100%);
         }
 
         /* Scroll indicator */
@@ -380,7 +368,15 @@ const Hero = () => {
           </p>
 
           <div className={`mist-btns${loaded ? ' vis' : ''}`}>
-            <a href="#projects" className="mist-btn-primary">See Projects</a>
+            <button
+              className="mist-btn-primary"
+              onClick={() => {
+                const el = document.getElementById('projects');
+                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              }}
+            >
+              See Projects
+            </button>
           </div>
         </div>
 

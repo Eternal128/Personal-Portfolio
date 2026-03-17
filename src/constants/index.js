@@ -31,6 +31,7 @@ import {
   about,
   music,
   machine,
+  roomie,
 } from "../assets";
 
 export const navLinks = [
@@ -189,7 +190,7 @@ const experiences = [
       "Developed a company document-processing system powered by OpenAI API and LangChain.",
       "Implemented support for multi-file PDF reading, vectorization, and semantic retrieval.",
       "Enabled employees to upload internal documents and query information with cited page references.",
-      "Collaborated remotely with the company’s IT and AI integration teams.",
+      "Collaborated remotely with the company's IT and AI integration teams.",
     ],
   },
 ];
@@ -198,7 +199,7 @@ const experiences = [
 const testimonials = [
   {
     testimonial:
-      "He’s the perfect mix of brains, humor, and calm in the chaos.",
+      "He's the perfect mix of brains, humor, and calm in the chaos.",
     name: "Daniel Kim",
     designation: "Actuarial Science Student",
     company: "University of Toronto",
@@ -206,7 +207,7 @@ const testimonials = [
   },
   {
     testimonial:
-      "I went to high school with James. He’s the kind of person who made group projects actually fun and successful.",
+      "I went to high school with James. He's the kind of person who made group projects actually fun and successful.",
     name: "Yung Jui Lai",
     designation: "Engineering Student",
     company: "University of Manchester",
@@ -214,7 +215,7 @@ const testimonials = [
   },
   {
     testimonial:
-      "I’ve worked with James on several CS projects and he’s easily one of the most driven and talented people I know. ",
+      "I've worked with James on several CS projects and he's easily one of the most driven and talented people I know. ",
     name: "Abdullah Alhidary",
     designation: "CS Student",
     company: "University of Toronto",
@@ -223,6 +224,54 @@ const testimonials = [
 ];
 
 const projects = [
+  {
+    name: "Roomie",
+    description:
+      "A modern UI website to turn 2D floor plans into 3D.",
+    tags: [
+      {
+        name: "react",
+        color: "ocean-text-gradient",
+      },
+      {
+        name: "javascript",
+        color: "blue-text-gradient",
+      },
+      {
+        name: "tailwind",
+        color: "neon-text-gradient",
+      },
+    ],
+    image: roomie,
+    source_code_link: "https://github.com/Eternal128/roomie.git",
+    live_demo_link: "https://puter.com/app/roomie",
+  },
+  {
+    name: "Personal Portfolio",
+    description:
+      "A Modern 3D portfolio website built with React and Framer Motion.",
+    tags: [
+      {
+        name: "react",
+        color: "ocean-text-gradient",
+      },
+      {
+        name: "threejs",
+        color: "sunset-text-gradient",
+      },
+      {
+        name: "tailwind",
+        color: "neon-text-gradient",
+      },
+      {
+        name: "javascript",
+        color: "cyan-purple-text-gradient",
+      },
+    ],
+    image: portfolio,
+    source_code_link: "https://github.com/Eternal128/Personal-Portfolio.git",
+    live_demo_link: "https://jameswilliamhanzell.vercel.app/",
+  },
   {
     name: "COVID-19 X-Ray Classification",
     description:
@@ -247,7 +296,7 @@ const projects = [
   {
     name: "Jakarta Route Optimization",
     description:
-      "Graph theory project modeling Jakarta's road network as a 46-node weighted graph compraing Dijkstra VS Kruskal's Algorithm.",
+      "Graph theory project modeling Jakarta's road network as a 46-node weighted graph comparing Dijkstra VS Kruskal's Algorithm.",
     tags: [
       {
         name: "python",
@@ -266,31 +315,6 @@ const projects = [
     source_code_link: "https://github.com/Eternal128/Dijkstra-VS-Kruskal-for-Jakarta-Route-Optimization",
   },
   {
-    name: "Personal Portfolio",
-    description:
-      "A Modern 3D portfolio website built with React and Framer Motion.",
-    tags: [
-      {
-        name: "react",
-        color: "ocean-text-gradient",
-      },
-      {
-        name: "threejs",
-        color: "sunset-text-gradient",
-      },
-      {
-        name: "tailwind",
-        color: "neon-text-gradient",
-      },
-      {
-        name: "javascript",
-        color: "cyan-purple-text-gradient",
-      },
-    ],
-    image: portfolio, 
-    source_code_link: "https://github.com/Eternal128/Personal-Portfolio.git",
-  },
-  {
     name: "Meal App",
     description:
       "An app with cooking recipes and filterable menus to show filters e.g. gluten-free, vegetarian, vegan",
@@ -304,10 +328,10 @@ const projects = [
         color: "green-text-gradient",
       },
     ],
-    image: meal, 
+    image: meal,
     source_code_link: "https://github.com/Eternal128/meal-app.git",
   },
-    {
+  {
     name: "Spotify Music Recommender",
     description:
       "A simple app to suggest music to users",
@@ -321,7 +345,7 @@ const projects = [
         color: "sunset-text-gradient",
       },
     ],
-    image: music, 
+    image: music,
     source_code_link: "https://github.com/Eternal128/CSC111-Project-2.git",
   },
   {
@@ -338,7 +362,7 @@ const projects = [
         color: "purple-blue-text-gradient",
       },
     ],
-    image: chess, 
+    image: chess,
     source_code_link: "https://github.com/akashngb/gamegrid.git",
   },
   {
@@ -355,7 +379,7 @@ const projects = [
         color: "cyan-purple-text-gradient",
       },
     ],
-    image: machine, 
+    image: machine,
     source_code_link: "https://github.com/Eternal128/machine-learning-projects.git",
   },
 ];
