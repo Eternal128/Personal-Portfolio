@@ -32,6 +32,7 @@ import {
   music,
   machine,
   roomie,
+  quietspace,
 } from "../assets";
 
 export const navLinks = [
@@ -224,27 +225,33 @@ const testimonials = [
 ];
 
 const projects = [
+  // ── ROOMIE — featured first, has both GitHub + live demo ──
   {
     name: "Roomie",
     description:
-      "A modern UI website to turn 2D floor plans into 3D.",
+      "A modern website to imagine 2D floor plans to your preference.",
     tags: [
-      {
-        name: "react",
-        color: "ocean-text-gradient",
-      },
-      {
-        name: "javascript",
-        color: "blue-text-gradient",
-      },
-      {
-        name: "tailwind",
-        color: "neon-text-gradient",
-      },
+      { name: "react",      color: "ocean-text-gradient"  },
+      { name: "javascript", color: "blue-text-gradient"   },
+      { name: "tailwind",   color: "neon-text-gradient"   },
     ],
     image: roomie,
     source_code_link: "https://github.com/Eternal128/roomie.git",
     live_demo_link: "https://puter.com/app/roomie",
+  },
+  // ── QUIETSPACE ──
+  {
+    name: "QuietSpace",
+    description:
+      "A minimal, distraction-free focus app built to help mental health.",
+    tags: [
+      { name: "react",      color: "ocean-text-gradient"  },
+      { name: "javascript", color: "blue-text-gradient"   },
+      { name: "tailwind",   color: "neon-text-gradient"   },
+    ],
+    image: quietspace,
+    source_code_link: "https://github.com/Eternal128/quietspace",
+    live_demo_link: "https://quietspace-zeta.vercel.app/",
   },
   {
     name: "Personal Portfolio",

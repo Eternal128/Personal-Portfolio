@@ -4,18 +4,9 @@ import { motion, useSpring } from 'framer-motion';
 const CustomCursor = () => {
   const [isHovering, setIsHovering] = useState(false);
 
-  // Get the current zoom level so we can correct mouse coordinates
-  const getZoom = () => {
-    return parseFloat(document.documentElement.style.zoom) ||
-      window.devicePixelRatio && document.documentElement.getAttribute('style')?.match(/zoom:\s*([\d.]+)/)?.[1] ||
-      1;
-  };
-
-  // Position springs
   const cursorX = useSpring(0, { stiffness: 300, damping: 30 });
   const cursorY = useSpring(0, { stiffness: 300, damping: 30 });
 
-  // Shape springs
   const width   = useSpring(15, { stiffness: 220, damping: 26 });
   const height  = useSpring(15, { stiffness: 220, damping: 26 });
   const radius  = useSpring(50, { stiffness: 220, damping: 26 });
@@ -24,18 +15,26 @@ const CustomCursor = () => {
 
   useEffect(() => {
     const updateMousePosition = (e) => {
-      // When CSS zoom is applied, clientX/Y are in unzoomed coords.
-      // Divide by zoom to get the correct position in the zoomed layout.
       const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
       const x = e.clientX / zoom;
       const y = e.clientY / zoom;
-
-      // Subtract half the cursor size (7.5 ≈ 8) to center it
       cursorX.set(x - 8);
       cursorY.set(y - 8);
     };
 
     const handleMouseOver = (e) => {
+      // 1. Pill takes highest priority — show cursor as clickable
+      if (e.target.closest('[data-pill]')) {
+        width.set(15);
+        height.set(15);
+        radius.set(50);
+        opacity.set(1);
+        scale.set(1.4);
+        setIsHovering(true);
+        return;
+      }
+
+      // 2. Inside gallery card (but not pill) — hide cursor
       if (e.target.closest('[data-gallery]')) {
         width.set(48);
         height.set(15);
@@ -46,6 +45,7 @@ const CustomCursor = () => {
         return;
       }
 
+      // 3. Everything else — normal cursor logic
       const isClickable =
         e.target.tagName === 'A' ||
         e.target.tagName === 'BUTTON' ||
