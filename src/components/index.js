@@ -9,6 +9,7 @@ import Feedbacks from './Feedbacks';
 import Contact from './Contact';
 import End from './End';
 import CustomCursor from './CustomCursor';
+import Loader from './Loader';
 
 export {
   Hero,
@@ -19,10 +20,11 @@ export {
   Works,
   Feedbacks,
   Contact,
-  EarthCanvas, 
-  BallCanvas, 
-  ComputersCanvas, 
+  EarthCanvas,
+  BallCanvas,
+  ComputersCanvas,
   StarsCanvas,
   End,
   CustomCursor,
-}
+  Loader,
+};

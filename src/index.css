@@ -1,63 +1,97 @@
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&family=DM+Mono:wght@300;400&display=swap");
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ── Reset & Base ── */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "DM Sans", "Poppins", sans-serif;
   scroll-behavior: smooth;
   color-scheme: dark;
+  cursor: none !important;
 }
 
+body {
+  font-family: "DM Sans", sans-serif;
+  background: #000;
+  color: #fff;
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* ── Typography system ── */
+.sectionHeadText,
+.hash-span+* h2,
+h2 {
+  font-family: "DM Sans", sans-serif;
+  font-weight: 300;
+  letter-spacing: -0.025em;
+  line-height: 0.97;
+  color: #fff;
+}
+
+.sectionSubText {
+  font-family: "DM Mono", monospace !important;
+  font-size: 10px !important;
+  font-weight: 300;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Tailwind overrides */
 .hash-span {
   margin-top: -100px;
   padding-bottom: 100px;
   display: block;
 }
 
-/* ── All backgrounds → pure black ── */
+/* ── Color tokens ── */
 .bg-primary {
   background: #000 !important;
 }
 
 .bg-tertiary {
-  background: #111 !important;
-}
-
-.bg-black-100 {
   background: #0d0d0d !important;
 }
 
-.bg-black-200 {
+.bg-black-100 {
   background: #080808 !important;
 }
 
-/* Gradients — neutralised to black/grey */
+.bg-black-200 {
+  background: #050505 !important;
+}
+
+.text-secondary {
+  color: rgba(255, 255, 255, 0.42) !important;
+}
+
+/* ── Gradients ── */
 .black-gradient {
-  background: linear-gradient(to right, #1a1a1a, #000);
+  background: linear-gradient(to right, #111, #000);
 }
 
 .violet-gradient {
-  background: linear-gradient(-90deg, #333 0%, rgba(30, 30, 30, 0) 100%);
+  background: linear-gradient(-90deg, #222 0%, rgba(20, 20, 20, 0) 100%);
 }
 
 .dark-blue-gradient {
-  background: linear-gradient(-90deg, #222 0%, #666 100%);
+  background: linear-gradient(-90deg, #1a1a1a 0%, #555 100%);
 }
 
 .blue-gradient {
-  background: linear-gradient(90deg, #555 0%, #bbb 100%);
+  background: linear-gradient(90deg, #444 0%, #aaa 100%);
 }
 
 .green-pink-gradient {
-  background: linear-gradient(90.13deg, #aaa 1.9%, #fff 97.5%);
+  background: linear-gradient(90.13deg, #888 1.9%, #fff 97.5%);
 }
 
-/* ── Text gradients (kept for project tags) ── */
+/* ── Project tag text gradients ── */
 .orange-text-gradient {
   background: linear-gradient(to top, #f12711, #f5af19);
   -webkit-background-clip: text;
@@ -142,7 +176,7 @@
   -webkit-text-fill-color: transparent;
 }
 
-/* ── Canvas loader ── */
+/* ── Canvas loader spinner ── */
 .canvas-loader {
   font-size: 10px;
   width: 1em;
@@ -190,41 +224,9 @@
   }
 }
 
-/* Cursors */
-* {
-  cursor: auto;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-* {
-  -webkit-overflow-scrolling: touch;
-}
-
-body {
-  overscroll-behavior: none;
-}
-
-a,
-button,
-[role="button"],
-input[type="submit"],
-input[type="button"] {
-  cursor: pointer;
-}
-
-input,
-textarea {
-  cursor: text;
-}
-
+/* Mobile — restore system cursor */
 @media (hover: none) and (pointer: coarse) {
-
-  #custom-cursor-outer,
-  #custom-cursor-inner,
-  #custom-cursor-trail {
-    display: none !important;
+  * {
+    cursor: auto !important;
   }
 }
