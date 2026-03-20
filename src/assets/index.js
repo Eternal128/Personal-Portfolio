@@ -48,6 +48,7 @@ import stressball from './projects/stressball.png';
 import roomie from './projects/roomie.png';
 import quietspace from './projects/quietspace.png';
 import editor from './projects/editor.png';
+import hero_editor from './projects/hero_editor.png';
 
 
 export {
@@ -96,4 +97,5 @@ export {
   roomie,
   quietspace,
   editor,
+  hero_editor,
 };

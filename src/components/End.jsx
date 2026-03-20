@@ -234,7 +234,7 @@ const ContactEnd = () => {
                   <div className="h-3 w-[1px]" style={{ background: 'rgba(255,255,255,0.1)' }} />
                   <FlipLink href="https://github.com/Eternal128">GitHub</FlipLink>
                   <div className="h-3 w-[1px]" style={{ background: 'rgba(255,255,255,0.1)' }} />
-                  <FlipLink href="https://tiktok.com/@eternalglazer">TikTok</FlipLink>
+                  <FlipLink href="https://editor-portfolio-james.vercel.app/">Editing Portfolio</FlipLink>
                 </div>
               </div>
             </motion.div>

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { createPortal } from 'react-dom';
 
-import { editor, virus, road, james, meal, chess, about, music, machine, project, roomie, quietspace } from '../assets';
+import { hero_editor, virus, road, james, meal, chess, about, music, machine, project, roomie, quietspace } from '../assets';
 
 const CARDS = [
   { src: roomie,      liveHref: 'https://puter.com/app/roomie',          repoHref: 'https://github.com/Eternal128/roomie.git',         label: 'Roomie',                  isLive: true },
@@ -11,7 +11,7 @@ const CARDS = [
   { src: about,       href: '#about-bio', label: 'About Me', isAbout: true },
   { src: music,       href: 'https://github.com/Eternal128/CSC111-Project-2',                                                          label: 'Spotify Recommendation'                 },
   { src: project, href: 'https://github.com/Eternal128/Personal-Portfolio', label: 'Portfolio Website' },
-  { src: editor,       liveHref: 'https://editor-portfolio-james.vercel.app/', repoHref: 'https://github.com/Eternal128/editor-portfolio.git', label: 'Editing Portfolio', isLive: true },
+  { src: hero_editor,       liveHref: 'https://editor-portfolio-james.vercel.app/', repoHref: 'https://github.com/Eternal128/editor-portfolio.git', label: 'Editing Portfolio', isLive: true },
   { src: machine,     href: 'https://github.com/Eternal128/machine-learning-projects',                                                 label: 'Machine Learning Projects'              },
   { src: meal,        href: 'https://github.com/Eternal128/meal-app',                                                                  label: 'Meal App'                               },
 ];
