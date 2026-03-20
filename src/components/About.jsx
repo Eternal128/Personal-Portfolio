@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { createPortal } from 'react-dom';
 
-import { gojo, virus, road, james, meal, chess, about, music, machine, project, roomie, quietspace } from '../assets';
+import { editor, virus, road, james, meal, chess, about, music, machine, project, roomie, quietspace } from '../assets';
 
 const CARDS = [
   { src: roomie,      liveHref: 'https://puter.com/app/roomie',          repoHref: 'https://github.com/Eternal128/roomie.git',         label: 'Roomie',                  isLive: true },
@@ -10,10 +10,10 @@ const CARDS = [
   { src: chess,       href: 'https://github.com/akashngb/gamegrid',                                                                    label: 'Arcade Games Using Java'                },
   { src: about,       href: '#about-bio', label: 'About Me', isAbout: true },
   { src: music,       href: 'https://github.com/Eternal128/CSC111-Project-2',                                                          label: 'Spotify Recommendation'                 },
-  { src: project,     href: 'https://github.com/Eternal128/Personal-Portfolio',                                                        label: 'Portfolio Website'                      },
-  { src: meal,        href: 'https://github.com/Eternal128/meal-app',                                                                  label: 'Meal App'                               },
+  { src: project, href: 'https://github.com/Eternal128/Personal-Portfolio', label: 'Portfolio Website' },
+  { src: editor,       liveHref: 'https://editor-portfolio-james.vercel.app/', repoHref: 'https://github.com/Eternal128/editor-portfolio.git', label: 'Editing Portfolio', isLive: true },
   { src: machine,     href: 'https://github.com/Eternal128/machine-learning-projects',                                                 label: 'Machine Learning Projects'              },
-  { src: gojo,        href: 'https://tiktok.com/@eternalglazer',                                                                       label: 'TikTok Edits'                           },
+  { src: meal,        href: 'https://github.com/Eternal128/meal-app',                                                                  label: 'Meal App'                               },
 ];
 
 const isMobile = () => typeof window !== 'undefined' && window.innerWidth < 768;
@@ -304,7 +304,16 @@ const GalleryGrid = () => (
             <ParallaxCard speed={30}>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
                 {[6,7,8].map((i,idx) => (
-                  <Card key={i} src={CARDS[i].src} href={CARDS[i].href} label={CARDS[i].label} animDelay={0.08 + idx * 0.06} />
+                  <Card
+                    key={i}
+                    src={CARDS[i].src}
+                    href={CARDS[i].href}
+                    liveHref={CARDS[i].liveHref}
+                    repoHref={CARDS[i].repoHref}
+                    label={CARDS[i].label}
+                    isLive={CARDS[i].isLive}
+                    animDelay={0.02 + idx * 0.06}
+                  />
                 ))}
               </div>
             </ParallaxCard>
