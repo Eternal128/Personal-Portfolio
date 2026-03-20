@@ -33,6 +33,7 @@ import {
   machine,
   roomie,
   quietspace,
+  editor,
 } from "../assets";
 
 export const navLinks = [
@@ -225,6 +226,21 @@ const testimonials = [
 ];
 
 const projects = [
+  // ── Editing Portfolio — featured first, has both GitHub + live demo ──
+  {
+    name: "Editing Portfolio",
+    description:
+      "My Personal Editing Portfolio",
+    tags: [
+      { name: "react",      color: "ocean-text-gradient"  },
+      { name: "javascript", color: "blue-text-gradient"   },
+      { name: "tailwind", color: "neon-text-gradient" },
+      { name: "three js",   color: "cyan-purple-gradient"   },
+    ],
+    image: editor,
+    source_code_link: "https://github.com/Eternal128/editor-portfolio.git",
+    live_demo_link: "https://editor-portfolio-james.vercel.app/",
+  },
   // ── ROOMIE — featured first, has both GitHub + live demo ──
   {
     name: "Roomie",

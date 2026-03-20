@@ -47,6 +47,7 @@ import project from './projects/project.png';
 import stressball from './projects/stressball.png';
 import roomie from './projects/roomie.png';
 import quietspace from './projects/quietspace.png';
+import editor from './projects/editor.png';
 
 
 export {
@@ -93,5 +94,6 @@ export {
   project,
   stressball,
   roomie,
-  quietspace
+  quietspace,
+  editor,
 };
