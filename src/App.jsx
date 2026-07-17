@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 
+import { useState } from "react";
 import { SoundProvider } from "./context/SoundContext";
 import {
   About, Experience, Feedbacks, Hero,
-  Navbar, Tech, Works, StarsCanvas, End, CustomCursor,
+  Navbar, Tech, Works, StarsCanvas, End, CustomCursor, Loader,
 } from './components';
 import FlightPath from './components/FlightPath';
 import { useSoundFX } from './hooks/useSoundFX';
@@ -27,6 +28,7 @@ const findClickable = (el, depth = 7) => {
 };
 
 const App = () => {
+  const [loading, setLoading] = useState(true);
   const { navThud, tick } = useSoundFX();
 
   // Lenis smooth scroll
@@ -63,6 +65,7 @@ const App = () => {
   return (
     <SoundProvider>
       <BrowserRouter>
+        {loading && <Loader onComplete={() => setLoading(false)} />}
         <CustomCursor />
 
         {/* Fixed star background */}

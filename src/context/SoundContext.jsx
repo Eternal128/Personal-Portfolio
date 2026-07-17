@@ -1,22 +1,25 @@
 import React, { createContext, useContext, useRef, useState, useEffect, useCallback } from "react";
 
 const SoundContext = createContext(null);
+
+// One-shot SFX (files live in /public/sounds/)
 const SFX = {
-  click: "/sounds/click.mp3",  // soft tick — nav, cards, buttons
+  click: "/sounds/click.mp3",  // nav, cards, buttons
   close: "/sounds/close.mp3",  // modal close
 };
 
 const AMBIENT = "/sounds/ambient-space.mp3"; // looping cinematic drone
 
 export const SoundProvider = ({ children }) => {
-  const [muted, setMuted] = useState(() => {
-    return localStorage.getItem("sound-muted") === "true";
-  });
+  // ALWAYS start muted. Nothing auto-starts — music only begins when the
+  // user explicitly unmutes (loader "Enter" click or the toggle button).
+  const [muted, setMuted] = useState(true);
 
-  const buffers = useRef({});      
-  const ambientRef = useRef(null);  
-  const startedRef = useRef(false); 
+  const buffers = useRef({});      // preloaded SFX Audio elements
+  const ambientRef = useRef(null); // ambient Audio element
+  const startedAmbient = useRef(false);
 
+  // Preload SFX + ambient once
   useEffect(() => {
     Object.entries(SFX).forEach(([key, src]) => {
       const a = new Audio(src);
@@ -35,61 +38,21 @@ export const SoundProvider = ({ children }) => {
     };
   }, []);
 
-  const attemptStart = useCallback(() => {
-    if (startedRef.current) return;
-    const amb = ambientRef.current;
-    if (!amb) return;
-
-    amb.play()
-      .then(() => {
-        startedRef.current = true;
-        setMuted(false);
-        fade(amb, amb.volume || 0, 0.18, 900);
-      })
-      .catch(() => {
-      });
-  }, []);
-
+  // SINGLE source of truth for ambient: react to `muted` changes.
+  // Because `muted` only ever flips from a real user gesture (loader Enter
+  // click or the toggle button), amb.play() is always allowed.
+  // NOTE: there is intentionally NO "auto-unlock on first gesture" effect,
+  // so the ambient never plays during the loader screen.
   useEffect(() => {
-    if (localStorage.getItem("sound-muted") === "true") return;
-
-    attemptStart();
-
-    const unlock = () => {
-      attemptStart();
-      if (startedRef.current) removeListeners();
-    };
-    const removeListeners = () => {
-      window.removeEventListener("pointerdown", unlock);
-      window.removeEventListener("keydown", unlock);
-      window.removeEventListener("touchstart", unlock);
-    };
-
-    window.addEventListener("pointerdown", unlock);
-    window.addEventListener("keydown", unlock);
-    window.addEventListener("touchstart", unlock);
-
-    return removeListeners;
-  }, [attemptStart]);
-
-  // SINGLE source of truth for ambient: react to `muted` changes from
-  // the toggle button. The auto-start flow above also flips `muted` to
-  // false once it succeeds, which is handled by `startedRef` so this
-  // effect doesn't try to double-start it.
-  useEffect(() => {
-    localStorage.setItem("sound-muted", String(muted));
     const amb = ambientRef.current;
     if (!amb) return;
 
     if (muted) {
-      startedRef.current = false;
       fade(amb, amb.volume, 0, 400, () => amb.pause());
-    } else if (!startedRef.current) {
+    } else {
+      startedAmbient.current = true;
       amb.play()
-        .then(() => {
-          startedRef.current = true;
-          fade(amb, amb.volume || 0, 0.18, 800);
-        })
+        .then(() => fade(amb, amb.volume || 0, 0.18, 900))
         .catch(() => {});
     }
   }, [muted]);
@@ -104,7 +67,7 @@ export const SoundProvider = ({ children }) => {
     node.play().catch(() => {});
   }, [muted]);
 
-  // Simple toggle
+  // Simple toggle — the [muted] effect handles all ambient play/pause.
   const toggleMute = useCallback(() => {
     setMuted((m) => !m);
   }, []);
