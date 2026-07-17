@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useRef, useState, useEffect, useCallback } from "react";
 
 const SoundContext = createContext(null);
-
-// Map logical names → audio file paths (files live in /public/sounds/)
 const SFX = {
   click: "/sounds/click.mp3",  // soft tick — nav, cards, buttons
   close: "/sounds/close.mp3",  // modal close
@@ -11,18 +9,14 @@ const SFX = {
 const AMBIENT = "/sounds/ambient-space.mp3"; // looping cinematic drone
 
 export const SoundProvider = ({ children }) => {
-  // Sound WANTS to be on by default — but respect an explicit prior
-  // opt-out (someone manually hit mute before) so we don't force it
-  // back on for them.
   const [muted, setMuted] = useState(() => {
     return localStorage.getItem("sound-muted") === "true";
   });
 
-  const buffers = useRef({});       // preloaded SFX Audio elements
-  const ambientRef = useRef(null);  // ambient Audio element
-  const startedRef = useRef(false); // guards against starting ambient twice
+  const buffers = useRef({});      
+  const ambientRef = useRef(null);  
+  const startedRef = useRef(false); 
 
-  // Preload SFX + ambient once
   useEffect(() => {
     Object.entries(SFX).forEach(([key, src]) => {
       const a = new Audio(src);
@@ -53,15 +47,9 @@ export const SoundProvider = ({ children }) => {
         fade(amb, amb.volume || 0, 0.18, 900);
       })
       .catch(() => {
-        // Blocked by the browser's autoplay policy — the first-interaction
-        // listeners below will retry the moment that's allowed.
       });
   }, []);
 
-  // Try immediately on mount, then fall back to starting on the very
-  // first interaction anywhere on the page (click, tap, or keypress) —
-  // the earliest moment any browser permits audible audio to begin.
-  // Skipped entirely if the person explicitly muted before.
   useEffect(() => {
     if (localStorage.getItem("sound-muted") === "true") return;
 
