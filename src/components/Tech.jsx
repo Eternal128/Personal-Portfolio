@@ -80,48 +80,20 @@ const findProject = (nameList) =>
 const findJobMeta = (companyName) =>
   experiences.find((e) => e.company_name === companyName);
 
-const TechCard = ({ name, icon, level, description, invert, index, onHover, onLeave, onClick }) => {
+// TechCard now owns its own hover + tooltip locally (absolute inside the card).
+// No getBoundingClientRect, no scroll/resize listeners, no lifted tooltip state —
+// the tooltip is just normal document flow, so it can never desync from the card.
+const TechCard = ({ name, icon, level, description, invert, index, onClick }) => {
   const [hovered, setHovered] = useState(false);
-  const ref = React.useRef(null);
-
-  const report = useCallback(() => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    onHover({
-      name, description,
-      cardLeft: rect.left, cardTop: rect.top, cardWidth: rect.width, cardHeight: rect.height,
-    });
-  }, [name, description, onHover]);
-
-  const handleEnter = () => { setHovered(true); requestAnimationFrame(report); };
-  const handleLeave = () => { setHovered(false); onLeave(); };
-
-  // While hovered, keep the tooltip glued to the card during scroll/resize
-  useEffect(() => {
-    if (!hovered) return;
-    let raf = null;
-    const update = () => {
-      if (raf) cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(report);
-    };
-    window.addEventListener("scroll", update, true);
-    window.addEventListener("resize", update);
-    return () => {
-      if (raf) cancelAnimationFrame(raf);
-      window.removeEventListener("scroll", update, true);
-      window.removeEventListener("resize", update);
-    };
-  }, [hovered, report]);
 
   return (
     <motion.div
-      ref={ref}
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.1 }}
       transition={{ duration: 0.5, delay: index * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
       onClick={() => onClick(name)}
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.97 }}
@@ -132,8 +104,41 @@ const TechCard = ({ name, icon, level, description, invert, index, onHover, onLe
         borderRadius: 16, padding: "24px 20px",
         display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
         cursor: "pointer", transition: "background 0.3s, border-color 0.3s",
+        overflow: "visible",
       }}
     >
+      {/* Tooltip — absolute, lives inside the card, scrolls with it natively */}
+      {hovered && (
+        <div
+          style={{
+            position: "absolute",
+            left: "50%",
+            bottom: "100%",
+            transform: "translateX(-50%)",
+            marginBottom: 12,
+            width: 210,
+            background: "rgba(10,10,10,0.96)",
+            border: "1px solid rgba(255,255,255,0.1)",
+            borderRadius: 12,
+            padding: "10px 16px",
+            zIndex: 50,
+            pointerEvents: "none",
+            fontFamily: "'DM Sans', sans-serif",
+          }}
+        >
+          <p style={{ fontSize: 12, fontWeight: 300, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, textAlign: "center", margin: 0 }}>
+            {description}
+          </p>
+          <div style={{
+            position: "absolute", bottom: -5, left: "50%",
+            transform: "translateX(-50%) rotate(45deg)",
+            width: 8, height: 8, background: "rgba(10,10,10,0.96)",
+            borderRight: "1px solid rgba(255,255,255,0.1)",
+            borderBottom: "1px solid rgba(255,255,255,0.1)",
+          }} />
+        </div>
+      )}
+
       <span style={{
         position: "absolute", top: 10, right: 12, fontSize: 12, lineHeight: 1,
         color: "rgba(212,180,100,0.9)", opacity: hovered ? 1 : 0,
@@ -279,6 +284,7 @@ const SkillModal = ({ skill, onClose }) => {
       }}
     >
       <motion.div
+        data-lenis-prevent
         initial={{ opacity: 0, y: 24, scale: 0.97 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, y: 24, scale: 0.97 }}
         transition={{ duration: 0.3, ease: [0.25, 0.46, 0.45, 0.94] }}
         onClick={(e) => e.stopPropagation()}
@@ -334,54 +340,14 @@ const SkillModal = ({ skill, onClose }) => {
   );
 };
 
-const Tooltip = ({ data }) => {
-  const TOOLTIP_W = 220;
-  const GAP = 12;
-  const half = TOOLTIP_W / 2;
-
-  const centerX = data.cardLeft + data.cardWidth / 2;
-  const left = Math.min(Math.max(centerX, half + 8), window.innerWidth - half - 8);
-
-  const placeBelow = data.cardTop < 120;
-  const top = placeBelow ? data.cardTop + data.cardHeight + GAP : data.cardTop - GAP;
-  const arrowOffset = centerX - left;
-
-  return (
-    <div style={{
-      position: "fixed", left, top,
-      transform: `translate(-50%, ${placeBelow ? "0" : "-100%"})`,
-      width: TOOLTIP_W, background: "rgba(10,10,10,0.96)",
-      border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: "10px 16px",
-      zIndex: 9999, pointerEvents: "none", fontFamily: "'DM Sans', sans-serif",
-    }}>
-      <p style={{ fontSize: 12, fontWeight: 300, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, textAlign: "center", margin: 0 }}>
-        {data.description}
-      </p>
-      <div style={{
-        position: "absolute", [placeBelow ? "top" : "bottom"]: -5,
-        left: `calc(50% + ${arrowOffset}px)`, transform: "translateX(-50%) rotate(45deg)",
-        width: 8, height: 8, background: "rgba(10,10,10,0.96)",
-        ...(placeBelow
-          ? { borderLeft: "1px solid rgba(255,255,255,0.1)", borderTop: "1px solid rgba(255,255,255,0.1)" }
-          : { borderRight: "1px solid rgba(255,255,255,0.1)", borderBottom: "1px solid rgba(255,255,255,0.1)" }),
-      }} />
-    </div>
-  );
-};
-
 const Tech = () => {
-  const [tooltip, setTooltip] = useState(null);
   const [activeSkill, setActiveSkill] = useState(null);
 
-  const handleHover = useCallback((data) => setTooltip(data), []);
-  const handleLeave = useCallback(() => setTooltip(null), []);
-  const handleClick = useCallback((name) => { setTooltip(null); setActiveSkill({ name }); }, []);
+  const handleClick = useCallback((name) => setActiveSkill({ name }), []);
 
   return (
     <>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500&display=swap');`}</style>
-
-      {tooltip && !activeSkill && <Tooltip data={tooltip} />}
 
       <AnimatePresence>
         {activeSkill && <SkillModal skill={activeSkill} onClose={() => setActiveSkill(null)} />}
@@ -404,9 +370,9 @@ const Tech = () => {
             </p>
           </motion.div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(130px, 1fr))", gap: 10, rowGap: 48 }}>
             {technologies.map((tech, i) => (
-              <TechCard key={tech.name} index={i} {...tech} onHover={handleHover} onLeave={handleLeave} onClick={handleClick} />
+              <TechCard key={tech.name} index={i} {...tech} onClick={handleClick} />
             ))}
           </div>
         </div>
