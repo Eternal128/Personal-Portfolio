@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 
 import { SoundProvider } from "./context/SoundContext";
-import SoundToggle from "./components/SoundToggle";
 import {
   About, Experience, Feedbacks, Hero,
   Navbar, Tech, Works, StarsCanvas, End, CustomCursor,
@@ -86,7 +85,6 @@ const App = () => {
           <End />
         </div>
       </BrowserRouter>
-      <SoundToggle />
     </SoundProvider>
   );
 };
