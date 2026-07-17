@@ -362,6 +362,7 @@ const BIO = {
   description: `I'm a Computer Science student at the University of Toronto with internship experience at Ernst & Young, Metrodata Group, and PT. Japfa Comfeed. I have a habit of building things nobody asked for but end up wanting. Outside of coding, I also create anime edits and visual content as a creative outlet.`,
   skills: ['Web Development', 'AI Engineering', 'React', 'Python', 'Figma', 'TensorFlow'],
   experience: [
+    { role: 'Software Engineer Intern', company: 'Lirvana Labs',          date: '2026 - Present' },
     { role: 'AI Development Intern',    company: 'Ernst & Young (EY)',   date: '2025'      },
     { role: 'Software Engineer Intern', company: 'Metrodata Group',       date: '2024'      },
     { role: 'Software Engineer Intern', company: 'PT. Japfa Comfeed',     date: '2023'      },
@@ -494,18 +495,19 @@ const About = () => {
                 ))}
               </motion.div>
 
-             <motion.div
+            <motion.div
               className="photo-col"
               style={{
                 y: bioPhotoY,
                 borderRadius: 3,
                 overflow: 'hidden',
-                aspectRatio: '1/1',
+                aspectRatio: '4/5',
                 background: '#111',
                 justifySelf: 'end',
+                alignSelf: 'start',
                 marginLeft: '40px',
                 width: '100%',      
-                maxWidth: '400px'  
+                maxWidth: '320px'  
               }}
             >
               <img

@@ -2,6 +2,71 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { experiences } from "../constants";
 
+const Highlight = ({ text, active, baseDelay = 0 }) => {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  let markIndex = 0;
+
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          const idx = markIndex++;
+          const delay = active ? baseDelay + idx * 0.18 : 0;
+
+          return (
+            <span
+              key={i}
+              style={{
+                position: "relative",
+                display: "inline-block",
+                padding: "0 3px",
+                margin: "0 -1px",
+              }}
+            >
+              {/* Highlighter bar — sweeps left to right behind the text */}
+              <motion.span
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: active ? 1 : 0 }}
+                transition={{
+                  duration: 0.45,
+                  delay,
+                  ease: [0.65, 0, 0.35, 1],
+                }}
+                style={{
+                  position: "absolute",
+                  top: "8%",
+                  bottom: "4%",
+                  left: 0,
+                  right: 0,
+                  transformOrigin: "left center",
+                  background:
+                    "linear-gradient(90deg, rgba(255,224,50,0.92) 0%, rgba(255,235,90,0.85) 100%)",
+                  boxShadow: "0 0 12px rgba(255,224,50,0.55)",
+                  borderRadius: 2,
+                  zIndex: 0,
+                }}
+              />
+              {/* Text sits above the bar; darkens slightly once the bar arrives */}
+              <span
+                style={{
+                  position: "relative",
+                  zIndex: 1,
+                  color: active ? "#171400" : "rgba(255,255,255,0.45)",
+                  fontWeight: 500,
+                  transition: `color 0.25s ease ${delay + 0.15}s`,
+                }}
+              >
+                {part.slice(2, -2)}
+              </span>
+            </span>
+          );
+        }
+        return <React.Fragment key={i}>{part}</React.Fragment>;
+      })}
+    </>
+  );
+};
+
 const ExperienceCard = ({ experience, index, isActive, onClick }) => {
   return (
     <motion.div
@@ -99,11 +164,11 @@ const ExperienceCard = ({ experience, index, isActive, onClick }) => {
                     fontSize: 13,
                     fontWeight: 300,
                     color: "rgba(255,255,255,0.45)",
-                    lineHeight: 1.7,
+                    lineHeight: 1.9,
                     fontFamily: "'DM Sans', sans-serif",
                   }}
                 >
-                  {point}
+                  <Highlight text={point} active={isActive} baseDelay={0.25 + i * 0.06} />
                 </p>
               </div>
             ))}
@@ -149,9 +214,15 @@ const ExperienceCard = ({ experience, index, isActive, onClick }) => {
 };
 
 const Experience = () => {
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [openIndices, setOpenIndices] = useState(new Set());
 
-  const toggle = (i) => setActiveIndex(activeIndex === i ? null : i);
+  const toggle = (i) => {
+    setOpenIndices(prev => {
+      const next = new Set(prev);
+      next.has(i) ? next.delete(i) : next.add(i);
+      return next;
+    });
+  };
 
   return (
     <>
@@ -210,7 +281,7 @@ const Experience = () => {
                 key={i}
                 index={i}
                 experience={exp}
-                isActive={activeIndex === i}
+                isActive={openIndices.has(i)}
                 onClick={() => toggle(i)}
               />
             ))}

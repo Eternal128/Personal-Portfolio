@@ -29,6 +29,7 @@ import cplusplus from "./tech/cplusplus.png";
 import ey from "./company/ey.png"
 import metrodata from "./company/metrodata.png";
 import japfa from "./company/japfa.png";
+import lirvana from "./company/lirvana.png";
 
 import covid from './covid-19.png';
 import graph from './graph.png';
@@ -80,6 +81,7 @@ export {
   ey,
   metrodata,
   japfa,
+  lirvana,
   covid,
   graph,
   portfolio,
