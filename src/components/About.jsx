@@ -572,7 +572,7 @@ const About = () => {
                   objectFit: 'cover', 
                   objectPosition: 'center', 
                   display: 'block',
-                  filter: 'contrast(1.35) grayscale(50%) brightness(0.84)'
+                  filter: 'contrast(1.35) grayscale(40%) brightness(0.84)'
                 }}
               />
             </motion.div>
