@@ -39,9 +39,8 @@ const Highlight = ({ text, active, baseDelay = 0 }) => {
                   left: 0,
                   right: 0,
                   transformOrigin: "left center",
-                  background:
-                    "linear-gradient(90deg, rgba(255,224,50,0.92) 0%, rgba(255,235,90,0.85) 100%)",
-                  boxShadow: "0 0 12px rgba(255,224,50,0.55)",
+                  background: "linear-gradient(90deg, rgba(212,180,100,0.88) 0%, rgba(225,195,120,0.80) 100%)",
+                  boxShadow: "0 0 10px rgba(212,180,100,0.40)",
                   borderRadius: 2,
                   zIndex: 0,
                 }}
@@ -234,6 +233,8 @@ const Experience = () => {
           background: "transparent",
           padding: "100px 0 80px",
           fontFamily: "'DM Sans', sans-serif",
+          position: "relative",
+          zIndex: 2,
         }}
       >
         {/* Aligned to match projects/testimonials: max-w-7xl mx-auto px-6 sm:px-16 */}

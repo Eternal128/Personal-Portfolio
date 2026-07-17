@@ -357,9 +357,57 @@ const GalleryGrid = () => (
   </>
 );
 
+// ── Animated stabilo / highlighter for **bold** segments ──────────────
+const Highlight = ({ text, active, baseDelay = 0 }) => {
+  const parts = text.split(/(\*\*.*?\*\*)/g);
+  let markIndex = 0;
+
+  return (
+    <>
+      {parts.map((part, i) => {
+        if (part.startsWith("**") && part.endsWith("**")) {
+          const idx = markIndex++;
+          const delay = active ? baseDelay + idx * 0.18 : 0;
+
+          return (
+            <span
+              key={i}
+              style={{ position: "relative", display: "inline-block", padding: "0 3px", margin: "0 -1px" }}
+            >
+              <motion.span
+                initial={{ scaleX: 0 }}
+                animate={{ scaleX: active ? 1 : 0 }}
+                transition={{ duration: 0.45, delay, ease: [0.65, 0, 0.35, 1] }}
+                style={{
+                  position: "absolute", top: "8%", bottom: "4%", left: 0, right: 0,
+                  transformOrigin: "left center",
+                  background: "linear-gradient(90deg, rgba(212,180,100,0.88) 0%, rgba(225,195,120,0.80) 100%)",
+                  boxShadow: "0 0 10px rgba(212,180,100,0.40)",
+                  borderRadius: 2, zIndex: 0,
+                }}
+              />
+              <span
+                style={{
+                  position: "relative", zIndex: 1,
+                  color: active ? "#171400" : "rgba(255,255,255,0.48)",
+                  fontWeight: 500,
+                  transition: `color 0.25s ease ${delay + 0.15}s`,
+                }}
+              >
+                {part.slice(2, -2)}
+              </span>
+            </span>
+          );
+        }
+        return <React.Fragment key={i}>{part}</React.Fragment>;
+      })}
+    </>
+  );
+};
+
 const BIO = {
   name: 'HEY THERE!',
-  description: `I'm a Computer Science student at the University of Toronto with internship experience at Ernst & Young, Metrodata Group, and PT. Japfa Comfeed. I have a habit of building things nobody asked for but end up wanting. Outside of coding, I also create anime edits and visual content as a creative outlet.`,
+  description: `I'm a Computer Science student at the **University of Toronto** with internships at a **Silicon Valley** startup and **Ernst & Young**. I have a habit of building things nobody asked for but end up wanting. Outside of coding, I also create anime edits and visual content as a creative outlet.`,
   skills: ['Web Development', 'AI Engineering', 'React', 'Python', 'Figma', 'TensorFlow'],
   experience: [
     { role: 'Software Engineer Intern', company: 'Lirvana Labs',          date: '2026 - Present' },
@@ -372,6 +420,7 @@ const BIO = {
 };
 
 const About = () => {
+  const [bioActive, setBioActive] = useState(false);
   const sectionRef = useRef(null);
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] });
 
@@ -463,13 +512,17 @@ const About = () => {
                 }}>
                   {BIO.name}
                 </h2>
-                <p style={{
-                  fontSize: 15, fontWeight: 300,
-                  color: 'rgba(255,255,255,0.48)',
-                  lineHeight: 1.82, maxWidth: 500, marginBottom: 34,
-                }}>
-                  {BIO.description}
-                </p>
+                <motion.p
+                  onViewportEnter={() => setBioActive(true)}
+                  viewport={{ once: true, amount: 0.6 }}
+                  style={{
+                    fontSize: 15, fontWeight: 300,
+                    color: 'rgba(255,255,255,0.48)',
+                    lineHeight: 1.9, maxWidth: 500, marginBottom: 34,
+                  }}
+                >
+                  <Highlight text={BIO.description} active={bioActive} baseDelay={0.3} />
+                </motion.p>
                 <div style={{ height: 1, background: 'rgba(255,255,255,0.08)', marginBottom: 28 }} />
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 34 }}>
                   {BIO.skills.map(s => (

@@ -35,6 +35,22 @@ import {
   roomie,
   quietspace,
   editor,
+  // ── new tech icons ──
+  java,
+  cplusplus,
+  rust,
+  tensorflow,
+  langchain,
+  flutter,
+  firebase,
+  vercel,
+  azure,
+  postman,
+  selenium,
+  pytorch,
+  nextjs,
+  openai,
+  php,
 } from "../assets";
 
 export const navLinks = [
@@ -92,66 +108,33 @@ const services = [
 ];
 
 const technologies = [
-  {
-    name: "Python",
-    icon: python,
-    level: "Intermediate",
-    description: "Primary language for AI/ML development, automation, and data processing"
-  },
-  {
-    name: "JavaScript",
-    icon: javascript,
-    level: "Intermediate",
-    description: "Full-stack development with React, Node.js, and modern frameworks"
-  },
-  {
-    name: "React JS",
-    icon: reactjs,
-    level: "Intermediate",
-    description: "Building dynamic UIs with hooks, context, and state management"
-  },
-  {
-    name: "TypeScript",
-    icon: typescript,
-    level: "Beginner",
-    description: "Type-safe development for scalable applications"
-  },
-  {
-    name: "Three JS",
-    icon: threejs,
-    level: "Beginner",
-    description: "Creating immersive 3D web experiences and visualizations"
-  },
-  {
-    name: "Tailwind CSS",
-    icon: tailwind,
-    level: "Intermediate",
-    description: "Utility-first styling for rapid, responsive UI development"
-  },
-  {
-    name: "Node JS",
-    icon: nodejs,
-    level: "Beginner",
-    description: "Backend development with Express and REST APIs"
-  },
-  {
-    name: "MongoDB",
-    icon: mongodb,
-    level: "Beginner",
-    description: "NoSQL database for flexible data storage solutions"
-  },
-  {
-    name: "Git",
-    icon: git,
-    level: "Expert",
-    description: "Version control for collaborative development"
-  },
-  {
-    name: "Docker",
-    icon: docker,
-    level: "Beginner",
-    description: "Containerization for consistent deployment environments"
-  },
+  // ── Core stack ──
+  { name: "Python",       icon: python,     level: "Advanced",     description: "Primary language for AI/ML development, automation, and data processing" },
+  { name: "JavaScript",   icon: javascript, level: "Advanced",     description: "Full-stack development with React, Node.js, and modern frameworks" },
+  { name: "React",        icon: reactjs,    level: "Expert",       description: "Building dynamic UIs with hooks, context, and state management" },
+  { name: "TypeScript",   icon: typescript, level: "Expert",     description: "Type-safe development for scalable applications" },
+  { name: "Three.js",     icon: threejs,    level: "Intermediate", invert: true, description: "Immersive 3D web experiences, WebGL scenes, and react-three-fiber" },
+  { name: "Tailwind CSS", icon: tailwind,   level: "Advanced",     description: "Utility-first styling for rapid, responsive UI development" },
+  { name: "Node.js",      icon: nodejs,     level: "Intermediate", description: "Backend development with Express and REST APIs" },
+  { name: "MongoDB",      icon: mongodb,    level: "Intermediate", description: "NoSQL database for flexible data storage solutions" },
+  { name: "Git",          icon: git,        level: "Advanced",     description: "Version control for collaborative development" },
+  { name: "Docker",       icon: docker,     level: "Advanced",     description: "Containerization for consistent deployment environments" },
+
+  // ── From resume ──
+  { name: "Java",       icon: java,       level: "Intermediate", description: "OOP fundamentals and arcade game suite (chess, wordle, block blast)" },
+  { name: "C / C++",    icon: cplusplus,  level: "Intermediate", description: "Systems programming and low-level coursework at UofT" },
+  { name: "Rust",       icon: rust,       level: "Intermediate", invert: true, description: "Contributed to a Next.js + Rust monorepo at Lirvana Labs" },
+  { name: "TensorFlow", icon: tensorflow, level: "Intermediate", description: "Deep learning; built a COVID-19 chest X-ray CNN classifier" },
+  { name: "LangChain",  icon: langchain,  level: "Advanced",     description: "LLM pipelines with PDF vectorization and semantic retrieval" },
+  { name: "Flutter",    icon: flutter,    level: "Intermediate", description: "Cross-platform mobile apps and LLM-driven natural-language UIs" },
+  { name: "Firebase",   icon: firebase,   level: "Intermediate", description: "Auth, real-time data, and backend services" },
+  { name: "Vercel",     icon: vercel,     level: "Advanced",     invert: true, description: "Deployment and hosting for production web apps" },
+  { name: "Azure AI",   icon: azure,      level: "Intermediate", description: "Speech SDK for a speech-driven AI interviewer at EY" },
+  { name: "Postman",    icon: postman,    level: "Intermediate", description: "REST API design and testing" },
+  { name: "Selenium",   icon: selenium,   level: "Intermediate", description: "Automated web scraping and social sentiment pipelines at EY" },
+  { name: "PyTorch",    icon: pytorch,    level: "Intermediate", description: "Deep learning; built a torch-based music recommendation model" },
+  { name: "Next.js",    icon: nextjs,     level: "Intermediate", invert: true, description: "Production monorepo work at Lirvana Labs (Next.js + Rust)" },
+  { name: "PHP",        icon: php,        level: "Intermediate", description: "Backend development with Laravel for Edukasih, a book donation app" },
 ];
 
 const experiences = [
@@ -162,9 +145,9 @@ const experiences = [
     iconBg: "#1a1a1a",
     date: "June 2026 - Present",
     points: [
-      "Built and stabilized AI-generated student learning activities for an education platform where teachers create quizzes, concept lessons, Jeopardy games, and Timeline activities; improved student-facing flows across **14 production files** in a **Next.js, TypeScript, React, and Rust** monorepo.",
-      "Expanded global readiness of student Concept Pages across **5 locales**, replacing hard-coded English UI with translation-backed labels for guided notes, examples, reminders, progress navigation, empty states, and quiz-start flows.",
-      "Hardened AI-generated assessment rendering against injection risk by escaping **100%** of generated quiz answer text before **LaTeX** transformation and **dangerouslySetInnerHTML**, protecting student-facing content without sacrificing rich formatting.",
+      "Shipped AI-generated student learning activities across **14 production files** in a **Next.js, TypeScript, React, and Rust** monorepo, improving student-facing quiz, concept-lesson, and Timeline flows.",
+      "Scaled global readiness to **5 locales** by replacing hard-coded English UI with translation-backed labels across guided notes, progress navigation, and quiz-start flows.",
+      "Eliminated injection risk by escaping **100%** of AI-generated quiz answers before LaTeX and dangerouslySetInnerHTML, hardening student-facing content without losing rich formatting.",
     ],
   },
   {
@@ -172,14 +155,11 @@ const experiences = [
     company_name: "Ernst & Young (EY)",
     icon: ey,
     iconBg: "#2c4f76",
-    date: "June 2025 - September 2025",
+    date: "June 2025 - August 2025",
     points: [
-      "Developed automated pipelines for social media sentiment analysis using **Selenium** and **Playwright**.",
-      "Built a Microsoft Word proposal generator that integrates Excel client data with WHO-sourced immunization data, scraping over **25,000 data points** using **BeautifulSoup**.",
-      "Enabled contextual proposal revisions via an interactive chatbot system.",
-      "Engineered a speech-driven interviewer using **Azure AI Speech SDK** with incomplete-sentence detection, showcasing integration of speech recognition and natural language understanding.",
-      "Created REST APIs and tested with **Postman** and built the project in **Docker**",
-      "Created **10+ end-to-end features** for **5+ companies** from scratch"
+      "Reduced proposal generation time by **≈85% (4 hrs → 5 min)** by building a **Python ETL pipeline** that processed **25,000+ WHO records** into an LLM-powered document workflow used in a client-facing pilot.",
+      "Designed a low-latency AI interview system at **<3s response time** by streaming speech-to-text and LLM inference in parallel, eliminating sequential bottlenecks.",
+      "Built a modular document-generation pipeline with pluggable **LLM revision stages**, enabling scalable content generation across multiple proposal formats.",
     ],
   },
   {
@@ -189,10 +169,7 @@ const experiences = [
     iconBg: "#ecebe4",
     date: "July 2024 - August 2024",
     points: [
-      "Developed an **LLM** processing system with **Flutter** as the frontend for dynamic natural language tasks.",
-      "Integrated backend LLM inference pipelines with API-based responses.",
-      "Collaborated remotely with the software engineering team to implement interactive and modular UI features.",
-      "Worked on projects focused on integrating Artificial Intelligence and Flutter-based app interfaces.",
+      "Built an **LLM processing system** with a **Flutter** frontend for dynamic natural-language tasks, integrating backend inference pipelines with API-based responses.",
     ],
   },
   {
@@ -202,14 +179,10 @@ const experiences = [
     iconBg: "#2c4f76",
     date: "June 2023 - July 2023",
     points: [
-      "Developed a company document-processing system powered by **OpenAI API** and **LangChain**.",
-      "Implemented support for multi-file PDF reading, vectorization, and semantic retrieval.",
-      "Enabled employees to upload internal documents and query information with cited page references.",
-      "Collaborated remotely with the company's IT and AI integration teams.",
+      "Built a document-processing system with **OpenAI API** and **LangChain** supporting multi-file PDF vectorization and semantic retrieval, letting employees query internal docs with **cited page references**.",
     ],
   },
 ];
-
 
 const testimonials = [
   {

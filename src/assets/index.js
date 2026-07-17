@@ -8,7 +8,7 @@ import menu from "./menu.svg";
 import close from "./close.svg";
 
 import css from "./tech/css.png";
-import docker from "./tech/docker.png"; 
+import docker from "./tech/docker.png";
 import figma from "./tech/figma.png";
 import git from "./tech/git.png";
 import html from "./tech/html.png";
@@ -24,33 +24,44 @@ import python from "./tech/python.png";
 import flutter from "./tech/flutter.png";
 import dart from "./tech/dart.png";
 import cplusplus from "./tech/cplusplus.png";
+import java from "./tech/java.png";
+import rust from "./tech/rust.png";
+import tensorflow from "./tech/tensorflow.png";
+import langchain from "./tech/langchain.png";
+import firebase from "./tech/firebase.png";
+import vercel from "./tech/vercel.png";
+import azure from "./tech/azure.png";
+import postman from "./tech/postman.png";
+import selenium from "./tech/selenium.png";
+import pytorch from './tech/pytorch.png';
+import nextjs from './tech/nextjs.png';
+import openai from './tech/openai.png';
+import php from './tech/php.png';
 
-
-import ey from "./company/ey.png"
+import ey from "./company/ey.png";
 import metrodata from "./company/metrodata.png";
 import japfa from "./company/japfa.png";
 import lirvana from "./company/lirvana.png";
 
-import covid from './covid-19.png';
-import graph from './graph.png';
-import portfolio from './portfolio.png';
+import covid from "./covid-19.png";
+import graph from "./graph.png";
+import portfolio from "./portfolio.png";
 
-import gojo from './projects/gojo.png';
-import virus from './projects/covid.jpeg';
-import road from './projects/road.jpeg';
-import james from './projects/james.png';
-import meal from './projects/meal.jpeg';
-import chess from './projects/chess.jpeg';
-import about from './projects/about.jpg';
-import music from './projects/music.jpeg';
-import machine from './projects/machine.png';
-import project from './projects/project.png';
-import stressball from './projects/stressball.png';
-import roomie from './projects/roomie.png';
-import quietspace from './projects/quietspace.png';
-import editor from './projects/editor.png';
-import hero_editor from './projects/hero_editor.png';
-
+import gojo from "./projects/gojo.png";
+import virus from "./projects/covid.jpeg";
+import road from "./projects/road.jpeg";
+import james from "./projects/james.png";
+import meal from "./projects/meal.jpeg";
+import chess from "./projects/chess.jpeg";
+import about from "./projects/about.jpg";
+import music from "./projects/music.jpeg";
+import machine from "./projects/machine.png";
+import project from "./projects/project.png";
+import stressball from "./projects/stressball.png";
+import roomie from "./projects/roomie.png";
+import quietspace from "./projects/quietspace.png";
+import editor from "./projects/editor.png";
+import hero_editor from "./projects/hero_editor.png";
 
 export {
   logo,
@@ -78,6 +89,16 @@ export {
   flutter,
   dart,
   cplusplus,
+  java,
+  rust,
+  tensorflow,
+  langchain,
+  firebase,
+  vercel,
+  azure,
+  postman,
+  selenium,
+  openai,
   ey,
   metrodata,
   japfa,
@@ -100,4 +121,7 @@ export {
   quietspace,
   editor,
   hero_editor,
+  pytorch,
+  nextjs,
+  php
 };
