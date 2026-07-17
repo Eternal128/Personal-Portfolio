@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 
+import { SoundProvider } from "./context/SoundContext";
+import SoundToggle from "./components/SoundToggle";
 import {
   About, Experience, Feedbacks, Hero,
   Navbar, Tech, Works, StarsCanvas, End, CustomCursor,
@@ -60,29 +62,32 @@ const App = () => {
   }, [navThud, tick]);
 
   return (
-    <BrowserRouter>
-      <CustomCursor />
+    <SoundProvider>
+      <BrowserRouter>
+        <CustomCursor />
 
-      {/* Fixed star background */}
-      <div className="fixed inset-0 z-0" style={{ background: '#000' }}>
-        <StarsCanvas />
-      </div>
-
-      {/* Main scrollable container */}
-      <div id="main-container" className="relative z-10" style={{ background: 'transparent' }}>
-        <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
-          <FlightPath />
+        {/* Fixed star background */}
+        <div className="fixed inset-0 z-0" style={{ background: '#000' }}>
+          <StarsCanvas />
         </div>
-        <Navbar />
-        <Hero />
-        <About />
-        <Experience />
-        <Tech />
-        <Works />
-        <Feedbacks />
-        <End />
-      </div>
-    </BrowserRouter>
+
+        {/* Main scrollable container */}
+        <div id="main-container" className="relative z-10" style={{ background: 'transparent' }}>
+          <div style={{ position: 'absolute', inset: 0, zIndex: 0, pointerEvents: 'none' }}>
+            <FlightPath />
+          </div>
+          <Navbar />
+          <Hero />
+          <About />
+          <Experience />
+          <Tech />
+          <Works />
+          <Feedbacks />
+          <End />
+        </div>
+      </BrowserRouter>
+      <SoundToggle />
+    </SoundProvider>
   );
 };
 

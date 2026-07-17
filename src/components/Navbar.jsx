@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { navLinks } from "../constants";
+import { useSound } from "../context/SoundContext";
 
 const smoothScrollTo = (id) => {
   const el = document.getElementById(id);
@@ -11,6 +12,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
+  const { play } = useSound();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -36,7 +38,6 @@ const Navbar = () => {
           font-family: 'DM Sans', sans-serif;
         }
 
-        /* The floating pill bar */
         .nav-bar {
           pointer-events: all;
           display: flex;
@@ -59,7 +60,6 @@ const Navbar = () => {
           box-shadow: 0 8px 32px rgba(0,0,0,0.5);
         }
 
-        /* Logo */
         .nav-logo {
           display: flex;
           align-items: center;
@@ -81,10 +81,7 @@ const Navbar = () => {
           flex-shrink: 0;
         }
 
-        .nav-logo-icon svg {
-          width: 14px;
-          height: 14px;
-        }
+        .nav-logo-icon svg { width: 14px; height: 14px; }
 
         .nav-logo-text {
           font-size: 14px;
@@ -94,7 +91,6 @@ const Navbar = () => {
           white-space: nowrap;
         }
 
-        /* Center links */
         .nav-links {
           display: flex;
           align-items: center;
@@ -126,7 +122,6 @@ const Navbar = () => {
           background: rgba(255,255,255,0.06);
         }
 
-        /* Right CTA */
         .nav-cta {
           display: flex;
           align-items: center;
@@ -189,7 +184,6 @@ const Navbar = () => {
           color: #fff;
         }
 
-        /* Mobile hamburger */
         .nav-hamburger {
           display: none;
           flex-direction: column;
@@ -210,7 +204,6 @@ const Navbar = () => {
           transition: transform 0.2s, opacity 0.2s;
         }
 
-        /* Mobile dropdown */
         .nav-mobile-menu {
           position: fixed;
           top: 0; left: 0; right: 0; bottom: 0;
@@ -269,12 +262,13 @@ const Navbar = () => {
 
       {/* Mobile fullscreen menu */}
       <div className={`nav-mobile-menu${menuOpen ? ' open' : ''}`}>
-        <button className="nav-mobile-close" onClick={() => setMenuOpen(false)}>✕</button>
+        <button className="nav-mobile-close" onClick={() => { play("close"); setMenuOpen(false); }}>✕</button>
         {navLinks.map((nav) => (
           <button
             key={nav.id}
             className="nav-mobile-link"
             onClick={() => {
+              play("click");
               setActive(nav.title);
               setMenuOpen(false);
               smoothScrollTo(nav.id);
@@ -293,6 +287,7 @@ const Navbar = () => {
             className="nav-logo"
             style={{ background: 'none', border: 'none' }}
             onClick={() => {
+              play("click");
               setActive("");
               window.scrollTo({ top: 0, behavior: 'smooth' });
             }}
@@ -315,6 +310,7 @@ const Navbar = () => {
                 key={nav.id}
                 className={`nav-link${active === nav.title ? ' active' : ''}`}
                 onClick={() => {
+                  play("click");
                   setActive(nav.title);
                   smoothScrollTo(nav.id);
                 }}
@@ -330,7 +326,7 @@ const Navbar = () => {
               <div className="nav-avail-dot" />
               <span>Available for work</span>
             </div>
-            <button className="nav-hamburger" onClick={() => setMenuOpen(true)}>
+            <button className="nav-hamburger" onClick={() => { play("click"); setMenuOpen(true); }}>
               <span /><span /><span />
             </button>
           </div>

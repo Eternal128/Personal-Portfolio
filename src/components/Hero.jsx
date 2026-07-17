@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useSound } from '../context/SoundContext';
 
 const Hero = () => {
   const [loaded, setLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef(null);
+  const { play } = useSound();
 
   useEffect(() => {
     const t = setTimeout(() => setLoaded(true), 80);
@@ -130,7 +132,6 @@ const Hero = () => {
           will-change: transform, opacity;
         }
 
-        /* Pill */
         .mist-pill {
           display: inline-flex;
           align-items: center;
@@ -165,7 +166,6 @@ const Hero = () => {
           letter-spacing: 0.04em;
         }
 
-        /* Name */
         .mist-name {
           font-size: clamp(58px, 9vw, 138px);
           font-weight: 300;
@@ -192,7 +192,6 @@ const Hero = () => {
           100% { background-position: 200% center; }
         }
 
-        /* Sub */
         .mist-sub {
           margin-top: 24px;
           font-size: clamp(14px, 1.3vw, 17px);
@@ -207,7 +206,6 @@ const Hero = () => {
         }
         .mist-sub.vis { opacity: 1; transform: translateY(0); }
 
-        /* CTA */
         .mist-btns {
           display: flex;
           gap: 12px;
@@ -218,7 +216,6 @@ const Hero = () => {
         }
         .mist-btns.vis { opacity: 1; transform: translateY(0); }
 
-        /* Button with contact-submit style */
         .mist-btn-primary {
           position: relative;
           padding: 13px 40px;
@@ -259,7 +256,6 @@ const Hero = () => {
             rgba(255,255,255,0.0) 100%);
         }
 
-        /* Scroll indicator */
         .mist-scrollbar {
           position: absolute;
           bottom: 32px;
@@ -310,7 +306,6 @@ const Hero = () => {
           100% { transform: translateY(0);    opacity: 1; }
         }
 
-        /* Bottom fade — bleeds hero darkness into the next section */
         .hero-fade-bottom {
           position: absolute;
           bottom: 0; left: 0; right: 0;
@@ -328,22 +323,10 @@ const Hero = () => {
           className="mist-bg-layer"
           style={{ transform: `scale(${bgScale})`, transition: 'transform 0.05s linear' }}
         >
-          <div
-            className="mist-orb mist-orb-1"
-            style={{ transform: `translateY(${orb1Y}px)` }}
-          />
-          <div
-            className="mist-orb mist-orb-2"
-            style={{ transform: `translateY(${orb2Y}px)` }}
-          />
-          <div
-            className="mist-orb mist-orb-3"
-            style={{ transform: `translateY(${orb3Y}px)` }}
-          />
-          <div
-            className="mist-orb mist-orb-4"
-            style={{ transform: `translateY(${orb4Y}px)` }}
-          />
+          <div className="mist-orb mist-orb-1" style={{ transform: `translateY(${orb1Y}px)` }} />
+          <div className="mist-orb mist-orb-2" style={{ transform: `translateY(${orb2Y}px)` }} />
+          <div className="mist-orb mist-orb-3" style={{ transform: `translateY(${orb3Y}px)` }} />
+          <div className="mist-orb mist-orb-4" style={{ transform: `translateY(${orb4Y}px)` }} />
         </div>
 
         {/* Content — drifts up faster than scroll + fades out */}
@@ -371,6 +354,7 @@ const Hero = () => {
             <button
               className="mist-btn-primary"
               onClick={() => {
+                play("click");
                 const el = document.getElementById('projects');
                 if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
               }}

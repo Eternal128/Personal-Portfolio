@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { experiences } from "../constants";
+import { useSound } from "../context/SoundContext";
 
 const Highlight = ({ text, active, baseDelay = 0 }) => {
   const parts = text.split(/(\*\*.*?\*\*)/g);
@@ -214,8 +215,10 @@ const ExperienceCard = ({ experience, index, isActive, onClick }) => {
 
 const Experience = () => {
   const [openIndices, setOpenIndices] = useState(new Set());
+  const { play } = useSound();
 
   const toggle = (i) => {
+    play("click");
     setOpenIndices(prev => {
       const next = new Set(prev);
       next.has(i) ? next.delete(i) : next.add(i);

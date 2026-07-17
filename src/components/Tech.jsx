@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { technologies, projects, experiences } from "../constants";
+import { useSound } from "../context/SoundContext";
 
 const LEVEL_BAR = { Expert: 1, Advanced: 0.75, Intermediate: 0.5, Beginner: 0.25 };
 
@@ -80,11 +81,9 @@ const findProject = (nameList) =>
 const findJobMeta = (companyName) =>
   experiences.find((e) => e.company_name === companyName);
 
-// TechCard now owns its own hover + tooltip locally (absolute inside the card).
-// No getBoundingClientRect, no scroll/resize listeners, no lifted tooltip state —
-// the tooltip is just normal document flow, so it can never desync from the card.
 const TechCard = ({ name, icon, level, description, invert, index, onClick }) => {
   const [hovered, setHovered] = useState(false);
+  const { play } = useSound();
 
   return (
     <motion.div
@@ -94,7 +93,7 @@ const TechCard = ({ name, icon, level, description, invert, index, onClick }) =>
       transition={{ duration: 0.5, delay: index * 0.04, ease: [0.25, 0.46, 0.45, 0.94] }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      onClick={() => onClick(name)}
+      onClick={() => { play("click"); onClick(name); }}
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.97 }}
       style={{
@@ -111,30 +110,19 @@ const TechCard = ({ name, icon, level, description, invert, index, onClick }) =>
       {hovered && (
         <div
           style={{
-            position: "absolute",
-            left: "50%",
-            bottom: "100%",
-            transform: "translateX(-50%)",
-            marginBottom: 12,
-            width: 210,
-            background: "rgba(10,10,10,0.96)",
-            border: "1px solid rgba(255,255,255,0.1)",
-            borderRadius: 12,
-            padding: "10px 16px",
-            zIndex: 50,
-            pointerEvents: "none",
-            fontFamily: "'DM Sans', sans-serif",
+            position: "absolute", left: "50%", bottom: "100%", transform: "translateX(-50%)",
+            marginBottom: 12, width: 210, background: "rgba(10,10,10,0.96)",
+            border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: "10px 16px",
+            zIndex: 50, pointerEvents: "none", fontFamily: "'DM Sans', sans-serif",
           }}
         >
           <p style={{ fontSize: 12, fontWeight: 300, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, textAlign: "center", margin: 0 }}>
             {description}
           </p>
           <div style={{
-            position: "absolute", bottom: -5, left: "50%",
-            transform: "translateX(-50%) rotate(45deg)",
+            position: "absolute", bottom: -5, left: "50%", transform: "translateX(-50%) rotate(45deg)",
             width: 8, height: 8, background: "rgba(10,10,10,0.96)",
-            borderRight: "1px solid rgba(255,255,255,0.1)",
-            borderBottom: "1px solid rgba(255,255,255,0.1)",
+            borderRight: "1px solid rgba(255,255,255,0.1)", borderBottom: "1px solid rgba(255,255,255,0.1)",
           }} />
         </div>
       )}
@@ -342,15 +330,18 @@ const SkillModal = ({ skill, onClose }) => {
 
 const Tech = () => {
   const [activeSkill, setActiveSkill] = useState(null);
+  const { play } = useSound();
 
+  // Card already plays "click" on click; modal open stays silent (no whoosh).
   const handleClick = useCallback((name) => setActiveSkill({ name }), []);
+  const handleClose = useCallback(() => { play("close"); setActiveSkill(null); }, [play]);
 
   return (
     <>
       <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500&display=swap');`}</style>
 
       <AnimatePresence>
-        {activeSkill && <SkillModal skill={activeSkill} onClose={() => setActiveSkill(null)} />}
+        {activeSkill && <SkillModal skill={activeSkill} onClose={handleClose} />}
       </AnimatePresence>
 
       <section id="tech" style={{ background: "transparent", padding: "100px 0 80px", fontFamily: "'DM Sans', sans-serif" }}>

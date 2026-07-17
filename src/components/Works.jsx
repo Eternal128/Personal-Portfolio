@@ -7,6 +7,7 @@ import { github } from "../assets";
 import { SectionWrapper } from "../hoc";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
+import { useSound } from "../context/SoundContext";
 
 const ExternalLinkIcon = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -53,7 +54,7 @@ const ProjectModal = ({ project, onClose }) => {
         style={{
           width: '100%',
           maxWidth: 800,
-          maxHeight: '95vh',   
+          maxHeight: '95vh',
           background: '#080808',
           border: '1px solid rgba(255,255,255,0.08)',
           borderRadius: 14,
@@ -63,12 +64,7 @@ const ProjectModal = ({ project, onClose }) => {
         }}
       >
         {/* Hero image */}
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          height: 200,
-          flexShrink: 0,
-        }}>
+        <div style={{ position: 'relative', width: '100%', height: 200, flexShrink: 0 }}>
           <img
             src={project.image}
             alt={project.name}
@@ -140,11 +136,8 @@ const ProjectModal = ({ project, onClose }) => {
           </div>
         </div>
 
-        {/* Body — no fixed height, just padding + auto overflow */}
-        <div style={{
-          padding: '18px 24px 28px',
-          overflowY: 'auto',
-        }}>
+        {/* Body */}
+        <div style={{ padding: '18px 24px 28px', overflowY: 'auto' }}>
           {/* Tags */}
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
             {project.tags.map((tag) => (
@@ -249,7 +242,7 @@ const ProjectModal = ({ project, onClose }) => {
   );
 };
 
-// ── Project card — original design ────────────────────────────
+// ── Project card ──────────────────────────────────────────────
 const ProjectCard = ({
   index, name, description, tags, image,
   source_code_link, live_demo_link, onOpen,
@@ -373,9 +366,10 @@ const ProjectCard = ({
 // ── Works ──────────────────────────────────────────────────────
 const Works = () => {
   const [activeProject, setActiveProject] = useState(null);
+  const { play } = useSound();
 
-  const handleOpen  = useCallback((p) => setActiveProject(p), []);
-  const handleClose = useCallback(() => setActiveProject(null), []);
+  const handleOpen  = useCallback((p) => { play("click"); setActiveProject(p); }, [play]);
+  const handleClose = useCallback(() => { play("close"); setActiveProject(null); }, [play]);
 
   return (
     <>
