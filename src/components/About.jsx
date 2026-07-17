@@ -386,9 +386,9 @@ const About = () => {
         .meet-grid {
           display: grid;
           grid-template-columns: 2fr 1fr;
-          gap: 72px;
+          gap: 100px;
           width: 100%;
-          align-items: start;
+          align-items: center;
         }
         .bio-section { padding: 72px 0 100px; }
         .bio-inner   { max-width: 1280px; margin: 0 auto; padding: 0 64px; }
@@ -494,28 +494,33 @@ const About = () => {
                 ))}
               </motion.div>
 
-              <motion.div
-                className="photo-col"
+             <motion.div
+              className="photo-col"
+              style={{
+                y: bioPhotoY,
+                borderRadius: 3,
+                overflow: 'hidden',
+                aspectRatio: '1/1',
+                background: '#111',
+                justifySelf: 'end',
+                marginLeft: '40px',
+                width: '100%',      
+                maxWidth: '400px'  
+              }}
+            >
+              <img
+                src={BIO.photo}
+                alt="James William Hanzell"
                 style={{
-                  y: bioPhotoY,
-                  borderRadius: 3,
-                  overflow: 'hidden',
-                  aspectRatio: '1/1',
-                  background: '#111',
-                  justifySelf: 'end',
+                  width: '100%', 
+                  height: '100%',
+                  objectFit: 'cover', 
+                  objectPosition: 'center', 
+                  display: 'block',
+                  filter: 'contrast(1.35) grayscale(50%) brightness(0.84)'
                 }}
-              >
-                <img
-                  src={BIO.photo}
-                  alt="James William Hanzell"
-                  style={{
-                    width: '100%', height: '100%',
-                    objectFit: 'cover', objectPosition: 'right',
-                    filter: 'grayscale(100%) brightness(0.84)',
-                    display: 'block',
-                  }}
-                />
-              </motion.div>
+              />
+            </motion.div>
 
             </div>
           </div>
