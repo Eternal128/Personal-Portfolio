@@ -1,12 +1,14 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BrowserRouter } from "react-router-dom";
+import { AnimatePresence } from "framer-motion";
 
-import { useState } from "react";
 import { SoundProvider } from "./context/SoundContext";
 import {
   About, Experience, Feedbacks, Hero,
   Navbar, Tech, Works, StarsCanvas, End, CustomCursor, Loader,
 } from './components';
+import BlogSection from './components/BlogSection';
+import Blog from './components/Blog';
 import FlightPath from './components/FlightPath';
 import { useSoundFX } from './hooks/useSoundFX';
 
@@ -29,7 +31,13 @@ const findClickable = (el, depth = 7) => {
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const [blogOpen, setBlogOpen] = useState(false);
+  const [initialPost, setInitialPost] = useState(null);
   const { navThud, tick } = useSoundFX();
+  const lenisRef = useRef(null);
+
+  const openBlogList = () => { setInitialPost(null); setBlogOpen(true); };
+  const openBlogPost = (post) => { setInitialPost(post); setBlogOpen(true); };
 
   // Lenis smooth scroll
   useEffect(() => {
@@ -45,11 +53,26 @@ const App = () => {
         touchMultiplier: 1,
         infinite: false,
       });
+      lenisRef.current = lenis;
       function raf(time) { lenis.raf(time); requestAnimationFrame(raf); }
       requestAnimationFrame(raf);
     }).catch(() => {});
     return () => { if (lenis) lenis.destroy(); };
   }, []);
+
+  // Pause Lenis + lock the page while the Blog overlay is open,
+  // so the overlay (which is data-lenis-prevent) scrolls on its own.
+  useEffect(() => {
+    const lenis = lenisRef.current;
+    if (blogOpen) {
+      lenis?.stop();
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      lenis?.start();
+      document.documentElement.style.overflow = '';
+    }
+    return () => { document.documentElement.style.overflow = ''; };
+  }, [blogOpen]);
 
   // Global click sound
   useEffect(() => {
@@ -84,9 +107,17 @@ const App = () => {
           <Experience />
           <Tech />
           <Works />
+          <BlogSection onOpenBlog={openBlogList} onOpenPost={openBlogPost} />
           <Feedbacks />
           <End />
         </div>
+
+        {/* Full-screen Blog overlay */}
+        <AnimatePresence>
+          {blogOpen && (
+            <Blog initialPost={initialPost} onClose={() => setBlogOpen(false)} />
+          )}
+        </AnimatePresence>
       </BrowserRouter>
     </SoundProvider>
   );

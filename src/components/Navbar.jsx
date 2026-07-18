@@ -20,6 +20,14 @@ const Navbar = () => {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // All links (including Blog) smooth-scroll to their in-page section.
+  const handleNav = (nav, { closeMobile = false } = {}) => {
+    play("click");
+    setActive(nav.title);
+    if (closeMobile) setMenuOpen(false);
+    smoothScrollTo(nav.id);
+  };
+
   return (
     <>
       <style>{`
@@ -267,12 +275,7 @@ const Navbar = () => {
           <button
             key={nav.id}
             className="nav-mobile-link"
-            onClick={() => {
-              play("click");
-              setActive(nav.title);
-              setMenuOpen(false);
-              smoothScrollTo(nav.id);
-            }}
+            onClick={() => handleNav(nav, { closeMobile: true })}
           >
             {nav.title}
           </button>
@@ -309,11 +312,7 @@ const Navbar = () => {
               <button
                 key={nav.id}
                 className={`nav-link${active === nav.title ? ' active' : ''}`}
-                onClick={() => {
-                  play("click");
-                  setActive(nav.title);
-                  smoothScrollTo(nav.id);
-                }}
+                onClick={() => handleNav(nav)}
               >
                 {nav.title}
               </button>
