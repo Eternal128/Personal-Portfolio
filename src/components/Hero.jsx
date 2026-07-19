@@ -1,16 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSound } from '../context/SoundContext';
 
-const Hero = () => {
+const Hero = ({ heroReady = true }) => {
   const [loaded, setLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const heroRef = useRef(null);
   const { play } = useSound();
 
+  // Reveal only once the loader hands off (the singularity pop)
   useEffect(() => {
-    const t = setTimeout(() => setLoaded(true), 80);
+    if (!heroReady) return;
+    const t = setTimeout(() => setLoaded(true), 60);
     return () => clearTimeout(t);
-  }, []);
+  }, [heroReady]);
 
   useEffect(() => {
     let ticking = false;
@@ -27,21 +29,17 @@ const Hero = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Parallax math — only active within the hero viewport
   const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
-  const progress = Math.min(scrollY / vh, 1); // 0 → 1 as hero scrolls out
+  const progress = Math.min(scrollY / vh, 1);
 
-  // Content drifts up faster than the scroll → feels "floating"
   const contentY = scrollY * 0.45;
   const contentOp = Math.max(0, 1 - progress * 2.2);
 
-  // Orbs move at different depths
   const orb1Y = scrollY * 0.25;
   const orb2Y = scrollY * 0.18;
   const orb3Y = scrollY * 0.32;
   const orb4Y = scrollY * 0.12;
 
-  // Subtle scale-up on the bg layer as it recedes
   const bgScale = 1 + progress * 0.08;
 
   return (
@@ -318,7 +316,7 @@ const Hero = () => {
 
       <section className="mist-hero" ref={heroRef}>
 
-        {/* Background layer — scales very slightly on scroll for depth */}
+        {/* Background layer */}
         <div
           className="mist-bg-layer"
           style={{ transform: `scale(${bgScale})`, transition: 'transform 0.05s linear' }}
@@ -329,12 +327,13 @@ const Hero = () => {
           <div className="mist-orb mist-orb-4" style={{ transform: `translateY(${orb4Y}px)` }} />
         </div>
 
-        {/* Content — drifts up faster than scroll + fades out */}
+        {/* Content — emerges from the singularity with a camera pull-back (scale 1.04 → 1) */}
         <div
           className="mist-content"
           style={{
-            transform: `translateY(${-contentY}px)`,
+            transform: `translateY(${-contentY}px) scale(${loaded ? 1 : 1.04})`,
             opacity: contentOp,
+            transition: 'transform 1.1s cubic-bezier(0.16,1,0.3,1)',
           }}
         >
           <div className={`mist-pill${loaded ? ' vis' : ''}`}>
@@ -364,7 +363,7 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Scroll indicator also fades with content */}
+        {/* Scroll indicator */}
         <div
           className={`mist-scrollbar${loaded ? ' vis' : ''}`}
           style={{ opacity: loaded ? Math.max(0, 1 - progress * 4) : 0 }}
@@ -378,7 +377,6 @@ const Hero = () => {
           <div className="mist-sb-line" />
         </div>
 
-        {/* Seamless bottom fade into the rest of the site */}
         <div className="hero-fade-bottom" />
       </section>
     </>
