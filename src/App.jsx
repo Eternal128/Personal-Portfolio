@@ -11,6 +11,7 @@ import BlogSection from './components/BlogSection';
 import Blog from './components/Blog';
 import FlightPath from './components/FlightPath';
 import { useSoundFX } from './hooks/useSoundFX';
+import { POSTS } from './constants/posts';
 
 // ── Detect what kind of clickable was hit ──────────────────────
 const findClickable = (el, depth = 7) => {
@@ -34,23 +35,119 @@ const findClickable = (el, depth = 7) => {
   return null;
 };
 
+const getPostById = (id) => POSTS.find((p) => p.id === id);
+
+const getStateFromLocation = () => {
+  if (typeof window === 'undefined') return { view: 'home' };
+
+  const hash = window.location.hash || '';
+
+  if (hash === '#blog') {
+    return { view: 'blog-index' };
+  }
+
+  if (hash.startsWith('#blog/')) {
+    const postId = decodeURIComponent(hash.replace('#blog/', ''));
+    return { view: 'blog-post', postId };
+  }
+
+  return { view: 'home' };
+};
+
 const App = () => {
   const [loading, setLoading] = useState(true);
   const [heroReady, setHeroReady] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
   const [initialPost, setInitialPost] = useState(null);
+
   const { navThud, tick } = useSoundFX();
   const lenisRef = useRef(null);
+
+  const applyHistoryState = (state) => {
+    if (!state || state.view === 'home') {
+      setBlogOpen(false);
+      setInitialPost(null);
+      return;
+    }
+
+    if (state.view === 'blog-index') {
+      setBlogOpen(true);
+      setInitialPost(null);
+      return;
+    }
+
+    if (state.view === 'blog-post') {
+      const post = getPostById(state.postId);
+
+      setBlogOpen(true);
+      setInitialPost(post || null);
+    }
+  };
+
+  const pushBlogIndexState = () => {
+    window.history.pushState(
+      { view: 'blog-index' },
+      '',
+      '#blog'
+    );
+  };
+
+  const pushBlogPostState = (post) => {
+    window.history.pushState(
+      { view: 'blog-post', postId: post.id },
+      '',
+      `#blog/${encodeURIComponent(post.id)}`
+    );
+  };
+
+  const replaceHomeState = () => {
+    window.history.replaceState(
+      { view: 'home' },
+      '',
+      window.location.pathname
+    );
+  };
 
   const openBlogList = () => {
     setInitialPost(null);
     setBlogOpen(true);
+    pushBlogIndexState();
   };
 
   const openBlogPost = (post) => {
     setInitialPost(post);
     setBlogOpen(true);
+    pushBlogPostState(post);
   };
+
+  const closeBlogToHome = () => {
+    setInitialPost(null);
+    setBlogOpen(false);
+    replaceHomeState();
+  };
+
+  // Initialize browser history state + listen to browser back/forward
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+
+    const initialState = getStateFromLocation();
+
+    window.history.replaceState(
+      initialState,
+      '',
+      window.location.href
+    );
+
+    applyHistoryState(initialState);
+
+    const onPopState = (e) => {
+      const state = e.state || { view: 'home' };
+      applyHistoryState(state);
+    };
+
+    window.addEventListener('popstate', onPopState);
+    return () => window.removeEventListener('popstate', onPopState);
+  }, []);
 
   // Lenis smooth scroll
   useEffect(() => {
@@ -87,8 +184,7 @@ const App = () => {
     };
   }, []);
 
-  // Pause Lenis + lock the page while the Blog overlay is open,
-  // so the overlay (which is data-lenis-prevent) scrolls on its own.
+  // Pause Lenis + lock main page while Blog overlay is open
   useEffect(() => {
     const lenis = lenisRef.current;
 
@@ -126,6 +222,7 @@ const App = () => {
           <StarsCanvas />
         </div>
 
+        {/* Loader is NOT part of browser history */}
         {loading && (
           <Loader
             onReveal={() => setHeroReady(true)}
@@ -171,7 +268,7 @@ const App = () => {
           {blogOpen && (
             <Blog
               initialPost={initialPost}
-              onClose={() => setBlogOpen(false)}
+              onClose={closeBlogToHome}
             />
           )}
         </AnimatePresence>

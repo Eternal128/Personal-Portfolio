@@ -621,7 +621,7 @@ const PostBody = ({ blocks }) =>
         );
     }
   });
-
+  
 const Blog = ({ onClose, initialPost = null }) => {
   const [openPost, setOpenPost] = useState(initialPost);
 
@@ -641,6 +641,14 @@ const Blog = ({ onClose, initialPost = null }) => {
 
   const transitionActive = Boolean(closePhase || articlePhase);
 
+  // Sync local article state with App.jsx browser back/forward state.
+  // When Chrome back changes initialPost, this updates the open article.
+  useEffect(() => {
+    setOpenPost(initialPost);
+    pendingPostRef.current = null;
+    setArticlePhase(null);
+  }, [initialPost?.id]);
+
   const beginClose = () => {
     if (transitionActive) return;
     setClosePhase('cover');
@@ -650,11 +658,28 @@ const Blog = ({ onClose, initialPost = null }) => {
     if (transitionActive) return;
 
     pendingPostRef.current = post;
+
+    // Add article to browser history:
+    // blog index → blog post
+    window.history.pushState(
+      { view: 'blog-post', postId: post.id },
+      '',
+      `#blog/${encodeURIComponent(post.id)}`
+    );
+
     setArticlePhase('cover-post');
   };
 
   const backToIndexWithPixels = () => {
     if (transitionActive) return;
+
+    // Move current URL/state back to the blog index.
+    // This keeps the browser URL in sync when using the custom "Index" button.
+    window.history.replaceState(
+      { view: 'blog-index' },
+      '',
+      '#blog'
+    );
 
     setArticlePhase('cover-index');
   };
