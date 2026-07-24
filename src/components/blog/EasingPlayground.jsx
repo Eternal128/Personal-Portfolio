@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 
-// The same easing math I use to pace an edit — expressed as code.
+// The same easing math I use to pace an edit, expressed as code.
 const EASINGS = {
   linear: (t) => t,
   'ease-in (cubic)': (t) => t * t * t,
@@ -86,10 +86,10 @@ const EasingPlayground = () => {
 
   return (
     <div style={panel}>
-      <div className="bl-mono" style={label}>Interactive — Easing / Pacing Lab</div>
+      <div className="bl-mono" style={label}>Interactive. Easing / Pacing Lab</div>
       <p style={desc}>
         This is where my two worlds overlap. Every time I pace an edit, I’m really just choosing an
-        easing curve — how fast a moment arrives and how hard it lands. Pick one, hit play, and watch
+        easing curve, how fast a moment arrives and how hard it lands. Pick one, hit play, and watch
         the timing I’d feel in an edit become the timing you’d write in code.
       </p>
 
@@ -107,7 +107,7 @@ const EasingPlayground = () => {
         <canvas ref={canvasRef} width={W} height={H}
           style={{ width: '100%', maxWidth: W, borderRadius: 6, border: '1px solid rgba(17,16,16,0.14)' }} />
 
-        {/* the thing being animated — like a clip hitting its mark */}
+        {/* the thing being animated, like a clip hitting its mark */}
         <div style={{ flex: 1, minWidth: 180 }}>
           <div style={{ height: 8, borderRadius: 4, background: 'rgba(17,16,16,0.1)', position: 'relative', marginBottom: 18 }}>
             <div style={{

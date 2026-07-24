@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { POSTS } from '../constants/posts';
 import NeuralPlayground from './blog/NeuralPlayground';
@@ -8,6 +8,11 @@ import FunctionGrapher from './blog/FunctionGrapher';
 import EasingPlayground from './blog/EasingPlayground';
 import JakartaGraph from './blog/JakartaGraph';
 import PixelTransition from './blog/PixelTransition';
+import MessiStats from './blog/MessiStats';
+import WorldCup2026Arc from './blog/WorldCup2026Arc';
+import QuietEyeDemo from './blog/QuietEyeDemo';
+import MessiShotHeatmap from './blog/MessiShotHeatmap';
+import { useDocumentMeta } from '../hooks/useDocumentMeta';
 
 const PAPER = '#e9e5dc';
 const INK = '#111010';
@@ -578,7 +583,7 @@ const PostBody = ({ blocks }) =>
                   color: 'rgba(17,16,16,0.45)',
                 }}
               >
-                — {b.cite}
+                · {b.cite}
               </cite>
             )}
           </blockquote>
@@ -601,6 +606,10 @@ const PostBody = ({ blocks }) =>
         if (b.widget === 'grapher') return <FunctionGrapher key={i} />;
         if (b.widget === 'easing') return <EasingPlayground key={i} />;
         if (b.widget === 'jakarta') return <JakartaGraph key={i} />;
+        if (b.widget === 'messistats') return <MessiStats key={i} />;
+        if (b.widget === 'wc2026') return <WorldCup2026Arc key={i} />;
+        if (b.widget === 'quietEye') return <QuietEyeDemo key={i} />;
+        if (b.widget === 'messishotmap') return <MessiShotHeatmap key={i} />;
         return null;
 
       case 'paragraph':
@@ -625,6 +634,11 @@ const PostBody = ({ blocks }) =>
 const Blog = ({ onClose, initialPost = null }) => {
   const [openPost, setOpenPost] = useState(initialPost);
 
+  useDocumentMeta(
+    openPost ? `${openPost.title}, James William Hanzell` : 'Blog, James William Hanzell',
+    openPost ? openPost.excerpt : undefined
+  );
+
   // Prevents initial blog enter transition from replaying
   // after switching between index/article.
   const [initialTransitionDone, setInitialTransitionDone] = useState(false);
@@ -647,12 +661,12 @@ const Blog = ({ onClose, initialPost = null }) => {
     setOpenPost(initialPost);
     pendingPostRef.current = null;
     setArticlePhase(null);
-  }, [initialPost?.id]);
+  }, [initialPost]);
 
-  const beginClose = () => {
+  const beginClose = useCallback(() => {
     if (transitionActive) return;
     setClosePhase('cover');
-  };
+  }, [transitionActive]);
 
   const openPostWithPixels = (post) => {
     if (transitionActive) return;
@@ -670,7 +684,7 @@ const Blog = ({ onClose, initialPost = null }) => {
     setArticlePhase('cover-post');
   };
 
-  const backToIndexWithPixels = () => {
+  const backToIndexWithPixels = useCallback(() => {
     if (transitionActive) return;
 
     // Move current URL/state back to the blog index.
@@ -682,7 +696,7 @@ const Blog = ({ onClose, initialPost = null }) => {
     );
 
     setArticlePhase('cover-index');
-  };
+  }, [transitionActive]);
 
   const handleArticleCovered = () => {
     if (articlePhase === 'cover-post') {
@@ -716,7 +730,7 @@ const Blog = ({ onClose, initialPost = null }) => {
 
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [openPost, closePhase, articlePhase]);
+  }, [openPost, backToIndexWithPixels, beginClose]);
 
   const revealing = closePhase === 'reveal';
 
@@ -740,9 +754,7 @@ const Blog = ({ onClose, initialPost = null }) => {
       }}
     >
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&display=swap');
-
-        .bl-serif { font-family: 'Fraunces', Georgia, serif; }
+.bl-serif { font-family: 'Fraunces', Georgia, serif; }
         .bl-mono  { font-family: 'DM Mono', monospace; }
         .bl-wrap  { max-width: 1180px; margin: 0 auto; padding: 0 clamp(22px, 6vw, 80px); }
 
@@ -908,7 +920,16 @@ const Blog = ({ onClose, initialPost = null }) => {
                 ease: [0.16, 1, 0.3, 1],
               }}
               className="bl-row"
+              role="button"
+              tabIndex={0}
+              aria-label={`Read ${p.title}`}
               onClick={() => openPostWithPixels(p)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  openPostWithPixels(p);
+                }
+              }}
             >
               <span
                 className="bl-mono bl-num"
@@ -932,7 +953,7 @@ const Blog = ({ onClose, initialPost = null }) => {
                     marginBottom: 14,
                   }}
                 >
-                  {p.kicker} — {p.date} — {p.readingTime}
+                  {p.kicker} · {p.date} · {p.readingTime}
                 </div>
 
                 <h2

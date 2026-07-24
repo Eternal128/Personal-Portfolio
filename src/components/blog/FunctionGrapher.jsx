@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 // ── Tiny safe math expression parser (no eval) ──────────────
-// Supports: + - * / ^, parentheses, x, and functions like sin, cos, tan,
+// Supports + - * / ^, parentheses, x, and functions like sin, cos, tan,
 // sqrt, abs, exp, log, ln, pi, e. Returns a function f(x).
 function compile(expr) {
   const tokens = tokenize(expr);
@@ -65,7 +65,7 @@ function compile(expr) {
     if (t === 'pi') { next(); return () => Math.PI; }
     if (t === 'e') { next(); return () => Math.E; }
     if (typeof t === 'number') { next(); return () => t; }
-    throw new Error('unexpected token: ' + t);
+    throw new Error('unexpected token ' + t);
   }
 
   const fn = parseExpr();
@@ -100,7 +100,7 @@ function tokenize(s) {
       out.push(word);
       continue;
     }
-    throw new Error('bad char: ' + c);
+    throw new Error('bad char ' + c);
   }
   return out;
 }
@@ -168,7 +168,7 @@ const FunctionGrapher = () => {
 
   return (
     <div style={panel}>
-      <div className="bl-mono" style={label}>Interactive — Equation Grapher</div>
+      <div className="bl-mono" style={label}>Interactive. Equation Grapher</div>
       <p style={desc}>
         Type a function of <b>x</b> and it plots live. Try <code style={code}>sin(x) * x</code>,
         <code style={code}>x^2 - 3</code>, or <code style={code}>1 / x</code>. Supports sin, cos,

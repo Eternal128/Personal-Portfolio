@@ -82,7 +82,6 @@ function layout(width, height) {
     const a = (i / NODES.length) * Math.PI * 2;
     pos.set(n, { x: width / 2 + Math.cos(a) * width * 0.34, y: height / 2 + Math.sin(a) * height * 0.36 });
   });
-  const adj = buildAdj();
   for (let iter = 0; iter < 220; iter++) {
     const force = new Map(NODES.map((n) => [n, { x: 0, y: 0 }]));
     // repulsion
@@ -147,7 +146,7 @@ const JakartaGraph = () => {
     const mstSet = new Set(mstEdges.slice(0, mstShown).map(([a, b]) => edgeKey(a, b)));
 
     // edges
-    for (const [a, b, w] of EDGES) {
+    for (const [a, b] of EDGES) {
       const pa = pos.get(a), pb = pos.get(b);
       const k = edgeKey(a, b);
       let color = 'rgba(17,16,16,0.12)', width = 1;
@@ -184,7 +183,7 @@ const JakartaGraph = () => {
     setVisited(new Set()); setPathEdges(new Set()); setMstShown(0); setDist(null);
   };
 
-  // Animate Dijkstra: reveal visited order, then highlight the path to target
+  // Animate Dijkstra, reveal visited order, then highlight the path to target
   const runDijkstra = () => {
     reset();
     setMode('dijkstra');
@@ -207,7 +206,7 @@ const JakartaGraph = () => {
     stepVisit();
   };
 
-  // Animate Kruskal: add MST edges one by one, cheapest first
+  // Animate Kruskal, add MST edges one by one, cheapest first
   const runKruskal = () => {
     reset();
     setMode('kruskal');
@@ -224,7 +223,7 @@ const JakartaGraph = () => {
 
   return (
     <div style={panel}>
-      <div className="bl-mono" style={label}>Interactive — Jakarta Road Network</div>
+      <div className="bl-mono" style={label}>Interactive. Jakarta Road Network</div>
       <p style={desc}>
         This is the actual 46 node graph I built for Jakarta. Pick a mode and watch it run.
         Dijkstra spreads out from a source node and locks in the shortest path to your target.
@@ -253,8 +252,8 @@ const JakartaGraph = () => {
 
       <div className="bl-mono" style={{ marginTop: 14, fontSize: 12.5, color: 'rgba(17,16,16,0.65)', display: 'flex', gap: 22, flexWrap: 'wrap' }}>
         {mode === 'dijkstra' && dist != null && <span>shortest {src} → {target}: <b style={{ color: '#111010' }}>{dist.toFixed(1)} km</b></span>}
-        {mode === 'dijkstra' && <span>visited: {visited.size}/{NODES.length}</span>}
-        {mode === 'kruskal' && <span>MST edges: {mstShown}/{mstEdges.length}</span>}
+        {mode === 'dijkstra' && <span>visited {visited.size}/{NODES.length}</span>}
+        {mode === 'kruskal' && <span>MST edges {mstShown}/{mstEdges.length}</span>}
         {mode === 'kruskal' && <span>total tree weight: <b style={{ color: '#111010' }}>{mstTotal} km</b></span>}
       </div>
     </div>

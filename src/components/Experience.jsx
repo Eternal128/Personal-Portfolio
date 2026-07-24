@@ -75,6 +75,16 @@ const ExperienceCard = ({ experience, index, isActive, onClick }) => {
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.6, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
       onClick={onClick}
+      role="button"
+      tabIndex={0}
+      aria-expanded={isActive}
+      aria-label={`${experience.title} at ${experience.company_name}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          onClick();
+        }
+      }}
       style={{
         cursor: "pointer",
         borderTop: "1px solid rgba(255,255,255,0.07)",
@@ -228,8 +238,6 @@ const Experience = () => {
 
   return (
     <>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap');`}</style>
-
       <section
         id="work"
         style={{

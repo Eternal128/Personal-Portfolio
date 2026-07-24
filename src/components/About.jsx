@@ -78,9 +78,7 @@ const About = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap');
-
-        .meet-grid {
+.meet-grid {
           display: grid;
           grid-template-columns: 2fr 1fr;
           gap: 100px;

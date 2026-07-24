@@ -31,9 +31,7 @@ const Navbar = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap');
-
-        .nav-root {
+.nav-root {
           position: fixed;
           top: 0;
           left: 0;
@@ -270,7 +268,7 @@ const Navbar = () => {
 
       {/* Mobile fullscreen menu */}
       <div className={`nav-mobile-menu${menuOpen ? ' open' : ''}`}>
-        <button className="nav-mobile-close" onClick={() => { play("close"); setMenuOpen(false); }}>✕</button>
+        <button className="nav-mobile-close" aria-label="Close menu" onClick={() => { play("close"); setMenuOpen(false); }}>✕</button>
         {navLinks.map((nav) => (
           <button
             key={nav.id}
@@ -325,7 +323,7 @@ const Navbar = () => {
               <div className="nav-avail-dot" />
               <span>Available for work</span>
             </div>
-            <button className="nav-hamburger" onClick={() => { play("click"); setMenuOpen(true); }}>
+            <button className="nav-hamburger" aria-label="Open menu" onClick={() => { play("click"); setMenuOpen(true); }}>
               <span /><span /><span />
             </button>
           </div>

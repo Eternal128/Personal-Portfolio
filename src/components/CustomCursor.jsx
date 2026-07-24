@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { motion, useSpring } from 'framer-motion';
 
 const CustomCursor = () => {
-  const [isHovering, setIsHovering] = useState(false);
-
   const cursorX = useSpring(0, { stiffness: 300, damping: 30 });
   const cursorY = useSpring(0, { stiffness: 300, damping: 30 });
 
@@ -30,7 +28,6 @@ const CustomCursor = () => {
         radius.set(50);
         opacity.set(1);
         scale.set(1.4);
-        setIsHovering(true);
         return;
       }
 
@@ -41,7 +38,6 @@ const CustomCursor = () => {
         radius.set(100);
         opacity.set(0);
         scale.set(1);
-        setIsHovering(false);
         return;
       }
 
@@ -59,7 +55,6 @@ const CustomCursor = () => {
       radius.set(50);
       opacity.set(1);
       scale.set(isClickable ? 1.4 : 1);
-      setIsHovering(isClickable);
     };
 
     window.addEventListener('mousemove', updateMousePosition);

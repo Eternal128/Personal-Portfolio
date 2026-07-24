@@ -192,4 +192,55 @@ function animate(el, duration = 1400) {
       { type: 'paragraph', text: 'On these I cut the picture to the sound instead of the other way around. I drop the SFX in first and let the beats tell me where the frame should change. It feels backwards but it is the only way it comes out feeling intentional instead of just decorated. Anyways, that is the non code side of me. Thanks for reading.' },
     ],
   },
+  {
+    id: 'messi-goat',
+    kicker: 'Sports Science',
+    title: 'What 919 Goals and One Heartbreaking Final Actually Prove',
+    date: '2026',
+    readingTime: '13 min',
+    excerpt:
+      "I've loved Messi for as long as I've followed football, and watching him play a World Cup final at 39 made me want to actually understand the science behind him instead of just the highlight reels. The biomechanics, the eye-tracking research, and a real neuroscience debate about whether time itself feels different to him.",
+    hero: { type: 'interactive', widget: 'messistats' },
+    blocks: [
+      { type: 'paragraph', text: "I watched the 2026 final the way I've watched every Messi match for as long as I can remember, fully expecting something impossible to happen in the last five minutes. It didn't. Spain won 1-0 in extra time, and Messi, 39 years old, cried on the sideline. Argentina didn't get the trophy. But somewhere in the middle of that tournament, between the hat trick in the opener, the comeback against Egypt, and the two assists against England, I stopped just watching him and started wondering what actually explains this. Not in a highlight-reel way. In an actual, checkable, science way." },
+      { type: 'paragraph', text: "So this post is that. It's not a tribute, or at least it's not only a tribute. It's me trying to figure out what's real, the biomechanics that are genuinely measurable, the neuroscience that's genuinely peer-reviewed, and, just as important, the stuff that gets repeated online with suspiciously precise-sounding numbers that I couldn't actually trace back to a real study. I wanted to be honest about which is which, because I think the real answer is more interesting than the mythical one anyway." },
+
+      { type: 'heading', text: 'The Numbers, As They Actually Stand' },
+      { type: 'paragraph', text: "Before anything else, here's what's real and current, checked as of the 2026 final, not some career-highlights version that stopped updating years ago." },
+
+      { type: 'paragraph', text: "He crossed 900 career goals in March 2026, against Nashville in the Concacaf Champions Cup, and by the time the World Cup final whistle blew in July he was sitting at 919, 794 for club and 125 for Argentina. He's the only player besides Cristiano Ronaldo to ever reach 900 professional goals. He also holds the record for goals at a single club (672, for Barcelona) and, maybe more remarkably, he's the all-time leader in career assists too, having passed Puskás in 2025. Scoring and creating, at the same time, at a scale nobody else has managed." },
+
+      { type: 'heading', text: 'The 2026 Tournament, In Full' },
+      { type: 'paragraph', text: "This is the part that actually got me writing this post. He became the first man to ever play in six World Cups. He opened the tournament with a hat trick against Algeria and personally scored six of Argentina's first eight goals of the group stage. Then two escapes in a row, down two against Egypt with 20 minutes left, and a stoppage-time classic against England in the semifinal where he set up both the equalizer and the winner. And then the final, which Spain won by the smallest possible margin, deep into extra time, with Argentina down to ten men by the end." },
+
+      { type: 'interactive', widget: 'wc2026' },
+
+      { type: 'paragraph', text: "He finished the tournament as the all-time World Cup leading scorer, with 20 career World Cup goals, a record he now owns outright, ahead of Miroslav Klose. He also holds the records for World Cup assists, appearances, and minutes played. Individually, there's basically nothing left to win at this tournament. He just didn't get the one thing the whole team was there for. That contrast, total individual dominance next to a team result that got away, is honestly what pulled me into wanting to understand the mechanics of how a body this old still does this at all." },
+
+      { type: 'heading', text: 'Why a 39-Year-Old Should Not Be Able to Do This' },
+      { type: 'paragraph', text: "Athletic performance in almost every sport declines with age in fairly predictable, physical ways, top speed drops, recovery slows, high-intensity sprint output falls off. None of that is controversial, and Messi isn't exempt from it; commentators and his own coaching staff have talked openly about managing his minutes for exactly this reason. So the interesting question isn't whether he's in physical decline. He almost certainly is, by the normal measures. The real question is what he's compensating with, and how much of it is actually measurable?" },
+
+      { type: 'heading', text: 'The Physics of Staying Low' },
+      { type: 'paragraph', text: "One number that keeps getting cited is his center of gravity, commonly quoted as sitting around 51% of his total height, against roughly 56% for an average professional footballer. I want to be upfront that I couldn't trace this to a single peer-reviewed source, so treat it as a widely repeated estimate rather than an established measurement. But the underlying physics is completely sound regardless of the exact number. A lower center of mass means a shorter lever arm to redirect when changing direction, which is mechanically exactly what tight-space dribbling and a late-career reliance on close control (rather than raw speed) demands. At 1.70m, with heavy knee flexion and a forward torso lean, he's not fighting his height, he's using it." },
+
+      { type: 'heading', text: 'Seeing Before Everyone Else, The Quiet Eye' },
+      { type: 'paragraph', text: 'This is the part of the research I trust the most, because it\u2019s backed by a real, replicated body of sports science, not a single hypothesis paper. Kinesiologist Joan Vickers coined the term "Quiet Eye" for a specific, measurable behavior, elite athletes across sports hold a longer, stiller final fixation on their target right before they act, compared to less skilled athletes. A meta-analysis by Mann, Williams, Ward, and Janelle found that anticipation, not raw reaction speed, not memory recall, produces the single largest measurable performance gap between expert and novice athletes. It\u2019s less "faster brain," more "looks at the right thing for the right amount of time, because they\u2019ve done it ten thousand times before."' },
+
+      { type: 'interactive', widget: 'quietEye' },
+
+      { type: 'paragraph', text: "This connects directly to something in the tactical analysis of his game, his constant, small repositioning, described by his own coaches as reading passing lanes and defensive blind spots before the ball even arrives. That's not mystical field vision. It's the on-field version of exactly what the eye-tracking research describes, an expert doesn't process more information faster, they've learned exactly where to look, so there's simply less irrelevant information competing for their attention in the first place." },
+
+      { type: 'heading', text: 'So Does Time Actually Slow Down for Him?' },
+      { type: 'paragraph', text: "This is where I want to be honest about a real scientific disagreement, because I think it's a better story than picking one side and presenting it as settled. In 2016, researchers Jafari and Smith published a short hypothesis paper suggesting that Messi's neurons might genuinely process information faster, quite literally proposing that subjective time could pass more slowly for him during a match, drawing a comparison to Wayne Gretzky's famous description of hockey feeling \"slow.\"" },
+      { type: 'paragraph', text: "A separate group, Erren, Kuffer, Pinger, and Groß, publishing in the same journal later that year, responded directly to that hypothesis. Their pushback wasn't dismissive, but it was skeptical of the literal \"faster neurons\" framing, and it offered an explanation I find much more convincing, that elite athletes like Messi and Gretzky effectively \"buy time,\" not through faster biology, but because automatized motor skills free up cognitive capacity that a less-skilled player is still spending on basic execution. If you don't have to think about how to control the ball, you have that much more attention left over to read the game around you." },
+      { type: 'paragraph', text: "I think that second explanation is the right one, and it lines up with the Quiet Eye research above almost perfectly. It's not that the world moves slower for him. It's that after roughly two decades of repetition, he's spending almost none of his cognitive budget on execution, so nearly all of it is available for anticipation. That's not a supernatural gift. It's what 20 years of the same repeated motion, at the highest level, actually buys you. Which, honestly, makes the 2026 World Cup more impressive to me, not less. That budget is still intact at 39, even as the legs underneath it visibly aren't what they were." },
+
+      { type: 'heading', text: 'What the Goal Data Actually Shows' },
+      { type: 'paragraph', text: "One more piece of real, checkable data, from an analysis of his 474 La Liga goals during his Barcelona career. 394 of them (83.12%) came off his left foot, 63 (13.29%) off his right, and 17 (3.59%) were headers. Almost 79% came from open play rather than set pieces, and the majority of those, 68.14%, were scored from inside the penalty area but outside the six-yard box, which is exactly the zone his low-center-of-gravity close control is built to exploit. Not a poacher's tap-ins, and not exclusively long-range strikes, but the dense, contested space where balance and quick redirection matter most." },
+
+      { type: 'interactive', widget: 'messishotmap' },
+
+      { type: 'paragraph', text: "None of this adds up to \"one weird trick.\" It's a low center of mass that makes redirection mechanically cheap, a visual search strategy trained over two decades that means his eyes are rarely wasted on the wrong thing, and a level of automatized skill deep enough that almost his entire cognitive bandwidth during a match is free for reading the game instead of executing it. Individually, none of those three things is superhuman. Stacked together, sustained for 20 years, and still intact at 39 in a World Cup final, that's the actual, unglamorous, checkable explanation for why I still can't look away." },
+    ],
+  },
 ];

@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from "react";
-import { BrowserRouter } from "react-router-dom";
+import { useEffect, useRef, useState, lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 
 import { SoundProvider } from "./context/SoundContext";
@@ -8,10 +7,11 @@ import {
   Navbar, Tech, Works, StarsCanvas, End, CustomCursor, Loader,
 } from './components';
 import BlogSection from './components/BlogSection';
-import Blog from './components/Blog';
 import FlightPath from './components/FlightPath';
 import { useSoundFX } from './hooks/useSoundFX';
 import { POSTS } from './constants/posts';
+
+const Blog = lazy(() => import('./components/Blog'));
 
 // ── Detect what kind of clickable was hit ──────────────────────
 const findClickable = (el, depth = 7) => {
@@ -216,7 +216,9 @@ const App = () => {
 
   return (
     <SoundProvider>
-      <BrowserRouter>
+      <>
+        <a href="#main-container" className="skip-link">Skip to content</a>
+
         {/* Stars stay behind the whole site and behind the loader */}
         <div className="fixed inset-0 z-0" style={{ background: '#000' }}>
           <StarsCanvas />
@@ -264,15 +266,17 @@ const App = () => {
         </div>
 
         {/* Full-screen Blog overlay */}
-        <AnimatePresence>
-          {blogOpen && (
-            <Blog
-              initialPost={initialPost}
-              onClose={closeBlogToHome}
-            />
-          )}
-        </AnimatePresence>
-      </BrowserRouter>
+        <Suspense fallback={null}>
+          <AnimatePresence>
+            {blogOpen && (
+              <Blog
+                initialPost={initialPost}
+                onClose={closeBlogToHome}
+              />
+            )}
+          </AnimatePresence>
+        </Suspense>
+      </>
     </SoundProvider>
   );
 };

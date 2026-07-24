@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
 
-// Generative image model: random latent vector → small neural net → RGB per pixel.
+// Generative image model, random latent vector to small neural net to RGB per pixel.
 // This is the "sample z → decode to image" idea behind generative image models, in miniature.
 const SIZE = 300;
 const LATENT = 6;
@@ -55,7 +55,7 @@ const LatentArt = () => {
 
   return (
     <div style={panel}>
-      <div className="bl-mono" style={label}>Interactive — Generative Image Model</div>
+      <div className="bl-mono" style={label}>Interactive. Generative Image Model</div>
       <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-start' }}>
         <canvas ref={canvasRef} width={SIZE} height={SIZE}
           style={{ width: SIZE, maxWidth: '100%', borderRadius: 6, border: '1px solid rgba(17,16,16,0.14)' }} />
@@ -64,14 +64,14 @@ const LatentArt = () => {
             Every image here is generated from scratch, no photos involved. A random <b>latent
             vector</b> gets decoded through a small neural net into a color for every pixel. It’s the
             same “sample a point in latent space, decode it into an image” idea behind generative art
-            models — just small enough to run instantly in your browser.
+            models, just small enough to run instantly in your browser.
           </p>
           <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <button onClick={resample} style={primaryBtn(false)}>New latent ▸</button>
             <button onClick={newModel} style={ghostBtn}>New model</button>
           </div>
           <div className="bl-mono" style={{ marginTop: 18, fontSize: 12, color: 'rgba(17,16,16,0.55)' }}>
-            latent dims: {LATENT} · decoded live
+            latent dims {LATENT} · decoded live
           </div>
         </div>
       </div>

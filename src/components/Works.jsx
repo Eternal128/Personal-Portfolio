@@ -84,6 +84,7 @@ const ProjectModal = ({ project, onClose }) => {
           {/* Close */}
           <button
             onClick={onClose}
+            aria-label="Close project details"
             style={{
               position: 'absolute', top: 14, right: 14,
               width: 32, height: 32, borderRadius: '50%',
@@ -172,6 +173,50 @@ const ProjectModal = ({ project, onClose }) => {
             {project.description}
           </p>
 
+          {/* Case study: problem / approach / outcome, shown only when a project has them */}
+          {(project.problem || project.approach || project.outcome) && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 24, maxWidth: 600 }}>
+              {[
+                ['Problem', project.problem],
+                ['Approach', project.approach],
+                ['Outcome', project.outcome],
+              ].map(([label, text]) => text && (
+                <div key={label}>
+                  <div style={{
+                    fontSize: 10.5, fontWeight: 500,
+                    letterSpacing: '0.18em', textTransform: 'uppercase',
+                    color: 'rgba(255,255,255,0.35)', marginBottom: 6,
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}>
+                    {label}
+                  </div>
+                  <p style={{
+                    fontSize: 13.5, fontWeight: 300,
+                    color: 'rgba(255,255,255,0.55)',
+                    lineHeight: 1.8,
+                    fontFamily: "'DM Sans', sans-serif",
+                  }}>
+                    {text}
+                  </p>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Screenshot gallery, shown only when a project has one */}
+          {project.gallery && project.gallery.length > 0 && (
+            <div style={{ display: 'flex', gap: 10, overflowX: 'auto', marginBottom: 24 }}>
+              {project.gallery.map((src, i) => (
+                <img
+                  key={i}
+                  src={src}
+                  alt={`${project.name} screenshot ${i + 1}`}
+                  style={{ height: 120, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }}
+                />
+              ))}
+            </div>
+          )}
+
           {/* CTAs */}
           <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
             {project.live_demo_link && (
@@ -245,13 +290,24 @@ const ProjectModal = ({ project, onClose }) => {
 // ── Project card ──────────────────────────────────────────────
 const ProjectCard = ({
   index, name, description, tags, image,
-  source_code_link, live_demo_link, onOpen,
+  source_code_link, live_demo_link, onOpen, ...rest
 }) => {
+  const openProject = () => onOpen({ index, name, description, tags, image, source_code_link, live_demo_link, ...rest });
+
   return (
     <motion.div
       variants={fadeIn("up", "spring", index * 0.5, 0.75)}
       style={{ cursor: 'none' }}
-      onClick={() => onOpen({ index, name, description, tags, image, source_code_link, live_demo_link })}
+      role="button"
+      tabIndex={0}
+      aria-label={`View details for ${name}`}
+      onClick={openProject}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          openProject();
+        }
+      }}
     >
       <Tilt
         options={{ max: 45, scale: 1, speed: 450 }}
@@ -264,13 +320,16 @@ const ProjectCard = ({
             className='w-full h-full object-cover rounded-2xl'
           />
           <div className='absolute inset-0 flex justify-end m-3 card-img_hover gap-2'>
-            <div
+            <button
+              type="button"
               onClick={(e) => { e.stopPropagation(); window.open(source_code_link, "_blank"); }}
               className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'
+              style={{ border: 'none', padding: 0 }}
+              aria-label={`View source code for ${name} on GitHub`}
               title="View Source Code"
             >
-              <img src={github} alt='source code' className='w-1/2 h-1/2 object-contain' />
-            </div>
+              <img src={github} alt='' className='w-1/2 h-1/2 object-contain' />
+            </button>
           </div>
         </div>
 
@@ -278,8 +337,10 @@ const ProjectCard = ({
           <div className="flex items-start justify-between gap-2">
             <h3 className='text-white font-bold text-[24px]'>{name}</h3>
             {live_demo_link && (
-              <span
+              <button
+                type="button"
                 onClick={(e) => { e.stopPropagation(); window.open(live_demo_link, "_blank"); }}
+                aria-label={`View live demo of ${name}`}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 5,
                   background: 'rgba(255,255,255,0.07)',
@@ -309,7 +370,7 @@ const ProjectCard = ({
                   flexShrink: 0,
                 }} />
                 Live
-              </span>
+              </button>
             )}
           </div>
           <p className='mt-2 text-secondary text-[14px]'>{description}</p>
@@ -324,10 +385,13 @@ const ProjectCard = ({
         </div>
 
         {live_demo_link && (
-          <div
+          <button
+            type="button"
             onClick={(e) => { e.stopPropagation(); window.open(live_demo_link, "_blank"); }}
+            aria-label={`Open live demo of ${name}`}
             style={{
               marginTop: 16,
+              width: '100%',
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '10px 14px', borderRadius: 10,
               background: 'rgba(255,255,255,0.04)',
@@ -349,7 +413,7 @@ const ProjectCard = ({
               View Live Demo
             </span>
             <ExternalLinkIcon />
-          </div>
+          </button>
         )}
       </Tilt>
 
@@ -384,7 +448,7 @@ const Works = () => {
           className='mt-3 text-secondary text-[17px] max-w-3xl leading-[30px]'
         >
           Following projects showcase my work over the years. Each includes links to
-          the source code — and some are live and deployed, so you can try them directly!
+          the source code, and some are live and deployed, so you can try them directly!
         </motion.p>
       </div>
 

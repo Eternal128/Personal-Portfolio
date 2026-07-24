@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import {
   roomie, quietspace, editor, virus, road,
   meal, chess, about, music, machine, covid,
-} from '../assets';
+} from '../assets/loader';
 import PixelTransition from './blog/PixelTransition';
 
 const ORBIT_SECONDS = 75;
@@ -14,12 +14,12 @@ const RADIUS_Y = 240;
 
 const IMAGE_TILES = [
   { type: 'image', src: about,      label: 'About Me' },
-  { type: 'image', src: roomie,     label: 'Roomie — AI Design Tool' },
+  { type: 'image', src: roomie,     label: 'Roomie, AI Design Tool' },
   { type: 'image', src: quietspace, label: 'QuietSpace' },
   { type: 'image', src: virus,      label: 'COVID-19 X-Ray Classification' },
   { type: 'image', src: road,       label: 'Jakarta Route Optimization' },
   { type: 'image', src: editor,     label: 'Editing Portfolio' },
-  { type: 'image', src: chess,      label: 'Arcade Game — Java' },
+  { type: 'image', src: chess,      label: 'Arcade Game, Java' },
   { type: 'image', src: music,      label: 'Spotify Music Recommender' },
   { type: 'image', src: meal,       label: 'Meal App' },
   { type: 'image', src: machine,    label: 'Machine Learning Projects' },
@@ -30,27 +30,27 @@ const VIDEO_TILES = [
   {
     type: 'video',
     src: 'https://res.cloudinary.com/daetzwh6x/video/upload/v1774021264/4_Raws_-_Toji_Fushiguro_oyvmqf.mp4',
-    label: '4 Raws — Toji Fushiguro',
+    label: '4 Raws, Toji Fushiguro',
   },
   {
     type: 'video',
     src: 'https://res.cloudinary.com/daetzwh6x/video/upload/v1773972756/the_strongest_ebutvq.mp4',
-    label: 'The Strongest — Gojo Satoru',
+    label: 'The Strongest, Gojo Satoru',
   },
   {
     type: 'video',
     src: 'https://res.cloudinary.com/daetzwh6x/video/upload/v1773972350/toji_mograph_hbqmsu.mov',
-    label: 'Les Instrumental — Toji (1.8M views)',
+    label: 'Les Instrumental, Toji (1.8M views)',
   },
   {
     type: 'video',
     src: 'https://res.cloudinary.com/daetzwh6x/video/upload/v1773972392/toji_ofjtmn.mov',
-    label: '21 Savage SFX — Toji',
+    label: '21 Savage SFX, Toji',
   },
   {
     type: 'video',
     src: 'https://res.cloudinary.com/daetzwh6x/video/upload/v1773972454/toji_creed_x2zutr.mov',
-    label: 'Dame & Creed SFX — Toji',
+    label: 'Dame & Creed SFX, Toji',
   },
 ];
 
@@ -308,6 +308,15 @@ const Loader = ({ onReveal, onComplete }) => {
       <div
         className={`loader-root${phase === 'pixel-reveal' ? ' revealing' : ''}`}
         onClick={handleEnter}
+        role="button"
+        tabIndex={0}
+        aria-label="Enter site"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            handleEnter();
+          }
+        }}
       >
         <div className={`loader-content${contentHidden ? ' hidden' : ''}`}>
           {/* Zero-size point at true screen center */}

@@ -71,7 +71,7 @@ const SKILL_HIGHLIGHT = {
   "C / C++": {
     badge: "Competitive Programming",
     title: "Informatics Olympiad",
-    body: "Used C++ extensively for competitive programming — solving algorithmic problems under time pressure with a focus on data structures, complexity, and optimization.",
+    body: "Used C++ extensively for competitive programming, solving algorithmic problems under time pressure with a focus on data structures, complexity, and optimization.",
   },
 };
 
@@ -94,6 +94,16 @@ const TechCard = ({ name, icon, level, description, invert, index, onClick }) =>
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onClick={() => { play("click"); onClick(name); }}
+      role="button"
+      tabIndex={0}
+      aria-label={`${name}, ${description}`}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          play("click");
+          onClick(name);
+        }
+      }}
       whileHover={{ y: -4 }}
       whileTap={{ scale: 0.97 }}
       style={{
@@ -320,7 +330,7 @@ const SkillModal = ({ skill, onClose }) => {
 
         {!hasContent && (
           <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, lineHeight: 1.6, margin: 0 }}>
-            Part of my core toolkit — applied across coursework and personal builds.
+            Part of my core toolkit, applied across coursework and personal builds.
           </p>
         )}
       </motion.div>
@@ -338,8 +348,6 @@ const Tech = () => {
 
   return (
     <>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500&display=swap');`}</style>
-
       <AnimatePresence>
         {activeSkill && <SkillModal skill={activeSkill} onClose={handleClose} />}
       </AnimatePresence>

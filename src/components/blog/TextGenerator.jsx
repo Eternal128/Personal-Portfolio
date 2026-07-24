@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useRef } from 'react';
 
 // A small character-level generative model.
-// Same principle as an LLM: learn P(next char | context), then sample with temperature.
+// Same principle as an LLM, learn P(next char given context), then sample with temperature.
 const ORDER = 3; // context window (chars)
 
 const CORPUS = `the model does not think. it predicts. every character is a guess conditioned on the ones before it. we call this generation but it is really just very confident autocomplete. temperature is how much risk it takes. low temperature is safe and repetitive. high temperature is chaos and surprise. somewhere in between is where it feels alive. i trained this on my own words so it sounds a little like me. it learns nothing about meaning only about what tends to follow what.`;
@@ -63,7 +63,7 @@ const TextGenerator = () => {
 
   return (
     <div style={panel}>
-      <div className="bl-mono" style={label}>Interactive — Generative Text Model</div>
+      <div className="bl-mono" style={label}>Interactive. Generative Text Model</div>
 
       <p style={desc}>
         This is a real generative model, just a tiny one. It learned which characters tend to

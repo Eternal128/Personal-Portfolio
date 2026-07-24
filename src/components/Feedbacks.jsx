@@ -131,9 +131,7 @@ const Feedbacks = () => {
     <>
       <style>
         {`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap');
-
-        .testimonial-fade-left {
+.testimonial-fade-left {
           background: linear-gradient(to right, #000 0%, transparent 100%);
         }
 

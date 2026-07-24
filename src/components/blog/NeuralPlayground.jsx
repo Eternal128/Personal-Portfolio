@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 
 // ── Tiny 2-layer neural net (no libraries) ──────────────────
-// input: [x, y] → hidden (tanh) → output (sigmoid)
+// input [x, y] to hidden (tanh) to output (sigmoid)
 const HIDDEN = 8;
 const LR = 0.08;
 
@@ -134,7 +134,7 @@ const NeuralPlayground = () => {
         padding: 'clamp(18px,3vw,28px)', background: 'rgba(17,16,16,0.02)',
       }}>
         <div className="bl-mono" style={{ fontSize: 10.5, letterSpacing: '0.24em', textTransform: 'uppercase', color: 'rgba(17,16,16,0.45)', marginBottom: 16 }}>
-          Interactive — Neural Net Playground
+          Interactive. Neural Net Playground
         </div>
 
         <div style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'flex-start' }}>
@@ -148,7 +148,7 @@ const NeuralPlayground = () => {
 
           <div style={{ flex: 1, minWidth: 220 }}>
             <p style={{ fontSize: 14, lineHeight: 1.6, color: 'rgba(17,16,16,0.72)', marginBottom: 20 }}>
-              Click the canvas to drop points, then hit <b>Train</b> and watch an 8-neuron network carve out a decision boundary in real time. Try the XOR preset — it’s the classic “a straight line can’t solve this” problem.
+              Click the canvas to drop points, then hit <b>Train</b> and watch an 8-neuron network carve out a decision boundary in real time. Try the XOR preset, it’s the classic “a straight line can’t solve this” problem.
             </p>
 
             <div style={{ display: 'flex', gap: 8, marginBottom: 14 }}>

@@ -79,9 +79,7 @@ const ContactEnd = () => {
   return (
     <>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400&display=swap');
-
-        .contact-section {
+.contact-section {
           position: relative;
           width: 100%;
           min-height: 100vh;
@@ -240,7 +238,7 @@ const ContactEnd = () => {
             </motion.div>
 
             {/* Right — form */}
-            <motion.divc
+            <motion.div
               initial={{ opacity: 0, x: 40 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -289,7 +287,7 @@ const ContactEnd = () => {
                   </div>
                 </form>
               )}
-            </motion.divc>
+            </motion.div>
           </div>
         </div>
 

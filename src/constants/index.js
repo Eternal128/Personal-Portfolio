@@ -5,15 +5,11 @@ import {
   web,
   javascript,
   typescript,
-  html,
-  css,
   reactjs,
-  redux,
   tailwind,
   nodejs,
   mongodb,
   git,
-  figma,
   docker,
   threejs,
   python,
@@ -21,15 +17,11 @@ import {
   metrodata,
   japfa,
   lirvana,
-  covid,
-  graph,
   portfolio,
   virus,
   road,
-  james,
   meal,
   chess,
-  about,
   music,
   machine,
   roomie,
@@ -49,7 +41,6 @@ import {
   selenium,
   pytorch,
   nextjs,
-  openai,
   php,
 } from "../assets";
 
@@ -221,6 +212,12 @@ const projects = [
     name: "Editing Portfolio",
     description:
       "My Personal Editing Portfolio",
+    problem:
+      "Editing started as something to keep me busy at night when I could not sleep, and I wanted a home for that work that felt as considered as the edits themselves.",
+    approach:
+      "I start from the feeling and the music, not the frame. Before touching a single clip I ask what vibe I want the character to give off, then work backwards, so the site itself is built the same way, timing and pacing first.",
+    outcome:
+      "Timing the clips, masking, and typography all took a ton of work, and a couple of the pieces featured here ended up blowing up in ways I did not expect, picking up a few million views along the way.",
     tags: [
       { name: "react",      color: "ocean-text-gradient"  },
       { name: "javascript", color: "blue-text-gradient"   },
@@ -310,6 +307,12 @@ const projects = [
     name: "Jakarta Route Optimization",
     description:
       "Graph theory project modeling Jakarta's road network as a 46-node weighted graph comparing Dijkstra VS Kruskal's Algorithm.",
+    problem:
+      "During COVID a lot of delivery services were losing money on bad routes, too much back and forth, too much fuel. I wanted to know what the actual shortest path for a delivery driver around the city looks like, and which algorithm proves it best.",
+    approach:
+      "I plotted 46 nodes for real intersections, edges for the roads, and measured every weight by hand from Google Maps distances. Then I compared Dijkstra, which finds the shortest path from one node to every other node, against Kruskal, which builds the cheapest spanning tree that keeps the whole city connected.",
+    outcome:
+      "There is no single best algorithm, it really depends on the question. Dijkstra wins for a single delivery between two points, Kruskal wins if you want to connect every drop off point with the least total road. What started as a joke about Jakarta traffic ended up teaching me graph theory, greedy proofs, and union find from first principles.",
     tags: [
       {
         name: "python",
