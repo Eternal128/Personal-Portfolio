@@ -1,6 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useSound } from '../context/SoundContext';
 
+// Fraction of one viewport height scrolled before each element is fully faded out.
+const CONTENT_FADE_VH = 0.45;
+const SCROLL_HINT_FADE_VH = 0.25;
+
+// Same ease-out-quad shape used in Loader.jsx's EASINGS table, so the scroll
+// exit decelerates like the entrance instead of fading at a constant linear rate.
+const easeOutQuad = (t) => 1 - Math.pow(1 - t, 2);
+
 const Hero = ({ heroReady = true }) => {
   const [loaded, setLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -33,7 +41,7 @@ const Hero = ({ heroReady = true }) => {
   const progress = Math.min(scrollY / vh, 1);
 
   const contentY = scrollY * 0.45;
-  const contentOp = Math.max(0, 1 - progress * 2.2);
+  const contentOp = 1 - easeOutQuad(Math.min(progress / CONTENT_FADE_VH, 1));
 
   const orb1Y = scrollY * 0.25;
   const orb2Y = scrollY * 0.18;
@@ -140,7 +148,7 @@ const Hero = ({ heroReady = true }) => {
           margin-bottom: 42px;
           opacity: 0;
           transform: translateY(12px);
-          transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
+          transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s, transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s;
         }
         .mist-pill.vis { opacity: 1; transform: translateY(0); }
         .mist-pill-dot {
@@ -170,7 +178,7 @@ const Hero = ({ heroReady = true }) => {
           margin: 0;
           opacity: 0;
           transform: translateY(20px);
-          transition: opacity 0.9s ease 0.3s, transform 0.9s ease 0.3s;
+          transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s;
           background: linear-gradient(
             135deg,
             #ffffff 0%, #e8e8e8 20%, #ffffff 35%,
@@ -198,7 +206,7 @@ const Hero = ({ heroReady = true }) => {
           line-height: 1.6;
           opacity: 0;
           transform: translateY(12px);
-          transition: opacity 0.8s ease 0.54s, transform 0.8s ease 0.54s;
+          transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.54s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.54s;
         }
         .mist-sub.vis { opacity: 1; transform: translateY(0); }
 
@@ -208,7 +216,7 @@ const Hero = ({ heroReady = true }) => {
           margin-top: 36px;
           opacity: 0;
           transform: translateY(12px);
-          transition: opacity 0.8s ease 0.72s, transform 0.8s ease 0.72s;
+          transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.72s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.72s;
         }
         .mist-btns.vis { opacity: 1; transform: translateY(0); }
 
@@ -261,7 +269,7 @@ const Hero = ({ heroReady = true }) => {
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transition: opacity 0.8s ease 1s;
+          transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1) 1s;
           will-change: opacity;
         }
         .mist-scrollbar.vis { opacity: 1; }
@@ -364,7 +372,7 @@ const Hero = ({ heroReady = true }) => {
         {/* Scroll indicator */}
         <div
           className={`mist-scrollbar${loaded ? ' vis' : ''}`}
-          style={{ opacity: loaded ? Math.max(0, 1 - progress * 4) : 0 }}
+          style={{ opacity: loaded ? 1 - easeOutQuad(Math.min(progress / SCROLL_HINT_FADE_VH, 1)) : 0 }}
         >
           <div className="mist-sb-line" />
           <span className="mist-sb-text">Scroll down</span>
