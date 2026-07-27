@@ -146,7 +146,7 @@ const Feedbacks = () => {
         className="w-full bg-transparent py-28 overflow-hidden"
       >
         {/* Header */}
-        <div className="px-6 sm:px-16 max-w-7xl mx-auto mb-20">
+        <div className="px-6 sm:px-16 mb-20">
           <p
             className="text-[11px] uppercase tracking-[0.25em] mb-5"
             style={{ color: "rgba(255,255,255,0.35)" }}

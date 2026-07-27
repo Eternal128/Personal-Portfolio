@@ -353,7 +353,7 @@ const Tech = () => {
       </AnimatePresence>
 
       <section id="tech" style={{ background: "transparent", padding: "100px 0 80px", fontFamily: "'DM Sans', sans-serif" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
+        <div style={{ width: "100%", padding: "0 clamp(24px, 6vw, 120px)" }}>
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ duration: 0.7 }} style={{ marginBottom: 56 }}

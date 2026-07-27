@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { navLinks } from "../constants";
 import { useSound } from "../context/SoundContext";
-
-const smoothScrollTo = (id) => {
-  const el = document.getElementById(id);
-  if (!el) return;
-  el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-};
+import { useLenis } from "../context/LenisContext";
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
   const { play } = useSound();
+  const lenis = useLenis();
+
+  const smoothScrollTo = (id) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (lenis) lenis.scrollTo(el);
+    else el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);

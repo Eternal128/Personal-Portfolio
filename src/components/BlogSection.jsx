@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { POSTS } from '../constants/posts';
 
-const PREVIEW_COUNT = 3;
+const PREVIEW_COUNT = 5;
 
 const BlogSection = ({ onOpenBlog, onOpenPost }) => {
   const previews = POSTS.slice(0, PREVIEW_COUNT);
@@ -18,10 +18,10 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
       }}
     >
       <style>{`
-        .blog-sec-wrap { max-width: 1280px; margin: 0 auto; padding: 0 64px; }
+        .blog-sec-wrap { width: 100%; padding: 0 clamp(24px, 6vw, 120px); }
         .blog-sec-grid {
           display: grid;
-          grid-template-columns: repeat(3, 1fr);
+          grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
           gap: 24px;
           margin-top: 48px;
         }
@@ -30,7 +30,8 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
           background: rgba(255,255,255,0.02);
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 14px;
-          padding: 26px 24px 24px;
+          overflow: hidden;
+          padding: 0 0 24px;
           cursor: pointer;
           transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
           font-family: 'DM Sans', sans-serif;
@@ -41,7 +42,25 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
           transform: translateY(-4px);
         }
         .blog-card:hover .blog-card-arrow { transform: translateX(5px); }
+        .blog-card:hover .blog-card-thumb img,
+        .blog-card:hover .blog-card-thumb video { transform: scale(1.05); }
         .blog-card-arrow { transition: transform 0.35s cubic-bezier(0.16,1,0.3,1); }
+        .blog-card-body { padding: 22px 24px 0; }
+        .blog-card-thumb {
+          position: relative;
+          width: 100%;
+          aspect-ratio: 16 / 10;
+          overflow: hidden;
+          background: rgba(255,255,255,0.03);
+        }
+        .blog-card-thumb img,
+        .blog-card-thumb video {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          display: block;
+          transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+        }
         @media (max-width: 900px) {
           .blog-sec-wrap { padding: 0 22px; }
           .blog-sec-grid { grid-template-columns: 1fr; gap: 16px; }
@@ -97,33 +116,43 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
               transition={{ duration: 0.6, delay: i * 0.1 }}
               onClick={() => onOpenPost(p)}
             >
-              <div style={{
-                fontFamily: "'DM Mono', monospace", fontSize: 10,
-                letterSpacing: '0.22em', textTransform: 'uppercase',
-                color: 'rgba(255,255,255,0.4)', marginBottom: 14,
-                display: 'flex', justifyContent: 'space-between',
-              }}>
-                <span>{p.kicker}</span>
-                <span>{p.date} · {p.readingTime}</span>
+              <div className="blog-card-thumb">
+                {p.thumbnail ? (
+                  <img src={p.thumbnail} alt="" />
+                ) : p.hero?.type === 'video' ? (
+                  <video src={p.hero.src} autoPlay muted loop playsInline />
+                ) : null}
               </div>
-              <h3 style={{
-                fontSize: 21, fontWeight: 400, color: '#fff',
-                lineHeight: 1.2, marginBottom: 12, letterSpacing: '-0.01em',
-              }}>
-                {p.title}
-              </h3>
-              <p style={{
-                fontSize: 14, fontWeight: 300, lineHeight: 1.6,
-                color: 'rgba(255,255,255,0.5)', marginBottom: 20,
-              }}>
-                {p.excerpt}
-              </p>
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                fontSize: 12, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.02em',
-              }}>
-                Read <span className="blog-card-arrow">↗</span>
-              </span>
+
+              <div className="blog-card-body">
+                <div style={{
+                  fontFamily: "'DM Mono', monospace", fontSize: 10,
+                  letterSpacing: '0.22em', textTransform: 'uppercase',
+                  color: 'rgba(255,255,255,0.4)', marginBottom: 14,
+                  display: 'flex', justifyContent: 'space-between',
+                }}>
+                  <span>{p.kicker}</span>
+                  <span>{p.date} · {p.readingTime}</span>
+                </div>
+                <h3 style={{
+                  fontSize: 21, fontWeight: 400, color: '#fff',
+                  lineHeight: 1.2, marginBottom: 12, letterSpacing: '-0.01em',
+                }}>
+                  {p.title}
+                </h3>
+                <p style={{
+                  fontSize: 14, fontWeight: 300, lineHeight: 1.6,
+                  color: 'rgba(255,255,255,0.5)', marginBottom: 20,
+                }}>
+                  {p.excerpt}
+                </p>
+                <span style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  fontSize: 12, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.02em',
+                }}>
+                  Read <span className="blog-card-arrow">↗</span>
+                </span>
+              </div>
             </motion.button>
           ))}
         </div>

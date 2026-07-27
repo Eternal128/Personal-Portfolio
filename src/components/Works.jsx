@@ -1,13 +1,26 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Tilt from 'react-parallax-tilt';
 import { motion, AnimatePresence } from "framer-motion";
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 import { styles } from "../styles";
 import { github } from "../assets";
-import { SectionWrapper } from "../hoc";
 import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
 import { useSound } from "../context/SoundContext";
+import { useLenis } from "../context/LenisContext";
+
+gsap.registerPlugin(ScrollTrigger);
+
+// Muted, moody backdrop tones cycling per project — deliberately dark
+// variations rather than saturated brand colors, so the rail still reads
+// as part of this site's restrained black/gold system, not a bright carousel.
+const RAIL_COLORS = ['#0d0d0d', '#15100a', '#0a0e14', '#120a0e', '#0a120e', '#0d0d14'];
+
+const SLIDE_WIDTH = 420;
+const SLIDE_GAP = 56;
+const CARD_SCROLL_PX = 650; // vertical scroll px consumed per horizontal card step
 
 const ExternalLinkIcon = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -289,15 +302,14 @@ const ProjectModal = ({ project, onClose }) => {
 
 // ── Project card ──────────────────────────────────────────────
 const ProjectCard = ({
-  index, name, description, tags, image,
+  name, description, tags, image,
   source_code_link, live_demo_link, onOpen, ...rest
 }) => {
-  const openProject = () => onOpen({ index, name, description, tags, image, source_code_link, live_demo_link, ...rest });
+  const openProject = () => onOpen({ name, description, tags, image, source_code_link, live_demo_link, ...rest });
 
   return (
-    <motion.div
-      variants={fadeIn("up", "spring", index * 0.5, 0.75)}
-      style={{ cursor: 'none' }}
+    <div
+      style={{ cursor: 'none', flex: `0 0 ${SLIDE_WIDTH}px` }}
       role="button"
       tabIndex={0}
       aria-label={`View details for ${name}`}
@@ -310,8 +322,8 @@ const ProjectCard = ({
       }}
     >
       <Tilt
-        options={{ max: 45, scale: 1, speed: 450 }}
-        className='bg-tertiary p-5 rounded-2xl sm:w-[360px] w-full'
+        options={{ max: 12, scale: 1, speed: 450 }}
+        className='bg-tertiary p-5 rounded-2xl w-full'
       >
         <div className='relative w-full h-[230px]'>
           <img
@@ -423,44 +435,242 @@ const ProjectCard = ({
           50% { opacity: 0.4; }
         }
       `}</style>
-    </motion.div>
+    </div>
   );
 };
+
+// ── Rail chrome: arrows, counter, tab strip ─────────────────────
+const RailControls = ({ activeIndex, count, onPrev, onNext, onJump, names }) => (
+  <div style={{
+    position: 'absolute', left: 0, right: 0, bottom: 28,
+    display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 16,
+    zIndex: 2, pointerEvents: 'none',
+  }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 16, pointerEvents: 'auto' }}>
+      <button
+        type="button"
+        onClick={onPrev}
+        disabled={activeIndex === 0}
+        aria-label="Previous project"
+        style={{
+          width: 40, height: 40, borderRadius: '50%',
+          background: 'rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.14)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: activeIndex === 0 ? 'default' : 'pointer',
+          opacity: activeIndex === 0 ? 0.35 : 1,
+          color: '#fff', transition: 'opacity 0.2s, background 0.2s',
+        }}
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 1L2 7L9 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </button>
+
+      <span className="bl-mono" style={{
+        fontSize: 12, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.6)',
+        fontFamily: "'DM Mono', monospace", minWidth: 56, textAlign: 'center',
+      }}>
+        {String(activeIndex + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
+      </span>
+
+      <button
+        type="button"
+        onClick={onNext}
+        disabled={activeIndex === count - 1}
+        aria-label="Next project"
+        style={{
+          width: 40, height: 40, borderRadius: '50%',
+          background: 'rgba(255,255,255,0.06)',
+          border: '1px solid rgba(255,255,255,0.14)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          cursor: activeIndex === count - 1 ? 'default' : 'pointer',
+          opacity: activeIndex === count - 1 ? 0.35 : 1,
+          color: '#fff', transition: 'opacity 0.2s, background 0.2s',
+        }}
+      >
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 1L12 7L5 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
+      </button>
+    </div>
+
+    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '6px 18px', maxWidth: '90vw', pointerEvents: 'auto' }}>
+      {names.map((name, i) => (
+        <button
+          key={name}
+          type="button"
+          onClick={() => onJump(i)}
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            padding: '4px 2px', fontFamily: "'DM Sans', sans-serif",
+            fontSize: 12, letterSpacing: '0.02em',
+            color: i === activeIndex ? '#fff' : 'rgba(255,255,255,0.35)',
+            borderBottom: i === activeIndex ? '1px solid #fff' : '1px solid transparent',
+            transition: 'color 0.2s, border-color 0.2s',
+          }}
+        >
+          {name}
+        </button>
+      ))}
+    </div>
+  </div>
+);
 
 // ── Works ──────────────────────────────────────────────────────
 const Works = () => {
   const [activeProject, setActiveProject] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const { play } = useSound();
+  const lenis = useLenis();
+
+  const pinWrapRef = useRef(null);
+  const trackRef = useRef(null);
+  const stRef = useRef(null);
+  const activeIndexRef = useRef(0);
 
   const handleOpen  = useCallback((p) => { play("click"); setActiveProject(p); }, [play]);
   const handleClose = useCallback(() => { play("close"); setActiveProject(null); }, [play]);
 
-  return (
-    <>
-      <motion.div variants={textVariant()}>
-        <p className={`${styles.sectionSubText}`}>My work</p>
-        <h2 className={`${styles.sectionHeadText}`}>Projects.</h2>
-      </motion.div>
+  const n = projects.length;
 
-      <div className='w-full flex'>
-        <motion.p
-          variants={fadeIn("", "", 0.1, 1)}
-          className='mt-3 text-secondary text-[17px] max-w-3xl leading-[30px]'
-        >
-          Following projects showcase my work over the years. Each includes links to
-          the source code, and some are live and deployed, so you can try them directly!
-        </motion.p>
+  // Horizontal scroll-jack on desktop; native swipe-snap on touch/small screens.
+  useEffect(() => {
+    const wrap = pinWrapRef.current;
+    const track = trackRef.current;
+    if (!wrap || !track || n < 2) return;
+
+    const mm = ScrollTrigger.matchMedia({
+      '(min-width: 1025px) and (hover: hover)': function () {
+        const slideStep = SLIDE_WIDTH + SLIDE_GAP;
+        const startX = () => (wrap.offsetWidth - SLIDE_WIDTH) / 2;
+        const endX = () => startX() - slideStep * (n - 1);
+
+        gsap.set(track, { x: startX() });
+
+        const tween = gsap.to(track, {
+          x: endX,
+          ease: 'none',
+          scrollTrigger: {
+            id: 'works-rail',
+            trigger: wrap,
+            start: 'top top',
+            end: () => '+=' + CARD_SCROLL_PX * (n - 1),
+            pin: true,
+            scrub: 1,
+            snap: 1 / (n - 1),
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+            onUpdate(self) {
+              const idx = Math.round(self.progress * (n - 1));
+              if (idx !== activeIndexRef.current) {
+                activeIndexRef.current = idx;
+                setActiveIndex(idx);
+              }
+            },
+          },
+        });
+
+        stRef.current = tween.scrollTrigger;
+
+        return () => {
+          stRef.current = null;
+          tween.kill();
+        };
+      },
+      '(max-width: 1024px), (hover: none)': function () {
+        gsap.set(track, { x: 0 });
+        track.style.overflowX = 'auto';
+        track.style.scrollSnapType = 'x mandatory';
+        Array.from(track.children).forEach((child) => {
+          child.style.scrollSnapAlign = 'start';
+        });
+
+        const slideStep = SLIDE_WIDTH + SLIDE_GAP;
+        const onScroll = () => {
+          const idx = Math.round(track.scrollLeft / slideStep);
+          if (idx !== activeIndexRef.current) {
+            activeIndexRef.current = idx;
+            setActiveIndex(idx);
+          }
+        };
+        track.addEventListener('scroll', onScroll, { passive: true });
+
+        return () => {
+          stRef.current = null;
+          track.removeEventListener('scroll', onScroll);
+          track.style.overflowX = '';
+          track.style.scrollSnapType = '';
+        };
+      },
+    });
+
+    return () => mm.revert();
+  }, [n]);
+
+  const goToIndex = useCallback((i) => {
+    const clamped = Math.max(0, Math.min(n - 1, i));
+    const st = stRef.current;
+
+    if (st && lenis) {
+      const target = st.start + (clamped / (n - 1)) * (st.end - st.start);
+      lenis.scrollTo(target, { duration: 1 });
+    } else if (trackRef.current) {
+      const slide = trackRef.current.children[clamped];
+      if (slide) trackRef.current.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+    }
+  }, [n, lenis]);
+
+  return (
+    <section style={{ position: 'relative', padding: 'clamp(60px,10vh,100px) 0 0' }}>
+      <span className='hash-span' id="projects" />
+
+      <div style={{ width: '100%', padding: '0 clamp(24px, 6vw, 120px)' }}>
+        <motion.div variants={textVariant()} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
+          <p className={`${styles.sectionSubText}`}>My work</p>
+          <h2 className={`${styles.sectionHeadText}`}>Projects.</h2>
+        </motion.div>
+
+        <div className='w-full flex'>
+          <motion.p
+            variants={fadeIn("", "", 0.1, 1)}
+            initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}
+            className='mt-3 text-secondary text-[17px] max-w-3xl leading-[30px]'
+          >
+            Following projects showcase my work over the years. Each includes links to
+            the source code, and some are live and deployed, so you can try them directly!
+          </motion.p>
+        </div>
       </div>
 
-      <div className='mt-20 flex flex-wrap gap-7'>
-        {projects.map((project, index) => (
-          <ProjectCard
-            key={`project-${index}`}
-            index={index}
-            {...project}
-            onOpen={handleOpen}
-          />
-        ))}
+      <div ref={pinWrapRef} style={{ position: 'relative', height: '100vh', marginTop: 48, overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute', inset: 0, zIndex: 0,
+          background: RAIL_COLORS[activeIndex % RAIL_COLORS.length],
+          transition: 'background-color 0.6s ease',
+        }} />
+
+        <div
+          ref={trackRef}
+          style={{
+            position: 'relative', zIndex: 1,
+            display: 'flex', alignItems: 'center', height: '100%',
+            gap: SLIDE_GAP, willChange: 'transform',
+          }}
+        >
+          {projects.map((project, index) => (
+            <ProjectCard
+              key={`project-${index}`}
+              {...project}
+              onOpen={handleOpen}
+            />
+          ))}
+        </div>
+
+        <RailControls
+          activeIndex={activeIndex}
+          count={n}
+          onPrev={() => goToIndex(activeIndex - 1)}
+          onNext={() => goToIndex(activeIndex + 1)}
+          onJump={goToIndex}
+          names={projects.map((p) => p.name)}
+        />
       </div>
 
       <AnimatePresence>
@@ -468,8 +678,8 @@ const Works = () => {
           <ProjectModal project={activeProject} onClose={handleClose} />
         )}
       </AnimatePresence>
-    </>
+    </section>
   );
 };
 
-export default SectionWrapper(Works, "projects");
+export default Works;

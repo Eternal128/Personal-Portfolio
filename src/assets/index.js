@@ -63,6 +63,9 @@ import quietspace from "./projects/quietspace.png";
 import editor from "./projects/editor.png";
 import hero_editor from "./projects/hero_editor.png";
 
+import blogGraphAlgorithms from "./blog/graph-algorithms.png";
+import blogBuildingThings from "./blog/building-things.png";
+
 export {
   logo,
   backend,
@@ -123,5 +126,7 @@ export {
   hero_editor,
   pytorch,
   nextjs,
-  php
+  php,
+  blogGraphAlgorithms,
+  blogBuildingThings,
 };

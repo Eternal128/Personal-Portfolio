@@ -175,7 +175,7 @@ const ContactEnd = () => {
 
       <section id="contact" className="contact-section">
 
-        <div className="relative z-10 max-w-7xl mx-auto w-full px-6 sm:px-16 py-24">
+        <div className="relative z-10 w-full px-6 sm:px-16 py-24 max-w-[1600px] mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start">
 
             {/* Left — info */}
@@ -293,7 +293,7 @@ const ContactEnd = () => {
 
         {/* Footer */}
         <div className="relative z-10 px-6 sm:px-16 pb-10" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-          <div className="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3 pt-8">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-3 pt-8">
             <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>© 2025 James William Hanzell</p>
             <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>Built with React</p>
           </div>

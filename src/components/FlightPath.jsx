@@ -113,7 +113,15 @@ const FlightPath = () => {
     window.addEventListener('resize', measure);
     // Re-measure after everything settles
     const t = setTimeout(measure, 800);
-    return () => { window.removeEventListener('resize', measure); clearTimeout(t); };
+    // Also re-measure whenever pinned sections elsewhere on the page insert or
+    // resize their scroll spacers, since that changes document.body.scrollHeight
+    // out from under this path.
+    ScrollTrigger.addEventListener('refresh', measure);
+    return () => {
+      window.removeEventListener('resize', measure);
+      clearTimeout(t);
+      ScrollTrigger.removeEventListener('refresh', measure);
+    };
   }, []);
 
   const pathD = useMemo(() => {

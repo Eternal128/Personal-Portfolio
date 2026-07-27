@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState, lazy, Suspense } from "react";
+import { useEffect, useState, lazy, Suspense } from "react";
 import { AnimatePresence } from "framer-motion";
 
 import { SoundProvider } from "./context/SoundContext";
+import { useLenis } from "./context/LenisContext";
 import {
   About, Experience, Feedbacks, Hero,
   Navbar, Tech, Works, StarsCanvas, End, CustomCursor, Loader,
@@ -61,7 +62,7 @@ const App = () => {
   const [initialPost, setInitialPost] = useState(null);
 
   const { navThud, tick } = useSoundFX();
-  const lenisRef = useRef(null);
+  const lenis = useLenis();
 
   const applyHistoryState = (state) => {
     if (!state || state.view === 'home') {
@@ -149,45 +150,8 @@ const App = () => {
     return () => window.removeEventListener('popstate', onPopState);
   }, []);
 
-  // Lenis smooth scroll
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    let lenis;
-    let rafId;
-
-    import('lenis').then(({ default: Lenis }) => {
-      lenis = new Lenis({
-        duration: 1.4,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smooth: true,
-        mouseMultiplier: 1,
-        smoothTouch: false,
-        touchMultiplier: 1,
-        infinite: false,
-      });
-
-      lenisRef.current = lenis;
-
-      const raf = (time) => {
-        lenis.raf(time);
-        rafId = requestAnimationFrame(raf);
-      };
-
-      rafId = requestAnimationFrame(raf);
-    }).catch(() => {});
-
-    return () => {
-      if (rafId) cancelAnimationFrame(rafId);
-      if (lenis) lenis.destroy();
-      lenisRef.current = null;
-    };
-  }, []);
-
   // Pause Lenis + lock main page while Blog overlay is open
   useEffect(() => {
-    const lenis = lenisRef.current;
-
     if (blogOpen) {
       lenis?.stop();
       document.documentElement.style.overflow = 'hidden';
@@ -199,7 +163,7 @@ const App = () => {
     return () => {
       document.documentElement.style.overflow = '';
     };
-  }, [blogOpen]);
+  }, [blogOpen, lenis]);
 
   // Global click sound
   useEffect(() => {

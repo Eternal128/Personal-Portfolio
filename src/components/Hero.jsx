@@ -1,19 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useSound } from '../context/SoundContext';
+import React, { useState, useEffect } from 'react';
+import Tilt from 'react-parallax-tilt';
+import { james } from '../assets';
 
-// Fraction of one viewport height scrolled before each element is fully faded out.
+// Fraction of one viewport height scrolled before the whole frame is faded out.
 const CONTENT_FADE_VH = 0.45;
-const SCROLL_HINT_FADE_VH = 0.25;
 
-// Same ease-out-quad shape used in Loader.jsx's EASINGS table, so the scroll
-// exit decelerates like the entrance instead of fading at a constant linear rate.
-const easeOutQuad = (t) => 1 - Math.pow(1 - t, 2);
+const WORDS = ['James', 'William', 'Hanzell'];
+const REPEAT = 5;
 
 const Hero = ({ heroReady = true }) => {
   const [loaded, setLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const heroRef = useRef(null);
-  const { play } = useSound();
 
   // Reveal only once the loader hands off (the singularity pop)
   useEffect(() => {
@@ -39,351 +36,104 @@ const Hero = ({ heroReady = true }) => {
 
   const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
   const progress = Math.min(scrollY / vh, 1);
-
-  const contentY = scrollY * 0.45;
-  const contentOp = 1 - easeOutQuad(Math.min(progress / CONTENT_FADE_VH, 1));
-
-  const orb1Y = scrollY * 0.25;
-  const orb2Y = scrollY * 0.18;
-  const orb3Y = scrollY * 0.32;
-  const orb4Y = scrollY * 0.12;
-
-  const bgScale = 1 + progress * 0.08;
+  const contentOp = 1 - Math.min(progress / CONTENT_FADE_VH, 1);
 
   return (
     <>
       <style>{`
-.mist-hero {
+        .h3-hero {
           position: relative;
           width: 100%;
           height: 100vh;
           background: #000;
           overflow: hidden;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          justify-content: center;
           font-family: 'DM Sans', sans-serif;
         }
 
-        .mist-bg-layer {
-          position: absolute;
-          inset: -10%;
-          pointer-events: none;
-          will-change: transform;
-        }
-
-        .mist-orb {
-          position: absolute;
-          border-radius: 50%;
-          filter: blur(90px);
-          pointer-events: none;
-          will-change: transform;
-        }
-        .mist-orb-1 {
-          width: 55vw; height: 55vw;
-          top: -18vw; left: -12vw;
-          background: radial-gradient(ellipse at center,
-            rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.07) 40%, transparent 70%);
-          animation: mistDrift1 14s ease-in-out infinite alternate;
-        }
-        .mist-orb-2 {
-          width: 60vw; height: 70vw;
-          top: -10vw; left: 20vw;
-          background: radial-gradient(ellipse 60% 80% at 50% 40%,
-            rgba(255,255,255,0.22) 0%, rgba(255,255,255,0.08) 45%, transparent 70%);
-          filter: blur(70px);
-          animation: mistDrift2 18s ease-in-out infinite alternate;
-        }
-        .mist-orb-3 {
-          width: 50vw; height: 50vw;
-          bottom: -15vw; right: -5vw;
-          background: radial-gradient(ellipse at center,
-            rgba(255,255,255,0.10) 0%, transparent 65%);
-          animation: mistDrift3 20s ease-in-out infinite alternate;
-        }
-        .mist-orb-4 {
-          width: 35vw; height: 35vw;
-          bottom: 0; left: 5vw;
-          background: radial-gradient(ellipse at center,
-            rgba(255,255,255,0.07) 0%, transparent 60%);
-          filter: blur(100px);
-          animation: mistDrift1 22s ease-in-out infinite alternate-reverse;
-        }
-
-        @keyframes mistDrift1 {
-          from { transform: translate(0, 0) scale(1); }
-          to   { transform: translate(3vw, 4vh) scale(1.06); }
-        }
-        @keyframes mistDrift2 {
-          from { transform: translate(0, 0) rotate(-2deg) scale(1); }
-          to   { transform: translate(-2vw, 5vh) rotate(2deg) scale(1.04); }
-        }
-        @keyframes mistDrift3 {
-          from { transform: translate(0, 0) scale(1); }
-          to   { transform: translate(-4vw, -3vh) scale(1.08); }
-        }
-
-        .mist-content {
-          position: relative;
-          z-index: 10;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          text-align: center;
-          gap: 0;
-          padding: 0 24px;
-          will-change: transform, opacity;
-        }
-
-        .mist-pill {
-          display: inline-flex;
-          align-items: center;
-          gap: 9px;
-          background: rgba(255,255,255,0.06);
-          border: 1px solid rgba(255,255,255,0.12);
-          backdrop-filter: blur(12px);
-          padding: 8px 20px;
-          border-radius: 100px;
-          margin-bottom: 42px;
-          opacity: 0;
-          transform: translateY(12px);
-          transition: opacity 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s, transform 0.7s cubic-bezier(0.16,1,0.3,1) 0.1s;
-        }
-        .mist-pill.vis { opacity: 1; transform: translateY(0); }
-        .mist-pill-dot {
-          width: 6px; height: 6px;
-          border-radius: 50%;
-          background: #fff;
-          flex-shrink: 0;
-          box-shadow: 0 0 6px rgba(255,255,255,0.8);
-          animation: pillPulse 2s ease-in-out infinite;
-        }
-        @keyframes pillPulse {
-          0%, 100% { opacity: 1; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(0.8); }
-        }
-        .mist-pill span {
-          font-size: 13px;
-          font-weight: 300;
-          color: rgba(255,255,255,0.78);
-          letter-spacing: 0.04em;
-        }
-
-        .mist-name {
-          font-size: clamp(58px, 9vw, 138px);
-          font-weight: 300;
-          line-height: 1.03;
-          letter-spacing: -0.02em;
-          margin: 0;
-          opacity: 0;
-          transform: translateY(20px);
-          transition: opacity 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s, transform 0.9s cubic-bezier(0.16,1,0.3,1) 0.3s;
-          background: linear-gradient(
-            135deg,
-            #ffffff 0%, #e8e8e8 20%, #ffffff 35%,
-            #c8c8c8 50%, #ffffff 65%, #d4d4d4 80%, #ffffff 100%
-          );
-          background-size: 200% auto;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          background-clip: text;
-          animation: platinumShimmer 6s linear infinite;
-        }
-        .mist-name.vis { opacity: 1; transform: translateY(0); }
-        @keyframes platinumShimmer {
-          0% { background-position: 0% center; }
-          100% { background-position: 200% center; }
-        }
-
-        .mist-sub {
-          margin-top: 24px;
-          font-size: clamp(14px, 1.3vw, 17px);
-          font-weight: 300;
-          color: rgba(255,255,255,0.42);
-          letter-spacing: 0.01em;
-          max-width: 480px;
-          line-height: 1.6;
-          opacity: 0;
-          transform: translateY(12px);
-          transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.54s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.54s;
-        }
-        .mist-sub.vis { opacity: 1; transform: translateY(0); }
-
-        .mist-btns {
-          display: flex;
-          gap: 12px;
-          margin-top: 36px;
-          opacity: 0;
-          transform: translateY(12px);
-          transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1) 0.72s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.72s;
-        }
-        .mist-btns.vis { opacity: 1; transform: translateY(0); }
-
-        .mist-btn-primary {
-          position: relative;
-          padding: 13px 40px;
-          border-radius: 100px;
-          border: none;
-          background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 40%, #252525 60%, #1a1a1a 100%);
-          color: #fff;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 14px;
-          font-weight: 300;
-          letter-spacing: 0.06em;
-          cursor: pointer;
-          text-decoration: none;
-          display: inline-block;
-          overflow: hidden;
-          transition: transform 0.3s ease, box-shadow 0.3s ease;
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
-        }
-        .mist-btn-primary::before {
-          content: '';
+        .h3-rows {
           position: absolute;
           inset: 0;
-          border-radius: 100px;
-          padding: 1.5px;
-          background: transparent;
-          -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-          -webkit-mask-composite: destination-out;
-          mask-composite: exclude;
-          transition: background 0.4s ease;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          gap: clamp(4px, 1.5vh, 20px);
+          will-change: transform, opacity;
         }
-        .mist-btn-primary:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 6px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+        .h3-row {
+          display: flex;
+          overflow: hidden;
+          white-space: nowrap;
         }
-        .mist-btn-primary:hover::before {
-          background: linear-gradient(135deg,
-            rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.22) 50%,
-            rgba(255,255,255,0.0) 100%);
+        .h3-row span {
+          flex-shrink: 0;
+          font-size: clamp(52px, 13vw, 200px);
+          font-weight: 800;
+          letter-spacing: -0.02em;
+          color: #fff;
+          padding-right: clamp(20px, 3vw, 56px);
+          line-height: 1;
         }
+        .h3-row-1 span, .h3-row-3 span { opacity: 0.94; }
+        .h3-row-2 { transform: translateX(clamp(-80px, -6vw, -30px)); }
+        .h3-row-2 span { opacity: 0.5; }
 
-        .mist-scrollbar {
+        .h3-photo-wrap {
           position: absolute;
-          bottom: 32px;
-          left: 0; right: 0;
-          z-index: 10;
+          inset: 0;
           display: flex;
           align-items: center;
           justify-content: center;
-          opacity: 0;
-          transition: opacity 0.8s cubic-bezier(0.16,1,0.3,1) 1s;
-          will-change: opacity;
+          z-index: 2;
+          pointer-events: none;
         }
-        .mist-scrollbar.vis { opacity: 1; }
-        .mist-sb-line {
-          flex: 1;
-          max-width: 220px;
-          height: 1px;
-          background: rgba(255,255,255,0.1);
-        }
-        .mist-sb-text {
-          font-size: 11px;
-          font-weight: 300;
-          color: rgba(255,255,255,0.28);
-          letter-spacing: 0.1em;
-          padding: 0 20px;
-          white-space: nowrap;
-        }
-        .mist-scroll-icon {
-          width: 24px; height: 40px;
-          border: 1.5px solid rgba(255,255,255,0.2);
-          border-radius: 12px;
-          display: flex;
-          align-items: flex-start;
-          justify-content: center;
-          padding-top: 6px;
-          flex-shrink: 0;
-        }
-        .mist-scroll-dot {
-          width: 3px; height: 7px;
-          background: rgba(255,255,255,0.45);
+        .h3-photo {
+          pointer-events: auto;
+          width: clamp(200px, 20vw, 320px);
+          aspect-ratio: 4 / 5.2;
           border-radius: 2px;
-          animation: mistScrollDrop 2.4s ease-in-out infinite;
+          overflow: hidden;
+          box-shadow: 0 30px 80px rgba(0,0,0,0.6);
+          -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
+          mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
         }
-        @keyframes mistScrollDrop {
-          0%   { transform: translateY(0);    opacity: 1; }
-          60%  { transform: translateY(11px); opacity: 0; }
-          61%  { transform: translateY(0);    opacity: 0; }
-          100% { transform: translateY(0);    opacity: 1; }
+        .h3-photo img {
+          width: 100%; height: 100%;
+          object-fit: cover; object-position: center;
+          display: block;
+          filter: contrast(1.3) grayscale(60%) brightness(0.92);
         }
 
-        .hero-fade-bottom {
-          position: absolute;
-          bottom: 0; left: 0; right: 0;
-          height: 280px;
-          background: linear-gradient(to bottom, transparent 0%, #000 100%);
-          pointer-events: none;
-          z-index: 5;
+        @media (max-width: 640px) {
+          .h3-row span { font-size: clamp(40px, 16vw, 90px); }
         }
       `}</style>
 
-      <section className="mist-hero" ref={heroRef}>
-
-        {/* Background layer */}
+      <section className="h3-hero">
         <div
-          className="mist-bg-layer"
-          style={{ transform: `scale(${bgScale})`, transition: 'transform 0.05s linear' }}
-        >
-          <div className="mist-orb mist-orb-1" style={{ transform: `translateY(${orb1Y}px)` }} />
-          <div className="mist-orb mist-orb-2" style={{ transform: `translateY(${orb2Y}px)` }} />
-          <div className="mist-orb mist-orb-3" style={{ transform: `translateY(${orb3Y}px)` }} />
-          <div className="mist-orb mist-orb-4" style={{ transform: `translateY(${orb4Y}px)` }} />
-        </div>
-
-        {/* Content — emerges from the singularity with a camera pull-back (scale 1.04 → 1) */}
-        <div
-          className="mist-content"
+          className="h3-rows"
           style={{
-            transform: `translateY(${-contentY}px) scale(${loaded ? 1 : 1.04})`,
             opacity: contentOp,
-            transition: 'transform 1.1s cubic-bezier(0.16,1,0.3,1)',
+            transform: `scale(${loaded ? 1 : 1.04})`,
+            transition: 'transform 1.2s cubic-bezier(0.16,1,0.3,1), opacity 1s cubic-bezier(0.16,1,0.3,1)',
           }}
         >
-          <div className={`mist-pill${loaded ? ' vis' : ''}`}>
-            <div className="mist-pill-dot" />
-            <span>Personal Portfolio</span>
-          </div>
-
-          <h1 className={`mist-name${loaded ? ' vis' : ''}`}>
-            James William<br />Hanzell
-          </h1>
-
-          <p className={`mist-sub${loaded ? ' vis' : ''}`}>
-            A computer science student building ambitious ideas through code.
-          </p>
-
-          <div className={`mist-btns${loaded ? ' vis' : ''}`}>
-            <button
-              className="mist-btn-primary"
-              onClick={() => {
-                play("click");
-                const el = document.getElementById('projects');
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-              }}
-            >
-              See Projects
-            </button>
-          </div>
+          {WORDS.map((word, i) => (
+            <div key={word} className={`h3-row h3-row-${i + 1}`}>
+              {Array.from({ length: REPEAT }).map((_, j) => (
+                <span key={j}>{word.toUpperCase()}</span>
+              ))}
+            </div>
+          ))}
         </div>
 
-        {/* Scroll indicator */}
-        <div
-          className={`mist-scrollbar${loaded ? ' vis' : ''}`}
-          style={{ opacity: loaded ? 1 - easeOutQuad(Math.min(progress / SCROLL_HINT_FADE_VH, 1)) : 0 }}
-        >
-          <div className="mist-sb-line" />
-          <span className="mist-sb-text">Scroll down</span>
-          <div className="mist-scroll-icon">
-            <div className="mist-scroll-dot" />
-          </div>
-          <span className="mist-sb-text">to see projects</span>
-          <div className="mist-sb-line" />
+        <div className="h3-photo-wrap">
+          <Tilt
+            options={{ max: 10, scale: 1.02, speed: 400, glare: true, 'max-glare': 0.15 }}
+            className="h3-photo"
+          >
+            <img src={james} alt="James William Hanzell" />
+          </Tilt>
         </div>
-
-        <div className="hero-fade-bottom" />
       </section>
     </>
   );

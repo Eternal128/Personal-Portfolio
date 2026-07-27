@@ -1,3 +1,5 @@
+import { blogGraphAlgorithms, blogBuildingThings } from '../assets';
+
 const VID = {
   fourRaws:    'https://res.cloudinary.com/daetzwh6x/video/upload/v1774021264/4_Raws_-_Toji_Fushiguro_oyvmqf.mp4',
   strongest:   'https://res.cloudinary.com/daetzwh6x/video/upload/v1773972756/the_strongest_ebutvq.mp4',
@@ -15,6 +17,7 @@ export const POSTS = [
     readingTime: '10 min',
     excerpt:
       'I turned Jakarta into a 46 node weighted graph and tested Dijkstra against Kruskal to figure out the best delivery routes. This is what I learned about greedy algorithms and why the right one really just depends on the question.',
+    thumbnail: blogGraphAlgorithms,
     hero: { type: 'interactive', widget: 'jakarta' },
     blocks: [
       { type: 'paragraph', text: 'This whole thing started because of a pretty practical problem. During COVID a lot of delivery services were losing money on bad routes, too much back and forth, too much fuel. I commute really far across Jakarta every day and I was always kind of amazed at how Google Maps just finds the fastest way home every time. So I wanted to figure it out myself. What is the actual shortest path for a delivery driver to get around the city, and can I prove which algorithm does it best?' },
@@ -96,6 +99,7 @@ print("Kruskal MST saved.")`,
     readingTime: '8 min',
     excerpt:
       'How I went from thinking ML was scary math to building tiny generative models myself, and why watching a machine make stuff up is what finally made it click.',
+    thumbnail: blogBuildingThings,
     hero: { type: 'interactive', widget: 'latentart' },
     blocks: [
       { type: 'paragraph', text: 'Machine learning used to scare me a lot. It felt like this wall of math that only PhD people were allowed to touch. What actually got me past that was not a class, it was building small dumb versions of these models myself until they stopped feeling like magic. That image at the top of the page? My site made it live, no photos involved, just a tiny neural net turning random numbers into color.' },

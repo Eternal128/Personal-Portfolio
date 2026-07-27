@@ -1,7 +1,18 @@
-import React, { useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { gsap } from 'gsap';
 import { experiences } from "../constants";
-import { useSound } from "../context/SoundContext";
+import { useLenis } from "../context/LenisContext";
+
+// Picks readable text color against an arbitrary iconBg swatch.
+const readableTextOn = (hex) => {
+  const c = hex.replace('#', '');
+  const r = parseInt(c.substring(0, 2), 16);
+  const g = parseInt(c.substring(2, 4), 16);
+  const b = parseInt(c.substring(4, 6), 16);
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.6 ? '#171400' : '#fff';
+};
 
 const Highlight = ({ text, active, baseDelay = 0 }) => {
   const parts = text.split(/(\*\*.*?\*\*)/g);
@@ -67,191 +78,389 @@ const Highlight = ({ text, active, baseDelay = 0 }) => {
   );
 };
 
-const ExperienceCard = ({ experience, index, isActive, onClick }) => {
+// A plain full-width bar per job — just the company name, large, with a
+// hover-revealed arrow — matching the reference list pattern (hover dims the
+// row and shifts the title/arrow apart; click opens the full detail page,
+// which still carries the job title, date, and bullets).
+const ExperienceRow = ({ experience, index, onOpen, onHoverChange }) => {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.2 }}
-      transition={{ duration: 0.6, delay: index * 0.08, ease: [0.25, 0.46, 0.45, 0.94] }}
-      onClick={onClick}
+      className="exp-row"
       role="button"
       tabIndex={0}
-      aria-expanded={isActive}
-      aria-label={`${experience.title} at ${experience.company_name}`}
+      aria-label={`View details for ${experience.title} at ${experience.company_name}`}
+      onClick={onOpen}
+      onMouseEnter={() => onHoverChange(true)}
+      onMouseLeave={() => onHoverChange(false)}
       onKeyDown={(e) => {
         if (e.key === 'Enter' || e.key === ' ') {
           e.preventDefault();
-          onClick();
+          onOpen();
         }
       }}
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
+      style={{ borderTop: index === 0 ? "none" : "1px solid rgba(255,255,255,0.16)" }}
+    >
+      <h3 className="exp-row-title">{experience.company_name}</h3>
+      <span className="exp-row-arrow">↗</span>
+    </motion.div>
+  );
+};
+
+// Single box that trails the cursor while any row is hovered, sliding an
+// internal filmstrip to the hovered job's icon — mirrors the mouse-follow
+// project preview pattern (gsap.quickTo spring-follow + scale-in modal).
+const CursorPreview = ({ hoveredIndex }) => {
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const xTo = gsap.quickTo(containerRef.current, "left", { duration: 0.6, ease: "power3" });
+    const yTo = gsap.quickTo(containerRef.current, "top", { duration: 0.6, ease: "power3" });
+    const handler = (e) => {
+      xTo(e.clientX);
+      yTo(e.clientY);
+    };
+    window.addEventListener("mousemove", handler);
+    return () => window.removeEventListener("mousemove", handler);
+  }, []);
+
+  const active = hoveredIndex !== null;
+  const displayIndex = hoveredIndex ?? 0;
+
+  return (
+    <motion.div
+      ref={containerRef}
+      className="exp-cursor-preview"
+      initial={{ scale: 0 }}
+      animate={{ scale: active ? 1 : 0 }}
+      transition={{ duration: 0.4, ease: active ? [0.16, 1, 0.3, 1] : [0.6, 0, 0.8, 0.2] }}
       style={{
-        cursor: "pointer",
-        borderTop: "1px solid rgba(255,255,255,0.07)",
-        padding: "28px 0",
-        display: "grid",
-        gridTemplateColumns: "1fr auto",
-        gap: 24,
-        alignItems: "start",
-        transition: "opacity 0.2s",
+        position: "fixed",
+        left: 0,
+        top: 0,
+        marginLeft: -180,
+        marginTop: -130,
+        width: 360,
+        height: 260,
+        borderRadius: 20,
+        overflow: "hidden",
+        zIndex: 60,
+        pointerEvents: "none",
+        boxShadow: "0 30px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(212,180,100,0.08)",
       }}
     >
-      {/* Left — role + company + points */}
-      <div>
-        <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 6 }}>
-          {/* Company icon dot */}
+      <div
+        style={{
+          position: "absolute",
+          height: "100%",
+          width: "100%",
+          top: `${displayIndex * -100}%`,
+          transition: "top 0.5s cubic-bezier(0.76,0,0.24,1)",
+        }}
+      >
+        {experiences.map((exp, i) => (
           <div
+            key={i}
             style={{
-              width: 36,
-              height: 36,
-              borderRadius: 10,
-              background: "rgba(255,255,255,0.04)",
-              border: "1px solid rgba(255,255,255,0.08)",
+              height: "100%",
+              width: "100%",
+              background: exp.iconBg,
               display: "flex",
+              flexDirection: "column",
               alignItems: "center",
               justifyContent: "center",
-              flexShrink: 0,
-              overflow: "hidden",
+              gap: 16,
             }}
           >
-            <img
-              src={experience.icon}
-              alt={experience.company_name}
-              style={{ width: 22, height: 22, objectFit: "contain", filter: "grayscale(100%) brightness(1.2)" }}
-            />
-          </div>
-
-          <div>
-            <p
-              style={{
-                fontSize: 13,
-                fontWeight: 300,
-                color: "rgba(255,255,255,0.35)",
-                letterSpacing: "0.05em",
-                marginBottom: 2,
-                fontFamily: "'DM Sans', sans-serif",
-              }}
-            >
-              {experience.company_name}
-            </p>
-            <h3
-              style={{
-                fontSize: 18,
-                fontWeight: 300,
-                color: isActive ? "#fff" : "rgba(255,255,255,0.75)",
-                letterSpacing: "-0.01em",
-                fontFamily: "'DM Sans', sans-serif",
-                transition: "color 0.3s",
-              }}
-            >
-              {experience.title}
-            </h3>
-          </div>
-        </div>
-
-        {/* Expandable bullet points */}
-        <motion.div
-          initial={false}
-          animate={{ height: isActive ? "auto" : 0, opacity: isActive ? 1 : 0 }}
-          transition={{ duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
-          style={{ overflow: "hidden", paddingLeft: 50 }}
-        >
-          <div style={{ paddingTop: 16, paddingBottom: 4, display: "flex", flexDirection: "column", gap: 8 }}>
-            {experience.points.map((point, i) => (
-              <div key={i} style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-                <span
-                  style={{
-                    width: 4,
-                    height: 4,
-                    borderRadius: "50%",
-                    background: "rgba(255,255,255,0.25)",
-                    marginTop: 7,
-                    flexShrink: 0,
-                  }}
-                />
-                <p
-                  style={{
-                    fontSize: 13,
-                    fontWeight: 300,
-                    color: "rgba(255,255,255,0.45)",
-                    lineHeight: 1.9,
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}
-                >
-                  <Highlight text={point} active={isActive} baseDelay={0.25 + i * 0.06} />
-                </p>
+            <img src={exp.icon} alt="" style={{ width: 68, height: 68, objectFit: "contain" }} />
+            <div style={{ textAlign: "center", padding: "0 24px" }}>
+              <div style={{ fontSize: 16, fontWeight: 500, color: readableTextOn(exp.iconBg), fontFamily: "'DM Sans', sans-serif", marginBottom: 4 }}>
+                {exp.company_name}
               </div>
-            ))}
+              <div style={{ fontSize: 12, fontWeight: 300, color: readableTextOn(exp.iconBg), opacity: 0.65, fontFamily: "'DM Sans', sans-serif" }}>
+                {exp.title}
+              </div>
+            </div>
           </div>
-        </motion.div>
+        ))}
       </div>
+    </motion.div>
+  );
+};
 
-      {/* Right — date + expand indicator */}
-      <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 10, paddingTop: 4 }}>
-        <span
-          style={{
-            fontSize: 12,
-            fontWeight: 300,
-            color: "rgba(255,255,255,0.28)",
-            letterSpacing: "0.06em",
-            fontFamily: "'DM Sans', sans-serif",
-            whiteSpace: "nowrap",
-          }}
-        >
-          {experience.date}
-        </span>
+// Full-page takeover shown when a job is clicked, mirroring the site's
+// existing full-screen overlay pattern (used by the Blog reader) instead of
+// the old in-place "jump to the row you already clicked" scroll.
+const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext }) => {
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose();
+      if (e.key === 'ArrowLeft') onPrev();
+      if (e.key === 'ArrowRight') onNext();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose, onPrev, onNext]);
+
+  return (
+    <motion.div
+      data-lenis-prevent
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+      style={{
+        position: "fixed",
+        inset: 0,
+        zIndex: 900,
+        background: "#08080a",
+        color: "#fff",
+        fontFamily: "'DM Sans', sans-serif",
+        overflowY: "auto",
+        overscrollBehavior: "contain",
+        WebkitOverflowScrolling: "touch",
+      }}
+    >
+      {/* Sticky top bar */}
+      <div
+        style={{
+          position: "sticky",
+          top: 0,
+          zIndex: 5,
+          background: "rgba(8,8,10,0.85)",
+          backdropFilter: "blur(10px)",
+          WebkitBackdropFilter: "blur(10px)",
+          borderBottom: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
         <div
           style={{
-            width: 24,
-            height: 24,
-            borderRadius: "50%",
-            border: "1px solid rgba(255,255,255,0.12)",
+            maxWidth: 1000,
+            margin: "0 auto",
             display: "flex",
             alignItems: "center",
-            justifyContent: "center",
-            transition: "transform 0.35s ease, border-color 0.3s",
-            transform: isActive ? "rotate(45deg)" : "rotate(0deg)",
-            borderColor: isActive ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.12)",
+            justifyContent: "space-between",
+            padding: "22px clamp(22px, 6vw, 64px)",
           }}
         >
-          <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-            <path d="M5 1V9M1 5H9" stroke="rgba(255,255,255,0.5)" strokeWidth="1.2" strokeLinecap="round" />
-          </svg>
+          <button
+            onClick={onClose}
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              color: "rgba(255,255,255,0.6)",
+              fontSize: 12,
+              letterSpacing: "0.06em",
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+          >
+            ← Work Experience
+          </button>
+
+          <span
+            style={{
+              fontSize: 11,
+              letterSpacing: "0.28em",
+              textTransform: "uppercase",
+              color: "rgba(255,255,255,0.32)",
+            }}
+          >
+            {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+          </span>
+
+          <div style={{ display: "flex", gap: 10 }}>
+            <button
+              onClick={onPrev}
+              aria-label="Previous role"
+              style={{
+                width: 34, height: 34, borderRadius: "50%",
+                border: "1px solid rgba(255,255,255,0.15)", background: "none",
+                color: "rgba(255,255,255,0.6)", cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="15 18 9 12 15 6" />
+              </svg>
+            </button>
+            <button
+              onClick={onNext}
+              aria-label="Next role"
+              style={{
+                width: 34, height: 34, borderRadius: "50%",
+                border: "1px solid rgba(255,255,255,0.15)", background: "none",
+                color: "rgba(255,255,255,0.6)", cursor: "pointer",
+                display: "flex", alignItems: "center", justifyContent: "center",
+              }}
+            >
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="9 18 15 12 9 6" />
+              </svg>
+            </button>
+          </div>
         </div>
+      </div>
+
+      <div style={{ maxWidth: 1000, margin: "0 auto", padding: "clamp(56px, 9vh, 110px) clamp(22px, 6vw, 64px) clamp(80px, 14vh, 160px)" }}>
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          style={{ display: "flex", alignItems: "center", gap: 18, marginBottom: 32 }}
+        >
+          <div
+            style={{
+              width: 64, height: 64, borderRadius: 16,
+              background: experience.iconBg,
+              display: "flex", alignItems: "center", justifyContent: "center",
+              flexShrink: 0,
+            }}
+          >
+            <img src={experience.icon} alt="" style={{ width: 34, height: 34, objectFit: "contain" }} />
+          </div>
+          <div>
+            <div style={{ fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>
+              {experience.company_name}
+            </div>
+            <div style={{ fontSize: 12, fontWeight: 300, color: "rgba(255,255,255,0.35)", letterSpacing: "0.05em" }}>
+              {experience.date}
+            </div>
+          </div>
+        </motion.div>
+
+        <motion.h1
+          initial={{ opacity: 0, y: 22 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.16, ease: [0.16, 1, 0.3, 1] }}
+          style={{
+            fontSize: "clamp(2.2rem, 6vw, 4rem)",
+            fontWeight: 300,
+            lineHeight: 1.04,
+            letterSpacing: "-0.02em",
+            marginBottom: "clamp(48px, 8vh, 90px)",
+            color: "#fff",
+          }}
+        >
+          {experience.title}
+        </motion.h1>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: 26 }}>
+          {experience.points.map((point, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.55, delay: 0.22 + i * 0.08, ease: [0.16, 1, 0.3, 1] }}
+              style={{ display: "flex", gap: 14, alignItems: "flex-start" }}
+            >
+              <span
+                style={{
+                  width: 5, height: 5, borderRadius: "50%",
+                  background: "rgba(212,180,100,0.7)", marginTop: 10, flexShrink: 0,
+                }}
+              />
+              <p style={{ fontSize: 16, fontWeight: 300, color: "rgba(255,255,255,0.6)", lineHeight: 1.85 }}>
+                <Highlight text={point} active baseDelay={0} />
+              </p>
+            </motion.div>
+          ))}
+        </div>
+
+        <button
+          onClick={onClose}
+          style={{
+            marginTop: "clamp(60px, 10vh, 100px)",
+            background: "none",
+            border: "1px solid rgba(255,255,255,0.18)",
+            borderRadius: 100,
+            padding: "13px 28px",
+            cursor: "pointer",
+            fontSize: 11,
+            letterSpacing: "0.2em",
+            textTransform: "uppercase",
+            color: "rgba(255,255,255,0.7)",
+          }}
+        >
+          ← Back to Work Experience
+        </button>
       </div>
     </motion.div>
   );
 };
 
 const Experience = () => {
-  const [openIndices, setOpenIndices] = useState(new Set());
-  const { play } = useSound();
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState(null);
+  const lenis = useLenis();
 
-  const toggle = (i) => {
-    play("click");
-    setOpenIndices(prev => {
-      const next = new Set(prev);
-      next.has(i) ? next.delete(i) : next.add(i);
-      return next;
-    });
-  };
+  // Pause background scroll while a job's detail page is open, same
+  // lock-and-restore approach the Blog overlay uses.
+  useEffect(() => {
+    if (openIndex !== null) {
+      lenis?.stop();
+      document.documentElement.style.overflow = 'hidden';
+    } else {
+      lenis?.start();
+      document.documentElement.style.overflow = '';
+    }
+    return () => {
+      document.documentElement.style.overflow = '';
+    };
+  }, [openIndex, lenis]);
 
   return (
     <>
+      <style>{`
+        .exp-row {
+          display: grid;
+          grid-template-columns: 1fr auto;
+          align-items: center;
+          gap: 32px;
+          padding: clamp(24px, 3.6vh, 38px) 0;
+          cursor: pointer;
+          transition: opacity 0.3s ease;
+        }
+        .exp-row:hover { opacity: 0.55; }
+        .exp-row-title {
+          margin: 0;
+          font-size: clamp(22px, 3.2vw, 38px);
+          font-weight: 300;
+          letter-spacing: -0.01em;
+          color: #fff;
+          transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .exp-row:hover .exp-row-title { transform: translateX(-14px); }
+        .exp-row-arrow {
+          font-size: 18px;
+          color: rgba(255,255,255,0.4);
+          opacity: 0;
+          transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+        }
+        .exp-row:hover .exp-row-arrow { opacity: 1; transform: translate(6px, -5px); }
+
+        @media (max-width: 767px) {
+          .exp-row { padding: 28px 0; }
+          .exp-row:hover .exp-row-title, .exp-row:hover .exp-row-arrow { transform: none; }
+          .exp-cursor-preview { display: none !important; }
+        }
+      `}</style>
+
       <section
         id="work"
         style={{
           background: "transparent",
-          padding: "100px 0 80px",
+          padding: "100px 0 40px",
           fontFamily: "'DM Sans', sans-serif",
           position: "relative",
           zIndex: 2,
         }}
       >
-        {/* Aligned to match projects/testimonials: max-w-7xl mx-auto px-6 sm:px-16 */}
-        <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 64px" }}>
+        <div style={{ width: "100%", padding: "0 clamp(24px, 6vw, 120px)" }}>
 
-          {/* Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -286,21 +495,36 @@ const Experience = () => {
             </h2>
           </motion.div>
 
-          {/* Timeline rows */}
-          <div style={{ borderBottom: "1px solid rgba(255,255,255,0.07)" }}>
+          <div style={{ borderTop: "1px solid rgba(255,255,255,0.16)", borderBottom: "1px solid rgba(255,255,255,0.16)" }}>
             {experiences.map((exp, i) => (
-              <ExperienceCard
+              <ExperienceRow
                 key={i}
                 index={i}
                 experience={exp}
-                isActive={openIndices.has(i)}
-                onClick={() => toggle(i)}
+                onOpen={() => setOpenIndex(i)}
+                onHoverChange={(isHovering) => setHoveredIndex(isHovering ? i : null)}
               />
             ))}
           </div>
 
         </div>
       </section>
+
+      <CursorPreview hoveredIndex={hoveredIndex} />
+
+      <AnimatePresence>
+        {openIndex !== null && (
+          <ExperienceDetail
+            key="exp-detail"
+            experience={experiences[openIndex]}
+            index={openIndex}
+            total={experiences.length}
+            onClose={() => setOpenIndex(null)}
+            onPrev={() => setOpenIndex((i) => (i - 1 + experiences.length) % experiences.length)}
+            onNext={() => setOpenIndex((i) => (i + 1) % experiences.length)}
+          />
+        )}
+      </AnimatePresence>
     </>
   );
 };
