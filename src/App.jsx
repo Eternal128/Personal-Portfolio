@@ -9,7 +9,6 @@ import {
   Navbar, Tech, Works, StarsCanvas, End, CustomCursor, Loader,
 } from './components';
 import BlogSection from './components/BlogSection';
-import AboutPage from './components/AboutPage';
 import FlightPath from './components/FlightPath';
 import { useSoundFX } from './hooks/useSoundFX';
 import { POSTS } from './constants/posts';
@@ -59,6 +58,7 @@ const getStateFromLocation = () => {
 
 const App = () => {
   const [loading, setLoading] = useState(true);
+  const [navReady, setNavReady] = useState(false);
   const [heroReady, setHeroReady] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
   const [initialPost, setInitialPost] = useState(null);
@@ -199,11 +199,17 @@ const App = () => {
           <StarsCanvas />
         </div>
 
-        {/* Loader is NOT part of browser history */}
+        {/* Loader is NOT part of browser history. Reveal happens AFTER the
+            zoom fully completes, not hidden behind it, so the site's own
+            components animate in one by one where the user can see it:
+            Navbar first, then Hero a beat later. */}
         {loading && (
           <Loader
-            onReveal={() => setHeroReady(true)}
-            onComplete={() => setLoading(false)}
+            onComplete={() => {
+              setLoading(false);
+              setNavReady(true);
+              setTimeout(() => setHeroReady(true), 300);
+            }}
           />
         )}
 
@@ -226,9 +232,9 @@ const App = () => {
             <FlightPath />
           </div>
 
-          <Navbar />
+          <Navbar revealed={navReady} />
           <Hero heroReady={heroReady} />
-          <About />
+          <About onOpenPost={openBlogPost} />
           <Experience />
           <Tech />
           <Works />

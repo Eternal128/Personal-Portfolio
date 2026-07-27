@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { motion } from "framer-motion";
 import { navLinks } from "../constants";
 import { useSound } from "../context/SoundContext";
 import { useLenis } from "../context/LenisContext";
@@ -30,7 +31,7 @@ const ThemeToggle = ({ className }) => {
   );
 };
 
-const Navbar = () => {
+const Navbar = ({ revealed = true }) => {
   const [scrolled, setScrolled] = useState(false);
   const [active, setActive] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -346,7 +347,12 @@ const Navbar = () => {
         ))}
       </div>
 
-      <nav className="nav-root">
+      <motion.nav
+        className="nav-root"
+        initial={{ opacity: 0, y: -16 }}
+        animate={{ opacity: revealed ? 1 : 0, y: revealed ? 0 : -16 }}
+        transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+      >
         <div className={`nav-bar${scrolled ? ' scrolled' : ''}`}>
 
           {/* Logo */}
@@ -396,7 +402,7 @@ const Navbar = () => {
           </div>
 
         </div>
-      </nav>
+      </motion.nav>
     </>
   );
 };

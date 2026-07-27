@@ -267,6 +267,8 @@ const VideoPlayer = ({ item, style }) => {
   );
 };
 
+const MEDIA_RADIUS = 14;
+
 const MediaEl = ({ item, style }) =>
   item.type === 'video' ? (
     <VideoPlayer item={item} style={style} />
@@ -277,7 +279,7 @@ const MediaEl = ({ item, style }) =>
       style={{
         width: '100%',
         display: 'block',
-        borderRadius: 4,
+        borderRadius: MEDIA_RADIUS,
         ...style,
       }}
     />
@@ -294,11 +296,20 @@ const Figure = ({ block }) => {
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       style={{
         margin: 'clamp(48px,8vh,96px) auto',
-        width: wide ? 'min(1080px, calc(100vw - clamp(44px,12vw,160px)))' : '100%',
-        marginLeft: wide ? 'calc(50% - min(540px, calc(50vw - clamp(22px,6vw,80px))))' : undefined,
+        width: wide ? 'min(1400px, calc(100vw - clamp(44px,10vw,120px)))' : '100%',
+        marginLeft: wide ? 'calc(50% - min(700px, calc(50vw - clamp(22px,5vw,60px))))' : undefined,
       }}
     >
-      <MediaEl item={block} />
+      <div
+        style={{
+          borderRadius: MEDIA_RADIUS,
+          overflow: 'hidden',
+          border: '1px solid rgba(17,16,16,0.08)',
+          boxShadow: '0 30px 80px rgba(0,0,0,0.35)',
+        }}
+      >
+        <MediaEl item={block} style={{ borderRadius: 0 }} />
+      </div>
 
       {block.caption && (
         <figcaption
@@ -308,7 +319,7 @@ const Figure = ({ block }) => {
             fontSize: 11,
             letterSpacing: '0.1em',
             textTransform: 'uppercase',
-            color: 'rgba(17,16,16,0.45)',
+            color: 'rgba(17,16,16,0.4)',
           }}
         >
           {block.caption}
@@ -328,12 +339,22 @@ const Duo = ({ items }) => (
     style={{
       display: 'grid',
       gridTemplateColumns: '1fr 1fr',
-      gap: 14,
+      gap: 18,
       margin: 'clamp(48px,8vh,96px) 0',
     }}
   >
     {items.map((it, i) => (
-      <MediaEl key={i} item={it} />
+      <div
+        key={i}
+        style={{
+          borderRadius: MEDIA_RADIUS,
+          overflow: 'hidden',
+          border: '1px solid rgba(17,16,16,0.08)',
+          boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
+        }}
+      >
+        <MediaEl item={it} style={{ borderRadius: 0 }} />
+      </div>
     ))}
   </motion.div>
 );
@@ -444,10 +465,10 @@ const CodeBlock = ({ block }) => {
       transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
       style={{
         margin: 'clamp(44px,7vh,84px) 0',
-        borderRadius: 8,
+        borderRadius: MEDIA_RADIUS,
         overflow: 'hidden',
-        border: '1px solid rgba(0,0,0,0.4)',
-        boxShadow: '0 20px 50px rgba(0,0,0,0.25)',
+        border: '1px solid rgba(17,16,16,0.1)',
+        boxShadow: '0 20px 50px rgba(0,0,0,0.3)',
       }}
     >
       <div
@@ -539,11 +560,10 @@ const PostBody = ({ blocks }) =>
         return (
           <h3
             key={i}
-            className="bl-serif"
             style={{
-              fontWeight: 400,
-              fontSize: 'clamp(1.5rem,3.4vw,2.1rem)',
-              lineHeight: 1.1,
+              fontWeight: 300,
+              fontSize: 'clamp(1.5rem,3.4vw,2.2rem)',
+              lineHeight: 1.15,
               letterSpacing: '-0.01em',
               margin: 'clamp(50px,8vh,90px) 0 22px',
               color: INK,
@@ -557,14 +577,13 @@ const PostBody = ({ blocks }) =>
         return (
           <blockquote
             key={i}
-            className="bl-serif"
             style={{
               margin: 'clamp(56px,9vh,100px) 0',
               paddingLeft: 28,
-              borderLeft: `2px solid ${INK}`,
+              borderLeft: '2px solid rgba(212,180,100,0.6)',
               fontWeight: 300,
-              fontSize: 'clamp(1.5rem,3.6vw,2.3rem)',
-              lineHeight: 1.28,
+              fontSize: 'clamp(1.4rem,3.4vw,2.1rem)',
+              lineHeight: 1.35,
               letterSpacing: '-0.01em',
               color: INK,
             }}
@@ -621,7 +640,7 @@ const PostBody = ({ blocks }) =>
               fontSize: '1.16rem',
               lineHeight: 1.9,
               fontWeight: 300,
-              color: 'rgba(17,16,16,0.86)',
+              color: 'rgba(17,16,16,0.75)',
               marginBottom: 32,
             }}
           >
@@ -754,20 +773,35 @@ const Blog = ({ onClose, initialPost = null }) => {
       }}
     >
       <style>{`
-.bl-serif { font-family: 'Fraunces', Georgia, serif; }
-        .bl-mono  { font-family: 'DM Mono', monospace; }
-        .bl-wrap  { max-width: 1180px; margin: 0 auto; padding: 0 clamp(22px, 6vw, 80px); }
+.bl-mono  { font-family: 'DM Mono', monospace; }
+        .bl-wrap  { width: 100%; padding: 0 clamp(24px, 6vw, 120px); }
 
         .bl-row {
           display: grid;
-          grid-template-columns: 64px 1fr auto;
-          gap: clamp(20px, 4vw, 56px);
-          align-items: baseline;
-          padding: clamp(30px, 4vw, 46px) 0;
-          border-top: 1px solid rgba(17,16,16,0.14);
+          grid-template-columns: 128px 56px 1fr auto;
+          gap: clamp(20px, 3vw, 40px);
+          align-items: center;
+          padding: clamp(26px, 3.4vw, 38px) 0;
+          border-top: 1px solid rgba(17,16,16,0.1);
           cursor: pointer;
           position: relative;
         }
+
+        .bl-row-thumb {
+          width: 100%;
+          aspect-ratio: 16 / 10;
+          border-radius: 10px;
+          overflow: hidden;
+          border: 1px solid rgba(17,16,16,0.08);
+          background: rgba(17,16,16,0.04);
+          flex-shrink: 0;
+        }
+        .bl-row-thumb img, .bl-row-thumb video {
+          width: 100%; height: 100%; object-fit: cover; display: block;
+          transition: transform 0.6s cubic-bezier(0.16,1,0.3,1);
+        }
+        .bl-row:hover .bl-row-thumb img,
+        .bl-row:hover .bl-row-thumb video { transform: scale(1.06); }
 
         .bl-row::after {
           content: '';
@@ -788,17 +822,9 @@ const Blog = ({ onClose, initialPost = null }) => {
         .bl-num { transition: color 0.4s ease; }
         .bl-row:hover .bl-num { color: ${INK}; }
 
-        .bl-read p:first-of-type::first-letter {
-          font-family: 'Fraunces', Georgia, serif;
-          float: left;
-          font-size: 4.4em;
-          line-height: 0.74;
-          padding: 6px 14px 0 0;
-          font-weight: 400;
-        }
-
         @media (max-width: 720px) {
-          .bl-row { grid-template-columns: 1fr; gap: 10px; }
+          .bl-row { grid-template-columns: 1fr; gap: 16px; align-items: stretch; }
+          .bl-row-thumb { aspect-ratio: 16 / 9; }
           .bl-num { display: none; }
           .bl-row:hover .bl-title { transform: none; }
           .bl-duo { grid-template-columns: 1fr !important; }
@@ -813,8 +839,10 @@ const Blog = ({ onClose, initialPost = null }) => {
             position: 'sticky',
             top: 0,
             zIndex: 10,
-            background: PAPER,
-            borderBottom: '1px solid rgba(17,16,16,0.10)',
+            background: 'rgba(233,229,220,0.75)',
+            backdropFilter: 'blur(16px)',
+            WebkitBackdropFilter: 'blur(16px)',
+            borderBottom: '1px solid rgba(17,16,16,0.08)',
           }}
         >
           <div
@@ -823,11 +851,11 @@ const Blog = ({ onClose, initialPost = null }) => {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-between',
-              padding: '20px clamp(22px, 6vw, 80px)',
+              padding: '20px clamp(24px, 6vw, 120px)',
             }}
           >
             <button onClick={beginClose} style={btnReset}>
-              <span className="bl-mono" style={{ fontSize: 12, letterSpacing: '0.06em' }}>
+              <span className="bl-mono" style={{ fontSize: 12, letterSpacing: '0.06em', color: 'rgba(17,16,16,0.7)' }}>
                 ← James Hanzell
               </span>
             </button>
@@ -838,7 +866,7 @@ const Blog = ({ onClose, initialPost = null }) => {
                 fontSize: 11,
                 letterSpacing: '0.3em',
                 textTransform: 'uppercase',
-                color: 'rgba(17,16,16,0.5)',
+                color: 'rgba(17,16,16,0.4)',
               }}
             >
               The Journal
@@ -877,7 +905,7 @@ const Blog = ({ onClose, initialPost = null }) => {
               fontSize: 11,
               letterSpacing: '0.3em',
               textTransform: 'uppercase',
-              color: 'rgba(17,16,16,0.5)',
+              color: 'rgba(17,16,16,0.4)',
               marginBottom: 26,
             }}
           >
@@ -888,17 +916,16 @@ const Blog = ({ onClose, initialPost = null }) => {
             initial={{ opacity: 0, y: 22 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.9, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
-            className="bl-serif"
             style={{
               fontWeight: 300,
               fontSize: 'clamp(2.6rem, 8vw, 6.2rem)',
               lineHeight: 0.98,
               letterSpacing: '-0.02em',
-              maxWidth: 900,
+              maxWidth: 1000,
               color: INK,
             }}
           >
-            The space between building and feeling.
+            Blog Collection.
           </motion.h1>
         </div>
 
@@ -931,6 +958,14 @@ const Blog = ({ onClose, initialPost = null }) => {
                 }
               }}
             >
+              <div className="bl-row-thumb">
+                {p.thumbnail ? (
+                  <img src={p.thumbnail} alt="" />
+                ) : p.hero?.type === 'video' ? (
+                  <video src={p.hero.src} autoPlay muted loop playsInline />
+                ) : null}
+              </div>
+
               <span
                 className="bl-mono bl-num"
                 style={{
@@ -946,23 +981,44 @@ const Blog = ({ onClose, initialPost = null }) => {
                 <div
                   className="bl-mono"
                   style={{
-                    fontSize: 10.5,
-                    letterSpacing: '0.24em',
-                    textTransform: 'uppercase',
-                    color: 'rgba(17,16,16,0.42)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 10,
                     marginBottom: 14,
                   }}
                 >
-                  {p.kicker} · {p.date} · {p.readingTime}
+                  <span
+                    style={{
+                      fontSize: 10,
+                      letterSpacing: '0.14em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(212,180,100,0.9)',
+                      border: '1px solid rgba(212,180,100,0.35)',
+                      borderRadius: 100,
+                      padding: '3px 10px',
+                    }}
+                  >
+                    {p.kicker}
+                  </span>
+                  <span
+                    style={{
+                      fontSize: 10.5,
+                      letterSpacing: '0.18em',
+                      textTransform: 'uppercase',
+                      color: 'rgba(17,16,16,0.4)',
+                    }}
+                  >
+                    {p.date} · {p.readingTime}
+                  </span>
                 </div>
 
                 <h2
-                  className="bl-serif bl-title"
+                  className="bl-title"
                   style={{
                     color: INK,
                     fontWeight: 400,
-                    fontSize: 'clamp(1.7rem, 3.6vw, 2.8rem)',
-                    lineHeight: 1.06,
+                    fontSize: 'clamp(1.7rem, 3.6vw, 2.6rem)',
+                    lineHeight: 1.1,
                     letterSpacing: '-0.01em',
                     marginBottom: 16,
                     display: 'inline-block',
@@ -976,7 +1032,7 @@ const Blog = ({ onClose, initialPost = null }) => {
                     fontSize: '1rem',
                     fontWeight: 300,
                     lineHeight: 1.65,
-                    color: 'rgba(17,16,16,0.6)',
+                    color: 'rgba(17,16,16,0.55)',
                     maxWidth: 560,
                   }}
                 >
@@ -985,9 +1041,10 @@ const Blog = ({ onClose, initialPost = null }) => {
               </div>
 
               <span
-                className="bl-arrow bl-serif"
+                className="bl-arrow"
                 style={{
                   fontSize: '1.6rem',
+                  fontWeight: 300,
                   alignSelf: 'center',
                   color: INK,
                 }}
@@ -997,7 +1054,7 @@ const Blog = ({ onClose, initialPost = null }) => {
             </motion.div>
           ))}
 
-          <div style={{ borderTop: '1px solid rgba(17,16,16,0.14)' }} />
+          <div style={{ borderTop: '1px solid rgba(17,16,16,0.1)' }} />
         </div>
 
         {/* Article reader */}
@@ -1025,8 +1082,10 @@ const Blog = ({ onClose, initialPost = null }) => {
                   position: 'sticky',
                   top: 0,
                   zIndex: 5,
-                  background: PAPER,
-                  borderBottom: '1px solid rgba(17,16,16,0.10)',
+                  background: 'rgba(233,229,220,0.75)',
+                  backdropFilter: 'blur(16px)',
+                  WebkitBackdropFilter: 'blur(16px)',
+                  borderBottom: '1px solid rgba(17,16,16,0.08)',
                 }}
               >
                 <div
@@ -1035,7 +1094,7 @@ const Blog = ({ onClose, initialPost = null }) => {
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'space-between',
-                    padding: '20px clamp(22px, 6vw, 80px)',
+                    padding: '20px clamp(24px, 6vw, 120px)',
                   }}
                 >
                   <button
@@ -1045,7 +1104,7 @@ const Blog = ({ onClose, initialPost = null }) => {
                       ...btnReset,
                       fontSize: 12,
                       letterSpacing: '0.06em',
-                      color: 'rgba(17,16,16,0.55)',
+                      color: 'rgba(17,16,16,0.6)',
                     }}
                   >
                     ← Index
@@ -1066,40 +1125,43 @@ const Blog = ({ onClose, initialPost = null }) => {
               </div>
 
               {openPost.hero && (
-                <div
-                  style={{
-                    padding: 'clamp(28px, 5vw, 64px) clamp(22px, 6vw, 80px) 0',
-                  }}
-                >
-                  {openPost.hero.type === 'interactive' ? (
-                    <div style={{ maxWidth: 1180, margin: '0 auto' }}>
+                openPost.hero.type === 'interactive' ? (
+                  <div style={{ padding: 'clamp(28px, 5vw, 64px) clamp(24px, 6vw, 120px) 0' }}>
+                    <div style={{ maxWidth: 1400, margin: '0 auto' }}>
                       <PostBody blocks={[openPost.hero]} />
                     </div>
-                  ) : (
-                    <motion.div
-                      initial={{ opacity: 0, y: 16 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  </div>
+                ) : (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    style={{
+                      position: 'relative',
+                      width: '100%',
+                      height: 'clamp(320px, 62vh, 680px)',
+                      overflow: 'hidden',
+                      background: '#0d0c0a',
+                    }}
+                  >
+                    <MediaEl item={openPost.hero} style={{ height: '100%', borderRadius: 0 }} />
+                    <div
                       style={{
-                        maxWidth: 1180,
-                        margin: '0 auto',
-                        aspectRatio: '16 / 9',
-                        overflow: 'hidden',
-                        background: '#000',
-                        borderRadius: 4,
+                        position: 'absolute',
+                        inset: 0,
+                        pointerEvents: 'none',
+                        background: `linear-gradient(to bottom, rgba(233,229,220,0) 60%, ${PAPER} 100%)`,
                       }}
-                    >
-                      <MediaEl item={openPost.hero} style={{ height: '100%' }} />
-                    </motion.div>
-                  )}
-                </div>
+                    />
+                  </motion.div>
+                )
               )}
 
               <article
                 style={{
-                  maxWidth: 720,
+                  maxWidth: 780,
                   margin: '0 auto',
-                  padding: '0 clamp(22px, 6vw, 40px)',
+                  padding: '0 clamp(24px, 6vw, 60px)',
                 }}
               >
                 <div style={{ paddingTop: 'clamp(56px, 9vh, 110px)' }}>
@@ -1120,11 +1182,10 @@ const Blog = ({ onClose, initialPost = null }) => {
                     initial={{ opacity: 0, y: 18 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-                    className="bl-serif"
                     style={{
-                      fontWeight: 400,
+                      fontWeight: 300,
                       fontSize: 'clamp(2.2rem, 6vw, 4rem)',
-                      lineHeight: 1.02,
+                      lineHeight: 1.05,
                       letterSpacing: '-0.02em',
                       marginBottom: 'clamp(44px, 7vh, 80px)',
                       color: INK,
@@ -1142,7 +1203,7 @@ const Blog = ({ onClose, initialPost = null }) => {
                   style={{
                     margin: 'clamp(60px,10vh,110px) 0',
                     height: 1,
-                    background: 'rgba(17,16,16,0.16)',
+                    background: 'rgba(17,16,16,0.12)',
                   }}
                 />
 
@@ -1151,7 +1212,7 @@ const Blog = ({ onClose, initialPost = null }) => {
                   className="bl-mono"
                   style={{
                     background: 'none',
-                    border: `1px solid rgba(17,16,16,0.3)`,
+                    border: '1px solid rgba(17,16,16,0.2)',
                     borderRadius: 100,
                     padding: '13px 28px',
                     cursor: 'pointer',

@@ -1,4 +1,5 @@
-import { blogGraphAlgorithms, blogBuildingThings, blogMessi } from '../assets';
+import { blogGraphAlgorithms, blogBuildingThings, blogMessi, lirvana, ey } from '../assets';
+import blogUoft from '../assets/blog/uoft.jpg';
 
 const VID = {
   fourRaws:    'https://res.cloudinary.com/daetzwh6x/video/upload/v1774021264/4_Raws_-_Toji_Fushiguro_oyvmqf.mp4',
@@ -12,7 +13,7 @@ export const POSTS = [
   {
     id: 'graph-algorithms',
     kicker: 'Algorithms',
-    title: 'Finding the Shortest Path Through Jakarta',
+    title: 'Finding the Shortest Path Through Jakarta.',
     date: '2024',
     readingTime: '10 min',
     excerpt:
@@ -94,7 +95,7 @@ print("Kruskal MST saved.")`,
   {
     id: 'building-things',
     kicker: 'Machine Learning',
-    title: 'Teaching Machines to Make Things Up',
+    title: 'Teaching Machines to Make Learn.',
     date: '2026',
     readingTime: '8 min',
     excerpt:
@@ -122,46 +123,99 @@ print("Kruskal MST saved.")`,
   },
 
   {
-    id: 'creative-outlet',
-    kicker: 'Reflection',
-    title: 'Code by Day, Edits by Night',
-    date: '2025',
-    readingTime: '4 min',
+    id: 'university-of-toronto',
+    kicker: 'Education',
+    title: 'What Three Years at U of T Actually Taught Me',
+    date: '2026',
+    readingTime: '6 min',
     excerpt:
-      'Having a creative hobby outside of engineering actually makes me a better engineer, and it turns out the feel of a good edit is just math I had not written down yet.',
-    hero: { type: 'video', src: VID.tojiMograph },
+      "I came into a Computer Science degree at the University of Toronto already knowing how to code. What actually changed me was realizing that wasn't the same thing as understanding anything.",
+    thumbnail: blogUoft,
+    hero: { type: 'image', src: blogUoft },
     blocks: [
-      { type: 'paragraph', text: 'On paper, engineering and video editing should not have anything in common. One is all logic, the other is all feel. But the more I do both, the more they blur into the same question for me, which is how do you take something complicated and make it land simply.' },
-      { type: 'heading', text: 'Pacing is just easing, and easing is just code' },
-      { type: 'paragraph', text: 'This is the thing that connected both halves of my brain. When I hold a frame in an edit so it hits harder, I am doing the exact same thing a developer does when they pick an easing curve for an animation. It is the same math, I just used to feel it instead of writing it down. So I finally wrote out the function I had been feeling in my gut for years.' },
+      { type: 'paragraph', text: "I got to U of T already comfortable writing code. High school had me building small projects, and I assumed a CS degree was just going to be a faster, more structured version of that. It took about one semester of CSC236 to figure out how wrong I was. Writing code that runs is one skill. Proving, on paper, that it terminates and does what you claim it does, is a completely different one, and nobody had ever asked me to do the second thing before." },
+      { type: 'heading', text: 'The courses that actually rewired how I think' },
+      { type: 'paragraph', text: "CSC240 and CSC236 back to back were the real turning point. Formal proofs, induction, correctness arguments, none of it felt like programming, and that was exactly the point. I stopped being able to get away with 'it works on my machine' as a justification for anything. I had to be able to say why, in a way that held up. That habit is the single most useful thing I've carried into every internship since, because production code doesn't care that something looks right, it cares that it is right." },
+      { type: 'paragraph', text: "CSC258 (computer organization) and CSC369 (operating systems) did something similar from a different direction. Once you've built a tiny CPU out of logic gates and watched a scheduler actually context-switch, every abstraction above that stops feeling like magic. I stopped treating frameworks as black boxes and started asking what they were probably doing underneath, which is a habit that's paid off constantly, from debugging a Rust monorepo at Lirvana Labs to reasoning about latency in an ETL pipeline at EY." },
+      { type: 'heading', text: 'Group projects taught me the part courses don’t grade' },
+      { type: 'paragraph', text: "Most of the CS curriculum grades individual understanding, which makes sense, but it also means nobody formally teaches you how to work inside someone else's codebase, review a teammate's pull request without being a jerk about it, or recover when a group member disappears two days before a deadline. I learned all of that the hard way, through a handful of genuinely rough team projects. By the time I got to my internships, merge conflicts and unclear ownership didn't rattle me anymore, because I'd already been through worse with far less at stake." },
+      { type: 'heading', text: 'Doing the degree and the internships at the same time' },
+      { type: 'paragraph', text: "The part nobody warns you about is how strange it feels to be proving loop invariants on a Tuesday and shipping production TypeScript at a startup on a Wednesday. But it ended up being the best possible setup, because the theory gave me a reason for the practices I was picking up at work, and the work gave me a reason to actually care about the theory. Type systems stopped being an academic exercise in CSC324 once I'd felt what it was like to ship a bug into production without one." },
+      { type: 'paragraph', text: "If there's one honest takeaway, it's that the degree didn't teach me to code, I already could. It taught me to be suspicious of my own code, to demand a reason before I trust that something works, and that habit turned out to matter a lot more than any specific language or framework I picked up along the way." },
+    ],
+  },
+
+  {
+    id: 'lirvana-labs',
+    kicker: 'Internship',
+    title: 'Shipping Production Code at a Silicon Valley Startup',
+    date: '2026',
+    readingTime: '6 min',
+    excerpt:
+      "Interning as a Software Engineer at Lirvana Labs meant shipping real, AI-generated learning activities into production, in a Next.js, TypeScript, React, and Rust monorepo, from day one.",
+    thumbnail: lirvana,
+    blocks: [
+      { type: 'paragraph', text: "Lirvana Labs is a Silicon Valley edtech startup building AI-generated learning activities for students, and my job as a Software Engineer Intern was to help ship the actual student-facing product: quiz flows, concept lessons, and a Timeline feature students use to move through material. This wasn't a sandboxed internship project sitting off to the side, it was production code, in a live monorepo, shipping to real students." },
+      { type: 'heading', text: 'What the product actually looks like' },
+      { type: 'paragraph', text: "Before a student ever sees a question, they move through a guided-notes concept page: a plain-language explanation of the idea, a highlighted 'Remember' callout for the one thing they shouldn't forget, and a worked example, with a progress bar tracking how many concepts are left before the quiz unlocks. Only after that does the quiz itself show up, styled closer to Kahoot than a textbook, four color- and shape-coded answer tiles (a red triangle, a blue diamond, a gold circle, a green square) with a running point total in the corner and a 'Review notes' shortcut back to the concept page if a student second-guesses themselves mid-question." },
+      { type: 'paragraph', text: "None of that content is hard-coded. It's all assembled through an internal authoring tool where a concept page's title, body, reminder callout, worked examples, an image URL, and even a raw SVG diagram field are entered separately and previewed live, side by side with the exact student-facing layout, before anything publishes. That's the part that made the i18n and sanitization work below non-negotiable rather than nice-to-have: every one of those fields is free-text content written or AI-generated outside of engineering, and it all flows through the same rendering pipeline a student eventually sees." },
+      { type: 'heading', text: '14 files, one monorepo, and a lot of context to hold' },
+      { type: 'paragraph', text: "The stack was a Next.js, TypeScript, and React frontend sitting on top of a Rust backend, all in a single monorepo. Across the internship I touched 14 production files improving those quiz, lesson, and Timeline flows, which meant constantly holding context across a type-safe frontend and a completely different language on the backend. Rust was new to me going in, and TypeScript's type system stopped being 'the thing that yells at you' and started being the thing that let me refactor a shared component with actual confidence that I hadn't broken three other flows I couldn't see." },
+      { type: 'heading', text: 'Scaling the product to 5 locales' },
+      { type: 'paragraph', text: "A big chunk of my work was internationalization. The UI had a lot of hard-coded English strings baked directly into guided notes, progress navigation, and quiz-start flows, which is fine until you want the product to work for a student who doesn't read English. I went through and replaced that hard-coded text with translation-backed labels, scaling the product's global readiness to 5 locales. The unglamorous part of this work was finding every place a string had quietly been hard-coded, since half the job was just refusing to trust that I'd caught them all until I'd actually checked." },
+      { type: 'heading', text: 'Escaping 100% of AI-generated content before it ever renders' },
+      { type: 'paragraph', text: "This is the part of the internship I'm proudest of. The product renders AI-generated quiz answers using LaTeX for math notation and dangerouslySetInnerHTML for rich formatting, both of which are exactly what they sound like, powerful and dangerous if you feed them content you don't fully control. AI-generated text is, by definition, content you don't fully control. So before any of that content reached either renderer, I built an escaping layer that sanitizes it first." },
       {
         type: 'code',
         lang: 'JavaScript',
-        filename: 'easing.js',
+        filename: 'sanitizeAnswer.js',
         code:
-`// A back-out ease. It overshoots a little, then settles.
-// That tiny overshoot is why a landing actually feels like it lands.
-const impact = (t) => {
-  const c1 = 1.70158;
-  const c3 = c1 + 1;
-  return 1 + c3 * Math.pow(t - 1, 3)
-           + c1 * Math.pow(t - 1, 2);
-};
+`// AI-generated answers are untrusted input the moment they leave the model,
+// even before they touch LaTeX or dangerouslySetInnerHTML.
+function sanitizeAnswer(raw) {
+  // 1. Escape HTML-significant characters first, so nothing can break
+  //    out of the dangerouslySetInnerHTML container.
+  const escaped = raw
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
 
-// Drive it with the same rAF clock every animation uses.
-function animate(el, duration = 1400) {
-  const start = performance.now();
-  const step = (now) => {
-    const t = Math.min((now - start) / duration, 1);
-    el.style.transform = \`translateX(\${impact(t) * 100}%)\`;
-    if (t < 1) requestAnimationFrame(step);
-  };
-  requestAnimationFrame(step);
-}`,
+  // 2. Re-open ONLY the specific LaTeX delimiters the renderer expects,
+  //    after escaping, so formatting still works but nothing else does.
+  return escaped
+    .replace(/\\(/g, '\\(')
+    .replace(/\\)/g, '\\)');
+}
+
+// Every AI-generated answer flows through this before it ever
+// reaches a renderer, no exceptions, no "trusted" model outputs.
+const safeAnswer = sanitizeAnswer(aiGeneratedAnswer);`,
       },
-      { type: 'paragraph', text: 'Seeing it written out kind of broke my brain in a good way. The instinct I built up from thousands of edits was just a cubic function and a requestAnimationFrame loop. So I turned it into something you can actually play with. You pick a curve and watch the timing I would feel in an edit happen in code.' },
-      { type: 'interactive', widget: 'easing' },
-      { type: 'paragraph', text: 'The editing keeps me honest about people, about attention and about what actually makes someone feel something. The code keeps me honest about the strict stuff, the structure and edge cases and all the parts you cannot fake. I really do not think I would be as good at either one if I dropped the other, and having a real creative outlet is the main thing that keeps engineering from ever feeling like a grind.' },
+      { type: 'paragraph', text: "The result was that 100% of AI-generated quiz answers got escaped before they ever touched either renderer, closing off an injection risk without losing any of the rich formatting the product actually needed. It's the kind of fix that, if it works, nobody ever notices, and that's exactly the point." },
+      { type: 'heading', text: 'What it actually taught me' },
+      { type: 'paragraph', text: "Interning somewhere this small meant there was no separate security team to catch what I missed, no large QA org to file a bug before a student ever saw it. That's a lot of trust to hand an intern, and it changed how seriously I take shipping code, generally. I stopped thinking of security and i18n as 'senior engineer problems' and started treating them as just part of building the feature, because at a startup, that's what they are." },
+    ],
+  },
+
+  {
+    id: 'ernst-young',
+    kicker: 'Internship',
+    title: 'Building an ETL Pipeline and an AI Interviewer at EY',
+    date: '2025',
+    readingTime: '6 min',
+    excerpt:
+      "As an AI Development Intern at Ernst & Young, I built a Python ETL pipeline that cut proposal generation time by roughly 85%, and a speech-driven AI interviewer with sub-3-second response times.",
+    thumbnail: ey,
+    blocks: [
+      { type: 'paragraph', text: "My internship at EY was an AI Development role sitting somewhere between data engineering and applied AI, building tools that plugged directly into client-facing work rather than staying internal experiments. Two projects took up most of my time: a document-generation pipeline for client proposals, and a speech-driven AI interview system." },
+      { type: 'heading', text: 'Turning a 4 hour manual process into 5 minutes' },
+      { type: 'paragraph', text: "The proposal-generation workflow started as a genuinely painful manual process, someone had to comb through World Health Organization records by hand to pull the data a client proposal needed. I built a Python ETL pipeline that processed over 25,000 WHO records and fed them into an LLM-powered document workflow, which was then piloted directly in client-facing work. What used to take about 4 hours of manual work came down to roughly 5 minutes, an ≈85% reduction, and the pipeline was modular enough to plug in pluggable LLM revision stages, so the same system could generate proposals in multiple formats without a rewrite for each one." },
+      { type: 'heading', text: 'An AI interviewer that had to feel like a conversation' },
+      { type: 'paragraph', text: "The second project was a speech-driven AI interview system, built on the Azure AI Speech SDK. The hard constraint was latency, if the response time is too slow, it stops feeling like a conversation and starts feeling like talking to a phone tree. I designed the system to stream speech-to-text and LLM inference in parallel rather than running them sequentially, which eliminated the bottleneck of waiting for a full transcript before inference could even begin. That got the system down to under 3 seconds response time, fast enough that the pauses read as thinking rather than lag." },
+      { type: 'heading', text: 'The less glamorous infrastructure underneath both' },
+      { type: 'paragraph', text: "Neither project worked in isolation. I used Selenium to automate web scraping and social sentiment pipelines feeding into the same proposal system, Docker to containerize both the AI and ETL pipelines so they ran identically regardless of whose machine (or which environment) they landed on, and Postman to design and test the REST APIs connecting all of it together. None of that shows up in a demo, but all of it is the reason the demo worked reliably more than once." },
+      { type: 'paragraph', text: "What stuck with me most was how much of 'AI engineering' in an enterprise setting is actually just disciplined data engineering with an LLM bolted on at the right point in the pipeline. The model was rarely the hard part. Getting 25,000 messy real-world records into a shape an LLM could reliably use, and getting a response back to a person fast enough that it still felt human, that was the actual work." },
     ],
   },
 
@@ -199,7 +253,7 @@ function animate(el, duration = 1400) {
   {
     id: 'messi-goat',
     kicker: 'Sports Science',
-    title: 'What 919 Goals and One Heartbreaking Final Actually Prove',
+    title: 'How is Lionel Messi so good? Scientifically speaking.',
     date: '2026',
     readingTime: '13 min',
     excerpt:

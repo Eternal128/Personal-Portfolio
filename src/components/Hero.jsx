@@ -51,7 +51,8 @@ const Hero = ({ heroReady = true }) => {
 
   const vh = typeof window !== 'undefined' ? window.innerHeight : 800;
   const progress = Math.min(scrollY / vh, 1);
-  const contentOp = 1 - Math.min(progress / CONTENT_FADE_VH, 1);
+  const scrollFade = 1 - Math.min(progress / CONTENT_FADE_VH, 1);
+  const contentOp = loaded ? scrollFade : 0;
 
   return (
     <>

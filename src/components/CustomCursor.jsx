@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, useSpring } from 'framer-motion';
 
 const CustomCursor = () => {
@@ -10,6 +10,8 @@ const CustomCursor = () => {
   const radius  = useSpring(50, { stiffness: 220, damping: 26 });
   const opacity = useSpring(1,  { stiffness: 220, damping: 26 });
   const scale   = useSpring(1,  { stiffness: 400, damping: 25 });
+
+  const [label, setLabel] = useState('');
 
   useEffect(() => {
     const updateMousePosition = (e) => {
@@ -28,6 +30,7 @@ const CustomCursor = () => {
         radius.set(50);
         opacity.set(1);
         scale.set(1.4);
+        setLabel('');
         return;
       }
 
@@ -38,10 +41,24 @@ const CustomCursor = () => {
         radius.set(100);
         opacity.set(0);
         scale.set(1);
+        setLabel('');
         return;
       }
 
-      // 3. Everything else — normal cursor logic
+      // 3. Elements that want a bigger, labeled cursor (e.g. "Click")
+      //    instead of a hover preview/tooltip.
+      const labelEl = e.target.closest('[data-cursor-label]');
+      if (labelEl) {
+        width.set(76);
+        height.set(76);
+        radius.set(50);
+        opacity.set(1);
+        scale.set(1);
+        setLabel(labelEl.getAttribute('data-cursor-label'));
+        return;
+      }
+
+      // 4. Everything else — normal cursor logic
       const isClickable =
         e.target.tagName === 'A' ||
         e.target.tagName === 'BUTTON' ||
@@ -55,6 +72,7 @@ const CustomCursor = () => {
       radius.set(50);
       opacity.set(1);
       scale.set(isClickable ? 1.4 : 1);
+      setLabel('');
     };
 
     window.addEventListener('mousemove', updateMousePosition);
@@ -80,8 +98,26 @@ const CustomCursor = () => {
           scale,
           boxShadow: '0 0 8px 2px rgba(var(--fg-rgb),0.35), 0 0 18px 4px rgba(var(--fg-rgb),0.12)',
           transition: 'box-shadow 0.3s ease',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}
-      />
+      >
+        <motion.span
+          animate={{ opacity: label ? 1 : 0 }}
+          transition={{ duration: 0.15 }}
+          style={{
+            color: 'var(--bg)',
+            fontSize: 11,
+            fontWeight: 500,
+            letterSpacing: '0.04em',
+            fontFamily: "'DM Sans', sans-serif",
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {label}
+        </motion.span>
+      </motion.div>
     </motion.div>
   );
 };
