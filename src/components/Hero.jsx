@@ -1,16 +1,39 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Tilt from 'react-parallax-tilt';
 import { james } from '../assets';
 
 // Fraction of one viewport height scrolled before the whole frame is faded out.
 const CONTENT_FADE_VH = 0.45;
 
-const WORDS = ['James', 'William', 'Hanzell'];
-const REPEAT = 5;
+const REPEAT_HALF = 6; // words per half of the marquee track (x2 for a seamless loop)
+
+// `reverse` is each row's direction while scrolling down; scrolling up flips
+// every row the other way.
+const ROWS = [
+  { word: 'James', duration: 55, reverse: false },
+  { word: 'William', duration: 62, reverse: true },
+  { word: 'Hanzell', duration: 48, reverse: false },
+];
+
+const RowTrack = ({ word, duration, reverse, scrollDir }) => {
+  const effectiveReverse = scrollDir === 'up' ? !reverse : reverse;
+  return (
+    <div
+      className="h3-row-track"
+      style={{ animationDuration: `${duration}s`, animationDirection: effectiveReverse ? 'reverse' : 'normal' }}
+    >
+      {Array.from({ length: REPEAT_HALF * 2 }).map((_, j) => (
+        <span key={j}>{word.toUpperCase()}</span>
+      ))}
+    </div>
+  );
+};
 
 const Hero = ({ heroReady = true }) => {
   const [loaded, setLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
+  const [scrollDir, setScrollDir] = useState('down');
+  const lastScrollY = useRef(0);
 
   // Reveal only once the loader hands off (the singularity pop)
   useEffect(() => {
@@ -24,7 +47,12 @@ const Hero = ({ heroReady = true }) => {
     const onScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          setScrollY(window.scrollY);
+          const y = window.scrollY;
+          if (Math.abs(y - lastScrollY.current) > 2) {
+            setScrollDir(y > lastScrollY.current ? 'down' : 'up');
+            lastScrollY.current = y;
+          }
+          setScrollY(y);
           ticking = false;
         });
         ticking = true;
@@ -50,20 +78,24 @@ const Hero = ({ heroReady = true }) => {
           font-family: 'DM Sans', sans-serif;
         }
 
-        .h3-rows {
+        .h3-rows, .h3-invert-layer {
           position: absolute;
           inset: 0;
           display: flex;
           flex-direction: column;
           justify-content: center;
           gap: clamp(4px, 1.5vh, 20px);
-          will-change: transform, opacity;
         }
-        .h3-row {
-          display: flex;
-          overflow: hidden;
-          white-space: nowrap;
+        .h3-rows { will-change: transform, opacity; }
+        .h3-invert-layer { z-index: 3; pointer-events: none; }
+
+        .h3-row { display: flex; overflow: hidden; white-space: nowrap; }
+        .h3-row-track { display: flex; width: max-content; animation: h3Marquee linear infinite; }
+        @keyframes h3Marquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
         }
+
         .h3-row span {
           flex-shrink: 0;
           font-size: clamp(52px, 13vw, 200px);
@@ -74,8 +106,12 @@ const Hero = ({ heroReady = true }) => {
           line-height: 1;
         }
         .h3-row-1 span, .h3-row-3 span { opacity: 0.94; }
-        .h3-row-2 { transform: translateX(clamp(-80px, -6vw, -30px)); }
         .h3-row-2 span { opacity: 0.5; }
+
+        .h3-invert-layer .h3-row-3 span {
+          opacity: 1;
+          mix-blend-mode: difference;
+        }
 
         .h3-photo-wrap {
           position: absolute;
@@ -93,8 +129,6 @@ const Hero = ({ heroReady = true }) => {
           border-radius: 2px;
           overflow: hidden;
           box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-          -webkit-mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
-          mask-image: linear-gradient(to bottom, #000 78%, transparent 100%);
         }
         .h3-photo img {
           width: 100%; height: 100%;
@@ -117,11 +151,13 @@ const Hero = ({ heroReady = true }) => {
             transition: 'transform 1.2s cubic-bezier(0.16,1,0.3,1), opacity 1s cubic-bezier(0.16,1,0.3,1)',
           }}
         >
-          {WORDS.map((word, i) => (
-            <div key={word} className={`h3-row h3-row-${i + 1}`}>
-              {Array.from({ length: REPEAT }).map((_, j) => (
-                <span key={j}>{word.toUpperCase()}</span>
-              ))}
+          {ROWS.map((row, i) => (
+            <div
+              key={row.word}
+              className={`h3-row h3-row-${i + 1}`}
+              style={i === 2 ? { visibility: 'hidden' } : undefined}
+            >
+              <RowTrack {...row} scrollDir={scrollDir} />
             </div>
           ))}
         </div>
@@ -133,6 +169,20 @@ const Hero = ({ heroReady = true }) => {
           >
             <img src={james} alt="James William Hanzell" />
           </Tilt>
+        </div>
+
+        {/* Row 3 rendered again on top of the photo, blended so it inverts
+            against the photo's own pixels wherever the two overlap. */}
+        <div className="h3-invert-layer" aria-hidden="true">
+          {ROWS.map((row, i) => (
+            <div
+              key={row.word}
+              className={`h3-row h3-row-${i + 1}`}
+              style={i !== 2 ? { visibility: 'hidden' } : undefined}
+            >
+              <RowTrack {...row} scrollDir={scrollDir} />
+            </div>
+          ))}
         </div>
       </section>
     </>

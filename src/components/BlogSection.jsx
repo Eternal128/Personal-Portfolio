@@ -26,6 +26,7 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
           margin-top: 48px;
         }
         .blog-card {
+          display: block;
           text-align: left;
           background: rgba(255,255,255,0.02);
           border: 1px solid rgba(255,255,255,0.08);
@@ -49,7 +50,7 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
         .blog-card-thumb {
           position: relative;
           width: 100%;
-          aspect-ratio: 16 / 10;
+          aspect-ratio: 16 / 9;
           overflow: hidden;
           background: rgba(255,255,255,0.03);
         }
@@ -107,14 +108,23 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
         {/* Preview cards */}
         <div className="blog-sec-grid">
           {previews.map((p, i) => (
-            <motion.button
+            <motion.div
               key={p.id}
               className="blog-card"
+              role="button"
+              tabIndex={0}
+              aria-label={`Read ${p.title}`}
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
               onClick={() => onOpenPost(p)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onOpenPost(p);
+                }
+              }}
             >
               <div className="blog-card-thumb">
                 {p.thumbnail ? (
@@ -153,7 +163,7 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
                   Read <span className="blog-card-arrow">↗</span>
                 </span>
               </div>
-            </motion.button>
+            </motion.div>
           ))}
         </div>
       </div>

@@ -10,7 +10,7 @@ const mapRange = (v, inMin, inMax, outMin, outMax) => {
   return outMin + t * (outMax - outMin);
 };
 
-const STATEMENT = `Hey there — I build things nobody asked for, and somehow end up wanting them anyway. I'm a Computer Science student at the **University of Toronto**, with internships at a **Silicon Valley** startup and **Ernst & Young**. Outside of code, I create anime edits and visual content as a creative outlet.`;
+const STATEMENT = `Hey there! I'm James. I'm a Computer Science student at the **University of Toronto**, with internships at a **Silicon Valley** startup and **Ernst & Young**. Outside of code, I create anime edits and visual content as a creative outlet.`;
 
 // Splits the statement into tokens — a **bold phrase** reveals as one unit,
 // everything else reveals word by word.
