@@ -9,6 +9,7 @@ import {
   Navbar, Tech, Works, StarsCanvas, End, CustomCursor, Loader,
 } from './components';
 import BlogSection from './components/BlogSection';
+import AboutPage from './components/AboutPage';
 import FlightPath from './components/FlightPath';
 import { useSoundFX } from './hooks/useSoundFX';
 import { POSTS } from './constants/posts';

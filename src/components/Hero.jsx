@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Tilt from 'react-parallax-tilt';
-import { james } from '../assets';
 
 // Fraction of one viewport height scrolled before the whole frame is faded out.
 const CONTENT_FADE_VH = 0.45;
@@ -96,30 +94,6 @@ const Hero = ({ heroReady = true }) => {
         .h3-row-1 span, .h3-row-3 span { opacity: 0.94; }
         .h3-row-2 span { opacity: 0.5; }
 
-        .h3-photo-wrap {
-          position: absolute;
-          inset: 0;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 2;
-          pointer-events: none;
-        }
-        .h3-photo {
-          pointer-events: auto;
-          width: clamp(200px, 20vw, 320px);
-          aspect-ratio: 4 / 5.2;
-          border-radius: 2px;
-          overflow: hidden;
-          box-shadow: 0 30px 80px rgba(0,0,0,0.6);
-        }
-        .h3-photo img {
-          width: 100%; height: 100%;
-          object-fit: cover; object-position: center;
-          display: block;
-          filter: contrast(1.3) grayscale(60%) brightness(0.92);
-        }
-
         @media (max-width: 640px) {
           .h3-row span { font-size: clamp(40px, 16vw, 90px); }
         }
@@ -139,15 +113,6 @@ const Hero = ({ heroReady = true }) => {
               <RowTrack {...row} />
             </div>
           ))}
-        </div>
-
-        <div className="h3-photo-wrap">
-          <Tilt
-            options={{ max: 10, scale: 1.02, speed: 400, glare: true, 'max-glare': 0.15 }}
-            className="h3-photo"
-          >
-            <img src={james} alt="James William Hanzell" />
-          </Tilt>
         </div>
       </section>
     </>
