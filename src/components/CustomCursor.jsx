@@ -18,8 +18,12 @@ const CustomCursor = () => {
       const zoom = parseFloat(getComputedStyle(document.documentElement).zoom) || 1;
       const x = e.clientX / zoom;
       const y = e.clientY / zoom;
-      cursorX.set(x - 8);
-      cursorY.set(y - 8);
+      // Offset by half the CURRENT (possibly mid-transition) size so the
+      // cursor stays centered on the pointer whether it's the small 15px
+      // dot or the bigger 76px labeled circle, instead of a fixed offset
+      // tuned only for the dot.
+      cursorX.set(x - width.get() / 2);
+      cursorY.set(y - height.get() / 2);
     };
 
     const handleMouseOver = (e) => {
@@ -84,40 +88,57 @@ const CustomCursor = () => {
   }, [cursorX, cursorY, width, height, radius, opacity, scale]);
 
   return (
+    // A single element carries position (fixed + left/top), z-index, size,
+    // and mix-blend-mode all at once. Splitting these across a positioning
+    // wrapper + an inner blended child (as this used to be written) silently
+    // breaks the invert effect: a `position:fixed` + z-index ANCESTOR
+    // creates its own stacking context, which cuts `mix-blend-mode:
+    // difference` off from ever seeing the real page behind it — it just
+    // renders as a flat, un-inverted white circle instead. Confirmed by
+    // isolated testing; keeping everything on one element avoids that.
     <motion.div
-      className="fixed top-0 left-0 pointer-events-none z-[100000]"
-      style={{ x: cursorX, y: cursorY }}
+      className="fixed pointer-events-none z-[100000]"
+      style={{
+        left: cursorX,
+        top: cursorY,
+        width,
+        height,
+        borderRadius: radius,
+        // Labeled ("Click") state inverts whatever is underneath instead of
+        // drawing a flat theme-colored circle — a solid white fill with
+        // mix-blend-mode: difference always inverts the backdrop's real
+        // pixels regardless of which theme (or what content) is behind the
+        // cursor at that moment.
+        background: label ? '#ffffff' : 'var(--fg)',
+        mixBlendMode: label ? 'difference' : 'normal',
+        opacity,
+        scale,
+        boxShadow: label ? 'none' : '0 0 8px 2px rgba(var(--fg-rgb),0.35), 0 0 18px 4px rgba(var(--fg-rgb),0.12)',
+        transition: 'box-shadow 0.3s ease',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
-      <motion.div
+      <motion.span
+        animate={{ opacity: label ? 1 : 0 }}
+        transition={{ duration: 0.15 }}
         style={{
-          width,
-          height,
-          borderRadius: radius,
-          background: 'var(--fg)',
-          opacity,
-          scale,
-          boxShadow: '0 0 8px 2px rgba(var(--fg-rgb),0.35), 0 0 18px 4px rgba(var(--fg-rgb),0.12)',
-          transition: 'box-shadow 0.3s ease',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
+          // Painted as a normal (non-blended) opaque layer on top of the
+          // already-inverted circle, so the label stays legible no matter
+          // what color the invert happens to produce underneath it.
+          position: 'relative',
+          mixBlendMode: 'normal',
+          color: 'var(--bg)',
+          fontSize: 11,
+          fontWeight: 500,
+          letterSpacing: '0.04em',
+          fontFamily: "'DM Sans', sans-serif",
+          whiteSpace: 'nowrap',
         }}
       >
-        <motion.span
-          animate={{ opacity: label ? 1 : 0 }}
-          transition={{ duration: 0.15 }}
-          style={{
-            color: 'var(--bg)',
-            fontSize: 11,
-            fontWeight: 500,
-            letterSpacing: '0.04em',
-            fontFamily: "'DM Sans', sans-serif",
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {label}
-        </motion.span>
-      </motion.div>
+        {label}
+      </motion.span>
     </motion.div>
   );
 };
