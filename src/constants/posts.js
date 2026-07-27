@@ -1,4 +1,4 @@
-import { blogGraphAlgorithms, blogBuildingThings } from '../assets';
+import { blogGraphAlgorithms, blogBuildingThings, blogMessi } from '../assets';
 
 const VID = {
   fourRaws:    'https://res.cloudinary.com/daetzwh6x/video/upload/v1774021264/4_Raws_-_Toji_Fushiguro_oyvmqf.mp4',
@@ -204,6 +204,7 @@ function animate(el, duration = 1400) {
     readingTime: '13 min',
     excerpt:
       "I've loved Messi for as long as I've followed football, and watching him play a World Cup final at 39 made me want to actually understand the science behind him instead of just the highlight reels. The biomechanics, the eye-tracking research, and a real neuroscience debate about whether time itself feels different to him.",
+    thumbnail: blogMessi,
     hero: { type: 'interactive', widget: 'messistats' },
     blocks: [
       { type: 'paragraph', text: "I watched the 2026 final the way I've watched every Messi match for as long as I can remember, fully expecting something impossible to happen in the last five minutes. It didn't. Spain won 1-0 in extra time, and Messi, 39 years old, cried on the sideline. Argentina didn't get the trophy. But somewhere in the middle of that tournament, between the hat trick in the opener, the comeback against Egypt, and the two assists against England, I stopped just watching him and started wondering what actually explains this. Not in a highlight-reel way. In an actual, checkable, science way." },

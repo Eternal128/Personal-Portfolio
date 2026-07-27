@@ -65,6 +65,7 @@ import hero_editor from "./projects/hero_editor.png";
 
 import blogGraphAlgorithms from "./blog/graph-algorithms.png";
 import blogBuildingThings from "./blog/building-things.png";
+import blogMessi from "./blog/messi.jpg";
 
 export {
   logo,
@@ -129,4 +130,5 @@ export {
   php,
   blogGraphAlgorithms,
   blogBuildingThings,
+  blogMessi,
 };
