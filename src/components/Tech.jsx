@@ -108,8 +108,8 @@ const TechCard = ({ name, icon, level, description, invert, index, onClick }) =>
       whileTap={{ scale: 0.97 }}
       style={{
         position: "relative",
-        background: hovered ? "rgba(255,255,255,0.05)" : "rgba(255,255,255,0.02)",
-        border: `1px solid ${hovered ? "rgba(212,180,100,0.35)" : "rgba(255,255,255,0.06)"}`,
+        background: hovered ? "rgba(var(--fg-rgb),0.05)" : "rgba(var(--fg-rgb),0.02)",
+        border: `1px solid ${hovered ? "rgba(212,180,100,0.35)" : "rgba(var(--fg-rgb),0.06)"}`,
         borderRadius: 16, padding: "24px 20px",
         display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
         cursor: "pointer", transition: "background 0.3s, border-color 0.3s",
@@ -121,18 +121,18 @@ const TechCard = ({ name, icon, level, description, invert, index, onClick }) =>
         <div
           style={{
             position: "absolute", left: "50%", bottom: "100%", transform: "translateX(-50%)",
-            marginBottom: 12, width: 210, background: "rgba(10,10,10,0.96)",
-            border: "1px solid rgba(255,255,255,0.1)", borderRadius: 12, padding: "10px 16px",
+            marginBottom: 12, width: 210, background: "var(--surface-solid)",
+            border: "1px solid rgba(var(--fg-rgb),0.1)", borderRadius: 12, padding: "10px 16px",
             zIndex: 50, pointerEvents: "none", fontFamily: "'DM Sans', sans-serif",
           }}
         >
-          <p style={{ fontSize: 12, fontWeight: 300, color: "rgba(255,255,255,0.55)", lineHeight: 1.6, textAlign: "center", margin: 0 }}>
+          <p style={{ fontSize: 12, fontWeight: 300, color: "rgba(var(--fg-rgb),0.55)", lineHeight: 1.6, textAlign: "center", margin: 0 }}>
             {description}
           </p>
           <div style={{
             position: "absolute", bottom: -5, left: "50%", transform: "translateX(-50%) rotate(45deg)",
-            width: 8, height: 8, background: "rgba(10,10,10,0.96)",
-            borderRight: "1px solid rgba(255,255,255,0.1)", borderBottom: "1px solid rgba(255,255,255,0.1)",
+            width: 8, height: 8, background: "var(--surface-solid)",
+            borderRight: "1px solid rgba(var(--fg-rgb),0.1)", borderBottom: "1px solid rgba(var(--fg-rgb),0.1)",
           }} />
         </div>
       )}
@@ -154,12 +154,12 @@ const TechCard = ({ name, icon, level, description, invert, index, onClick }) =>
 
       <p style={{
         fontSize: 13, fontWeight: 300,
-        color: hovered ? "rgba(255,255,255,0.9)" : "rgba(255,255,255,0.5)",
+        color: hovered ? "rgba(var(--fg-rgb),0.9)" : "rgba(var(--fg-rgb),0.5)",
         letterSpacing: "0.02em", textAlign: "center",
         fontFamily: "'DM Sans', sans-serif", transition: "color 0.3s", margin: 0,
       }}>{name}</p>
 
-      <div style={{ width: "100%", height: 2, background: "rgba(255,255,255,0.06)", borderRadius: 2, overflow: "hidden" }}>
+      <div style={{ width: "100%", height: 2, background: "rgba(var(--fg-rgb),0.06)", borderRadius: 2, overflow: "hidden" }}>
         <motion.div
           initial={{ width: 0 }}
           whileInView={{ width: `${(LEVEL_BAR[level] || 0.5) * 100}%` }}
@@ -167,7 +167,7 @@ const TechCard = ({ name, icon, level, description, invert, index, onClick }) =>
           transition={{ duration: 0.8, delay: index * 0.04 + 0.3, ease: "easeOut" }}
           style={{
             height: "100%",
-            background: hovered ? "rgba(212,180,100,0.88)" : "rgba(255,255,255,0.25)",
+            background: hovered ? "rgba(212,180,100,0.88)" : "rgba(var(--fg-rgb),0.25)",
             borderRadius: 2, transition: "background 0.3s",
           }}
         />
@@ -176,7 +176,7 @@ const TechCard = ({ name, icon, level, description, invert, index, onClick }) =>
       <div style={{ position: "relative", height: 14, width: "100%" }}>
         <span style={{
           position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center",
-          fontSize: 10, fontWeight: 300, color: "rgba(255,255,255,0.22)",
+          fontSize: 10, fontWeight: 300, color: "rgba(var(--fg-rgb),0.22)",
           letterSpacing: "0.12em", textTransform: "uppercase", whiteSpace: "nowrap",
           fontFamily: "'DM Sans', sans-serif", opacity: hovered ? 0 : 1, transition: "opacity 0.35s ease",
         }}>{level}</span>
@@ -199,11 +199,11 @@ const SectionLabel = ({ children }) => (
 );
 
 const ProjectRow = ({ p }) => (
-  <div style={{ display: "flex", gap: 16, padding: 14, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14 }}>
+  <div style={{ display: "flex", gap: 16, padding: 14, background: "rgba(var(--fg-rgb),0.02)", border: "1px solid rgba(var(--fg-rgb),0.06)", borderRadius: 14 }}>
     {p.image && <img src={p.image} alt={p.name} style={{ width: 84, height: 60, objectFit: "cover", borderRadius: 8, flexShrink: 0 }} />}
     <div style={{ flex: 1, minWidth: 0 }}>
-      <p style={{ margin: 0, fontSize: 15, fontWeight: 500, color: "#fff" }}>{p.name}</p>
-      <p style={{ margin: "4px 0 8px", fontSize: 12.5, lineHeight: 1.5, color: "rgba(255,255,255,0.45)" }}>{p.description}</p>
+      <p style={{ margin: 0, fontSize: 15, fontWeight: 500, color: "var(--fg)" }}>{p.name}</p>
+      <p style={{ margin: "4px 0 8px", fontSize: 12.5, lineHeight: 1.5, color: "rgba(var(--fg-rgb),0.45)" }}>{p.description}</p>
       <div style={{ display: "flex", gap: 14 }}>
         {p.source_code_link && <a href={p.source_code_link} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: "rgba(212,180,100,0.85)", textDecoration: "none" }}>Code ↗</a>}
         {p.live_demo_link && <a href={p.live_demo_link} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: "rgba(212,180,100,0.85)", textDecoration: "none" }}>Live Demo ↗</a>}
@@ -215,7 +215,7 @@ const ProjectRow = ({ p }) => (
 const JobRow = ({ job }) => {
   const meta = findJobMeta(job.company);
   return (
-    <div style={{ display: "flex", gap: 14, padding: 14, background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)", borderRadius: 14 }}>
+    <div style={{ display: "flex", gap: 14, padding: 14, background: "rgba(var(--fg-rgb),0.02)", border: "1px solid rgba(var(--fg-rgb),0.06)", borderRadius: 14 }}>
       <div style={{
         width: 40, height: 40, borderRadius: 10, flexShrink: 0, overflow: "hidden",
         background: meta?.iconBg || "#1a1a1a", display: "flex", alignItems: "center", justifyContent: "center",
@@ -224,11 +224,11 @@ const JobRow = ({ job }) => {
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline", gap: 8 }}>
-          <p style={{ margin: 0, fontSize: 14, fontWeight: 500, color: "#fff" }}>{job.company}</p>
-          {meta?.date && <span style={{ fontSize: 10, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>{meta.date}</span>}
+          <p style={{ margin: 0, fontSize: 14, fontWeight: 500, color: "var(--fg)" }}>{job.company}</p>
+          {meta?.date && <span style={{ fontSize: 10, color: "rgba(var(--fg-rgb),0.35)", whiteSpace: "nowrap" }}>{meta.date}</span>}
         </div>
         {meta?.title && <p style={{ margin: "1px 0 6px", fontSize: 11, fontWeight: 400, color: "rgba(212,180,100,0.75)" }}>{meta.title}</p>}
-        <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: "rgba(255,255,255,0.45)" }}>{job.point}</p>
+        <p style={{ margin: 0, fontSize: 12, lineHeight: 1.55, color: "rgba(var(--fg-rgb),0.45)" }}>{job.point}</p>
       </div>
     </div>
   );
@@ -243,8 +243,8 @@ const HighlightCard = ({ data }) => (
     <span style={{ fontSize: 10, fontWeight: 500, letterSpacing: "0.16em", textTransform: "uppercase", color: "rgba(212,180,100,0.85)" }}>
       {data.badge}
     </span>
-    <p style={{ margin: "8px 0 6px", fontSize: 17, fontWeight: 500, color: "#fff" }}>🏆 {data.title}</p>
-    <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "rgba(255,255,255,0.55)" }}>{data.body}</p>
+    <p style={{ margin: "8px 0 6px", fontSize: 17, fontWeight: 500, color: "var(--fg)" }}>🏆 {data.title}</p>
+    <p style={{ margin: 0, fontSize: 13, lineHeight: 1.6, color: "rgba(var(--fg-rgb),0.55)" }}>{data.body}</p>
   </div>
 );
 
@@ -276,7 +276,7 @@ const SkillModal = ({ skill, onClose }) => {
     <div
       onClick={onClose}
       style={{
-        position: "fixed", inset: 0, background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)",
+        position: "fixed", inset: 0, background: "rgba(var(--bg-rgb),0.7)", backdropFilter: "blur(6px)",
         zIndex: 10000, display: "flex", alignItems: "center", justifyContent: "center", padding: 24,
         fontFamily: "'DM Sans', sans-serif", overflowY: "auto", overscrollBehavior: "contain",
       }}
@@ -289,22 +289,22 @@ const SkillModal = ({ skill, onClose }) => {
         style={{
           width: "100%", maxWidth: 560, maxHeight: "80vh", overflowY: "auto",
           WebkitOverflowScrolling: "touch", overscrollBehavior: "contain",
-          background: "rgba(14,14,14,0.98)", border: "1px solid rgba(212,180,100,0.25)", borderRadius: 20, padding: 32,
+          background: "var(--surface-solid)", border: "1px solid rgba(212,180,100,0.25)", borderRadius: 20, padding: 32,
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 14, marginBottom: 26 }}>
           {skillIcon && (
-            <div style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(255,255,255,0.04)", borderRadius: 12 }}>
+            <div style={{ width: 44, height: 44, display: "flex", alignItems: "center", justifyContent: "center", background: "rgba(var(--fg-rgb),0.04)", borderRadius: 12 }}>
               <img src={skillIcon.icon} alt={skill.name} style={{ width: 28, height: 28, objectFit: "contain", filter: skillIcon.invert ? "invert(1)" : "none" }} />
             </div>
           )}
           <div>
-            <h3 style={{ margin: 0, fontSize: 22, fontWeight: 400, color: "#fff", letterSpacing: "-0.01em" }}>{skill.name}</h3>
+            <h3 style={{ margin: 0, fontSize: 22, fontWeight: 400, color: "var(--fg)", letterSpacing: "-0.01em" }}>{skill.name}</h3>
             <span style={{ fontSize: 11, color: "rgba(212,180,100,0.7)", letterSpacing: "0.14em", textTransform: "uppercase" }}>{summary}</span>
           </div>
           <button onClick={onClose} aria-label="Close" style={{
-            marginLeft: "auto", background: "rgba(255,255,255,0.05)", border: "1px solid rgba(255,255,255,0.1)",
-            color: "rgba(255,255,255,0.6)", borderRadius: 8, width: 32, height: 32, cursor: "pointer", fontSize: 16, lineHeight: 1,
+            marginLeft: "auto", background: "rgba(var(--fg-rgb),0.05)", border: "1px solid rgba(var(--fg-rgb),0.1)",
+            color: "rgba(var(--fg-rgb),0.6)", borderRadius: 8, width: 32, height: 32, cursor: "pointer", fontSize: 16, lineHeight: 1,
           }}>×</button>
         </div>
 
@@ -329,7 +329,7 @@ const SkillModal = ({ skill, onClose }) => {
         )}
 
         {!hasContent && (
-          <p style={{ color: "rgba(255,255,255,0.4)", fontSize: 14, lineHeight: 1.6, margin: 0 }}>
+          <p style={{ color: "rgba(var(--fg-rgb),0.4)", fontSize: 14, lineHeight: 1.6, margin: 0 }}>
             Part of my core toolkit, applied across coursework and personal builds.
           </p>
         )}
@@ -358,13 +358,13 @@ const Tech = () => {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
             transition={{ duration: 0.7 }} style={{ marginBottom: 56 }}
           >
-            <span style={{ fontSize: 11, fontWeight: 300, color: "rgba(255,255,255,0.28)", letterSpacing: "0.22em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
+            <span style={{ fontSize: 11, fontWeight: 300, color: "rgba(var(--fg-rgb),0.28)", letterSpacing: "0.22em", textTransform: "uppercase", display: "block", marginBottom: 12 }}>
               My expertise
             </span>
-            <h2 style={{ fontSize: "clamp(38px, 5vw, 64px)", fontWeight: 300, color: "#fff", letterSpacing: "-0.02em", lineHeight: 1, margin: 0 }}>
+            <h2 style={{ fontSize: "clamp(38px, 5vw, 64px)", fontWeight: 300, color: "var(--fg)", letterSpacing: "-0.02em", lineHeight: 1, margin: 0 }}>
               Technical Skills.
             </h2>
-            <p style={{ fontSize: 13, color: "rgba(255,255,255,0.35)", marginTop: 14, fontWeight: 300 }}>
+            <p style={{ fontSize: 13, color: "rgba(var(--fg-rgb),0.35)", marginTop: 14, fontWeight: 300 }}>
               Click any skill to see where I've used it.
             </p>
           </motion.div>

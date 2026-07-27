@@ -75,10 +75,10 @@ const CustomCursor = () => {
           width,
           height,
           borderRadius: radius,
-          background: '#ffffff',
+          background: 'var(--fg)',
           opacity,
           scale,
-          boxShadow: '0 0 8px 2px rgba(255,255,255,0.35), 0 0 18px 4px rgba(255,255,255,0.12)',
+          boxShadow: '0 0 8px 2px rgba(var(--fg-rgb),0.35), 0 0 18px 4px rgba(var(--fg-rgb),0.12)',
           transition: 'box-shadow 0.3s ease',
         }}
       />

@@ -24,7 +24,7 @@ const CARD_SCROLL_PX = 650; // vertical scroll px consumed per horizontal card s
 
 const ExternalLinkIcon = () => (
   <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M1 13L13 1M13 1H5M13 1V9" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <path d="M1 13L13 1M13 1H5M13 1V9" stroke="var(--fg)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 );
 
@@ -50,7 +50,7 @@ const ProjectModal = ({ project, onClose }) => {
       style={{
         position: 'fixed', inset: 0,
         zIndex: 99998,
-        background: 'rgba(0,0,0,0.88)',
+        background: 'rgba(var(--bg-rgb),0.88)',
         backdropFilter: 'blur(10px)',
         WebkitBackdropFilter: 'blur(10px)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
@@ -68,8 +68,8 @@ const ProjectModal = ({ project, onClose }) => {
           width: '100%',
           maxWidth: 800,
           maxHeight: '95vh',
-          background: '#080808',
-          border: '1px solid rgba(255,255,255,0.08)',
+          background: 'var(--surface-solid)',
+          border: '1px solid rgba(var(--fg-rgb),0.08)',
           borderRadius: 14,
           overflow: 'hidden',
           display: 'flex',
@@ -90,7 +90,7 @@ const ProjectModal = ({ project, onClose }) => {
           />
           <div style={{
             position: 'absolute', inset: 0,
-            background: 'linear-gradient(to bottom, transparent 20%, #080808 100%)',
+            background: 'linear-gradient(to bottom, transparent 20%, var(--surface-solid) 100%)',
             pointerEvents: 'none',
           }} />
 
@@ -102,10 +102,10 @@ const ProjectModal = ({ project, onClose }) => {
               position: 'absolute', top: 14, right: 14,
               width: 32, height: 32, borderRadius: '50%',
               background: 'rgba(0,0,0,0.65)',
-              border: '1px solid rgba(255,255,255,0.14)',
+              border: '1px solid rgba(var(--fg-rgb),0.14)',
               backdropFilter: 'blur(12px)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'none', color: 'rgba(255,255,255,0.75)',
+              cursor: 'none', color: 'rgba(var(--fg-rgb),0.75)',
               fontSize: 13, lineHeight: 1,
             }}
           >
@@ -118,11 +118,11 @@ const ProjectModal = ({ project, onClose }) => {
               position: 'absolute', top: 14, left: 14,
               display: 'inline-flex', alignItems: 'center', gap: 6,
               background: 'rgba(0,0,0,0.6)',
-              border: '1px solid rgba(255,255,255,0.14)',
+              border: '1px solid rgba(var(--fg-rgb),0.14)',
               backdropFilter: 'blur(12px)',
               borderRadius: 100, padding: '5px 12px',
               fontSize: 10, fontWeight: 300,
-              color: 'rgba(255,255,255,0.8)',
+              color: 'rgba(var(--fg-rgb),0.8)',
               letterSpacing: '0.08em', textTransform: 'uppercase',
               pointerEvents: 'none',
             }}>
@@ -141,7 +141,7 @@ const ProjectModal = ({ project, onClose }) => {
             <h2 style={{
               margin: 0,
               fontSize: 'clamp(18px, 3vw, 28px)',
-              fontWeight: 300, color: '#fff',
+              fontWeight: 300, color: 'var(--fg)',
               letterSpacing: '-0.02em', lineHeight: 1,
               fontFamily: "'DM Sans', sans-serif",
             }}>
@@ -159,10 +159,10 @@ const ProjectModal = ({ project, onClose }) => {
                 key={tag.name}
                 style={{
                   fontSize: 11, fontWeight: 300,
-                  color: 'rgba(255,255,255,0.45)',
+                  color: 'rgba(var(--fg-rgb),0.45)',
                   padding: '4px 12px', borderRadius: 100,
-                  border: '1px solid rgba(255,255,255,0.09)',
-                  background: 'rgba(255,255,255,0.03)',
+                  border: '1px solid rgba(var(--fg-rgb),0.09)',
+                  background: 'rgba(var(--fg-rgb),0.03)',
                   letterSpacing: '0.04em',
                   fontFamily: "'DM Sans', sans-serif",
                 }}
@@ -172,12 +172,12 @@ const ProjectModal = ({ project, onClose }) => {
             ))}
           </div>
 
-          <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', marginBottom: 16 }} />
+          <div style={{ height: 1, background: 'rgba(var(--fg-rgb),0.06)', marginBottom: 16 }} />
 
           {/* Description */}
           <p style={{
             fontSize: 14, fontWeight: 300,
-            color: 'rgba(255,255,255,0.52)',
+            color: 'rgba(var(--fg-rgb),0.52)',
             lineHeight: 1.85,
             marginBottom: 24,
             maxWidth: 600,
@@ -198,14 +198,14 @@ const ProjectModal = ({ project, onClose }) => {
                   <div style={{
                     fontSize: 10.5, fontWeight: 500,
                     letterSpacing: '0.18em', textTransform: 'uppercase',
-                    color: 'rgba(255,255,255,0.35)', marginBottom: 6,
+                    color: 'rgba(var(--fg-rgb),0.35)', marginBottom: 6,
                     fontFamily: "'DM Sans', sans-serif",
                   }}>
                     {label}
                   </div>
                   <p style={{
                     fontSize: 13.5, fontWeight: 300,
-                    color: 'rgba(255,255,255,0.55)',
+                    color: 'rgba(var(--fg-rgb),0.55)',
                     lineHeight: 1.8,
                     fontFamily: "'DM Sans', sans-serif",
                   }}>
@@ -240,7 +240,7 @@ const ProjectModal = ({ project, onClose }) => {
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
                   padding: '10px 22px', borderRadius: 100,
-                  background: '#fff', color: '#000',
+                  background: 'var(--fg)', color: 'var(--bg)',
                   fontSize: 12, fontWeight: 400,
                   letterSpacing: '0.06em', textTransform: 'uppercase',
                   textDecoration: 'none', cursor: 'none',
@@ -252,7 +252,7 @@ const ProjectModal = ({ project, onClose }) => {
               >
                 View Live Site
                 <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                  <path d="M1 11L11 1M11 1H4M11 1V8" stroke="#000" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M1 11L11 1M11 1H4M11 1V8" stroke="var(--bg)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
               </a>
             )}
@@ -263,9 +263,9 @@ const ProjectModal = ({ project, onClose }) => {
               style={{
                 display: 'inline-flex', alignItems: 'center', gap: 8,
                 padding: '10px 22px', borderRadius: 100,
-                background: 'rgba(255,255,255,0.05)',
-                border: '1px solid rgba(255,255,255,0.11)',
-                color: 'rgba(255,255,255,0.65)',
+                background: 'rgba(var(--fg-rgb),0.05)',
+                border: '1px solid rgba(var(--fg-rgb),0.11)',
+                color: 'rgba(var(--fg-rgb),0.65)',
                 fontSize: 12, fontWeight: 300,
                 letterSpacing: '0.06em', textTransform: 'uppercase',
                 textDecoration: 'none', cursor: 'none',
@@ -273,12 +273,12 @@ const ProjectModal = ({ project, onClose }) => {
                 fontFamily: "'DM Sans', sans-serif",
               }}
               onMouseEnter={e => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.10)';
-                e.currentTarget.style.color = '#fff';
+                e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.10)';
+                e.currentTarget.style.color = 'var(--fg)';
               }}
               onMouseLeave={e => {
-                e.currentTarget.style.background = 'rgba(255,255,255,0.05)';
-                e.currentTarget.style.color = 'rgba(255,255,255,0.65)';
+                e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.05)';
+                e.currentTarget.style.color = 'rgba(var(--fg-rgb),0.65)';
               }}
             >
               GitHub Repo
@@ -347,7 +347,7 @@ const ProjectCard = ({
 
         <div className='mt-5'>
           <div className="flex items-start justify-between gap-2">
-            <h3 className='text-white font-bold text-[24px]'>{name}</h3>
+            <h3 className='font-bold text-[24px]' style={{ color: 'var(--fg)' }}>{name}</h3>
             {live_demo_link && (
               <button
                 type="button"
@@ -355,23 +355,23 @@ const ProjectCard = ({
                 aria-label={`View live demo of ${name}`}
                 style={{
                   display: 'inline-flex', alignItems: 'center', gap: 5,
-                  background: 'rgba(255,255,255,0.07)',
-                  border: '1px solid rgba(255,255,255,0.12)',
+                  background: 'rgba(var(--fg-rgb),0.07)',
+                  border: '1px solid rgba(var(--fg-rgb),0.12)',
                   borderRadius: 100, padding: '4px 10px',
                   fontSize: 11, fontWeight: 300,
-                  color: 'rgba(255,255,255,0.7)',
+                  color: 'rgba(var(--fg-rgb),0.7)',
                   letterSpacing: '0.06em', whiteSpace: 'nowrap',
                   cursor: 'pointer', marginTop: 4, flexShrink: 0,
                   fontFamily: "'DM Sans', sans-serif",
                   transition: 'background 0.2s, color 0.2s',
                 }}
                 onMouseEnter={e => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.13)';
-                  e.currentTarget.style.color = '#fff';
+                  e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.13)';
+                  e.currentTarget.style.color = 'var(--fg)';
                 }}
                 onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(255,255,255,0.07)';
-                  e.currentTarget.style.color = 'rgba(255,255,255,0.7)';
+                  e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.07)';
+                  e.currentTarget.style.color = 'rgba(var(--fg-rgb),0.7)';
                 }}
               >
                 <span style={{
@@ -406,22 +406,22 @@ const ProjectCard = ({
               width: '100%',
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '10px 14px', borderRadius: 10,
-              background: 'rgba(255,255,255,0.04)',
-              border: '1px solid rgba(255,255,255,0.08)',
+              background: 'rgba(var(--fg-rgb),0.04)',
+              border: '1px solid rgba(var(--fg-rgb),0.08)',
               cursor: 'pointer',
               transition: 'background 0.2s, border-color 0.2s',
               fontFamily: "'DM Sans', sans-serif",
             }}
             onMouseEnter={e => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.08)';
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.16)';
+              e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.08)';
+              e.currentTarget.style.borderColor = 'rgba(var(--fg-rgb),0.16)';
             }}
             onMouseLeave={e => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.04)';
-              e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)';
+              e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.04)';
+              e.currentTarget.style.borderColor = 'rgba(var(--fg-rgb),0.08)';
             }}
           >
-            <span style={{ fontSize: 12, fontWeight: 300, color: 'rgba(255,255,255,0.6)', letterSpacing: '0.04em' }}>
+            <span style={{ fontSize: 12, fontWeight: 300, color: 'rgba(var(--fg-rgb),0.6)', letterSpacing: '0.04em' }}>
               View Live Demo
             </span>
             <ExternalLinkIcon />
@@ -454,19 +454,19 @@ const RailControls = ({ activeIndex, count, onPrev, onNext, onJump, names }) => 
         aria-label="Previous project"
         style={{
           width: 40, height: 40, borderRadius: '50%',
-          background: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.14)',
+          background: 'rgba(var(--fg-rgb),0.06)',
+          border: '1px solid rgba(var(--fg-rgb),0.14)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: activeIndex === 0 ? 'default' : 'pointer',
           opacity: activeIndex === 0 ? 0.35 : 1,
-          color: '#fff', transition: 'opacity 0.2s, background 0.2s',
+          color: 'var(--fg)', transition: 'opacity 0.2s, background 0.2s',
         }}
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 1L2 7L9 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
       </button>
 
       <span className="bl-mono" style={{
-        fontSize: 12, letterSpacing: '0.18em', color: 'rgba(255,255,255,0.6)',
+        fontSize: 12, letterSpacing: '0.18em', color: 'rgba(var(--fg-rgb),0.6)',
         fontFamily: "'DM Mono', monospace", minWidth: 56, textAlign: 'center',
       }}>
         {String(activeIndex + 1).padStart(2, '0')} / {String(count).padStart(2, '0')}
@@ -479,12 +479,12 @@ const RailControls = ({ activeIndex, count, onPrev, onNext, onJump, names }) => 
         aria-label="Next project"
         style={{
           width: 40, height: 40, borderRadius: '50%',
-          background: 'rgba(255,255,255,0.06)',
-          border: '1px solid rgba(255,255,255,0.14)',
+          background: 'rgba(var(--fg-rgb),0.06)',
+          border: '1px solid rgba(var(--fg-rgb),0.14)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           cursor: activeIndex === count - 1 ? 'default' : 'pointer',
           opacity: activeIndex === count - 1 ? 0.35 : 1,
-          color: '#fff', transition: 'opacity 0.2s, background 0.2s',
+          color: 'var(--fg)', transition: 'opacity 0.2s, background 0.2s',
         }}
       >
         <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M5 1L12 7L5 13" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/></svg>
@@ -501,8 +501,8 @@ const RailControls = ({ activeIndex, count, onPrev, onNext, onJump, names }) => 
             background: 'none', border: 'none', cursor: 'pointer',
             padding: '4px 2px', fontFamily: "'DM Sans', sans-serif",
             fontSize: 12, letterSpacing: '0.02em',
-            color: i === activeIndex ? '#fff' : 'rgba(255,255,255,0.35)',
-            borderBottom: i === activeIndex ? '1px solid #fff' : '1px solid transparent',
+            color: i === activeIndex ? 'var(--fg)' : 'rgba(var(--fg-rgb),0.35)',
+            borderBottom: i === activeIndex ? '1px solid var(--fg)' : '1px solid transparent',
             transition: 'color 0.2s, border-color 0.2s',
           }}
         >
@@ -554,7 +554,6 @@ const Works = () => {
             end: () => '+=' + CARD_SCROLL_PX * (n - 1),
             pin: true,
             scrub: 1,
-            snap: 1 / (n - 1),
             invalidateOnRefresh: true,
             anticipatePin: 1,
             onUpdate(self) {
@@ -624,7 +623,7 @@ const Works = () => {
       <div style={{ width: '100%', padding: '0 clamp(24px, 6vw, 120px)' }}>
         <motion.div variants={textVariant()} initial="hidden" whileInView="show" viewport={{ once: true, amount: 0.25 }}>
           <p className={`${styles.sectionSubText}`}>My work</p>
-          <h2 className={`${styles.sectionHeadText}`}>Projects.</h2>
+          <h2 className={`${styles.sectionHeadText}`} style={{ color: 'var(--fg)' }}>Projects.</h2>
         </motion.div>
 
         <div className='w-full flex'>

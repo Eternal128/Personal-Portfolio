@@ -28,8 +28,8 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
         .blog-card {
           display: block;
           text-align: left;
-          background: rgba(255,255,255,0.02);
-          border: 1px solid rgba(255,255,255,0.08);
+          background: rgba(var(--fg-rgb),0.02);
+          border: 1px solid rgba(var(--fg-rgb),0.08);
           border-radius: 14px;
           overflow: hidden;
           padding: 0 0 24px;
@@ -38,8 +38,8 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
           font-family: 'DM Sans', sans-serif;
         }
         .blog-card:hover {
-          background: rgba(255,255,255,0.045);
-          border-color: rgba(255,255,255,0.16);
+          background: rgba(var(--fg-rgb),0.045);
+          border-color: rgba(var(--fg-rgb),0.16);
           transform: translateY(-4px);
         }
         .blog-card:hover .blog-card-arrow { transform: translateX(5px); }
@@ -52,7 +52,7 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
           width: 100%;
           aspect-ratio: 16 / 9;
           overflow: hidden;
-          background: rgba(255,255,255,0.03);
+          background: rgba(var(--fg-rgb),0.03);
         }
         .blog-card-thumb img,
         .blog-card-thumb video {
@@ -75,13 +75,13 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
             <div style={{
               fontFamily: "'DM Mono', monospace", fontSize: 11,
               letterSpacing: '0.28em', textTransform: 'uppercase',
-              color: 'rgba(255,255,255,0.4)', marginBottom: 18,
+              color: 'rgba(var(--fg-rgb),0.4)', marginBottom: 18,
             }}>
               Journal
             </div>
             <h2 style={{
               fontSize: 'clamp(36px, 6vw, 72px)', fontWeight: 300,
-              color: '#fff', letterSpacing: '-0.02em', lineHeight: 1,
+              color: 'var(--fg)', letterSpacing: '-0.02em', lineHeight: 1,
             }}>
               Thoughts & process.
             </h2>
@@ -91,15 +91,15 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
             onClick={onOpenBlog}
             style={{
               padding: '11px 22px', borderRadius: 100,
-              background: 'rgba(255,255,255,0.06)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              color: 'rgba(255,255,255,0.85)',
+              background: 'rgba(var(--fg-rgb),0.06)',
+              border: '1px solid rgba(var(--fg-rgb),0.12)',
+              color: 'rgba(var(--fg-rgb),0.85)',
               fontFamily: "'DM Sans', sans-serif", fontSize: 13, fontWeight: 300,
               letterSpacing: '0.02em', cursor: 'pointer', whiteSpace: 'nowrap',
               transition: 'background 0.2s, border-color 0.2s, color 0.2s',
             }}
-            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.12)'; e.currentTarget.style.color = '#fff'; }}
-            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(255,255,255,0.06)'; e.currentTarget.style.color = 'rgba(255,255,255,0.85)'; }}
+            onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.12)'; e.currentTarget.style.color = 'var(--fg)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.06)'; e.currentTarget.style.color = 'rgba(var(--fg-rgb),0.85)'; }}
           >
             See all posts →
           </button>
@@ -138,27 +138,27 @@ const BlogSection = ({ onOpenBlog, onOpenPost }) => {
                 <div style={{
                   fontFamily: "'DM Mono', monospace", fontSize: 10,
                   letterSpacing: '0.22em', textTransform: 'uppercase',
-                  color: 'rgba(255,255,255,0.4)', marginBottom: 14,
+                  color: 'rgba(var(--fg-rgb),0.4)', marginBottom: 14,
                   display: 'flex', justifyContent: 'space-between',
                 }}>
                   <span>{p.kicker}</span>
                   <span>{p.date} · {p.readingTime}</span>
                 </div>
                 <h3 style={{
-                  fontSize: 21, fontWeight: 400, color: '#fff',
+                  fontSize: 21, fontWeight: 400, color: 'var(--fg)',
                   lineHeight: 1.2, marginBottom: 12, letterSpacing: '-0.01em',
                 }}>
                   {p.title}
                 </h3>
                 <p style={{
                   fontSize: 14, fontWeight: 300, lineHeight: 1.6,
-                  color: 'rgba(255,255,255,0.5)', marginBottom: 20,
+                  color: 'rgba(var(--fg-rgb),0.5)', marginBottom: 20,
                 }}>
                   {p.excerpt}
                 </p>
                 <span style={{
                   display: 'inline-flex', alignItems: 'center', gap: 8,
-                  fontSize: 12, color: 'rgba(255,255,255,0.7)', letterSpacing: '0.02em',
+                  fontSize: 12, color: 'rgba(var(--fg-rgb),0.7)', letterSpacing: '0.02em',
                 }}>
                   Read <span className="blog-card-arrow">↗</span>
                 </span>

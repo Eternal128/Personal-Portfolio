@@ -62,7 +62,7 @@ const Highlight = ({ text, active, baseDelay = 0 }) => {
                 style={{
                   position: "relative",
                   zIndex: 1,
-                  color: active ? "#171400" : "rgba(255,255,255,0.45)",
+                  color: active ? "#171400" : "rgba(var(--fg-rgb),0.45)",
                   fontWeight: 500,
                   transition: `color 0.25s ease ${delay + 0.15}s`,
                 }}
@@ -102,7 +102,7 @@ const ExperienceRow = ({ experience, index, onOpen, onHoverChange }) => {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.3 }}
       transition={{ duration: 0.6, delay: index * 0.06, ease: [0.16, 1, 0.3, 1] }}
-      style={{ borderTop: index === 0 ? "none" : "1px solid rgba(255,255,255,0.16)" }}
+      style={{ borderTop: index === 0 ? "none" : "1px solid rgba(var(--fg-rgb),0.16)" }}
     >
       <h3 className="exp-row-title">{experience.company_name}</h3>
       <span className="exp-row-arrow">↗</span>
@@ -216,8 +216,8 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
         position: "fixed",
         inset: 0,
         zIndex: 900,
-        background: "#08080a",
-        color: "#fff",
+        background: "var(--surface-solid)",
+        color: "var(--fg)",
         fontFamily: "'DM Sans', sans-serif",
         overflowY: "auto",
         overscrollBehavior: "contain",
@@ -230,10 +230,10 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
           position: "sticky",
           top: 0,
           zIndex: 5,
-          background: "rgba(8,8,10,0.85)",
+          background: "rgba(var(--surface-solid-rgb),0.85)",
           backdropFilter: "blur(10px)",
           WebkitBackdropFilter: "blur(10px)",
-          borderBottom: "1px solid rgba(255,255,255,0.08)",
+          borderBottom: "1px solid rgba(var(--fg-rgb),0.08)",
         }}
       >
         <div
@@ -252,7 +252,7 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
               background: "none",
               border: "none",
               cursor: "pointer",
-              color: "rgba(255,255,255,0.6)",
+              color: "rgba(var(--fg-rgb),0.6)",
               fontSize: 12,
               letterSpacing: "0.06em",
               fontFamily: "'DM Sans', sans-serif",
@@ -266,7 +266,7 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
               fontSize: 11,
               letterSpacing: "0.28em",
               textTransform: "uppercase",
-              color: "rgba(255,255,255,0.32)",
+              color: "rgba(var(--fg-rgb),0.32)",
             }}
           >
             {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
@@ -278,8 +278,8 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
               aria-label="Previous role"
               style={{
                 width: 34, height: 34, borderRadius: "50%",
-                border: "1px solid rgba(255,255,255,0.15)", background: "none",
-                color: "rgba(255,255,255,0.6)", cursor: "pointer",
+                border: "1px solid rgba(var(--fg-rgb),0.15)", background: "none",
+                color: "rgba(var(--fg-rgb),0.6)", cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}
             >
@@ -292,8 +292,8 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
               aria-label="Next role"
               style={{
                 width: 34, height: 34, borderRadius: "50%",
-                border: "1px solid rgba(255,255,255,0.15)", background: "none",
-                color: "rgba(255,255,255,0.6)", cursor: "pointer",
+                border: "1px solid rgba(var(--fg-rgb),0.15)", background: "none",
+                color: "rgba(var(--fg-rgb),0.6)", cursor: "pointer",
                 display: "flex", alignItems: "center", justifyContent: "center",
               }}
             >
@@ -323,10 +323,10 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
             <img src={experience.icon} alt="" style={{ width: 34, height: 34, objectFit: "contain" }} />
           </div>
           <div>
-            <div style={{ fontSize: 14, fontWeight: 400, color: "rgba(255,255,255,0.7)", marginBottom: 4 }}>
+            <div style={{ fontSize: 14, fontWeight: 400, color: "rgba(var(--fg-rgb),0.7)", marginBottom: 4 }}>
               {experience.company_name}
             </div>
-            <div style={{ fontSize: 12, fontWeight: 300, color: "rgba(255,255,255,0.35)", letterSpacing: "0.05em" }}>
+            <div style={{ fontSize: 12, fontWeight: 300, color: "rgba(var(--fg-rgb),0.35)", letterSpacing: "0.05em" }}>
               {experience.date}
             </div>
           </div>
@@ -342,7 +342,7 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
             lineHeight: 1.04,
             letterSpacing: "-0.02em",
             marginBottom: "clamp(48px, 8vh, 90px)",
-            color: "#fff",
+            color: "var(--fg)",
           }}
         >
           {experience.title}
@@ -363,7 +363,7 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
                   background: "rgba(212,180,100,0.7)", marginTop: 10, flexShrink: 0,
                 }}
               />
-              <p style={{ fontSize: 16, fontWeight: 300, color: "rgba(255,255,255,0.6)", lineHeight: 1.85 }}>
+              <p style={{ fontSize: 16, fontWeight: 300, color: "rgba(var(--fg-rgb),0.6)", lineHeight: 1.85 }}>
                 <Highlight text={point} active baseDelay={0} />
               </p>
             </motion.div>
@@ -375,14 +375,14 @@ const ExperienceDetail = ({ experience, index, total, onClose, onPrev, onNext })
           style={{
             marginTop: "clamp(60px, 10vh, 100px)",
             background: "none",
-            border: "1px solid rgba(255,255,255,0.18)",
+            border: "1px solid rgba(var(--fg-rgb),0.18)",
             borderRadius: 100,
             padding: "13px 28px",
             cursor: "pointer",
             fontSize: 11,
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "rgba(255,255,255,0.7)",
+            color: "rgba(var(--fg-rgb),0.7)",
           }}
         >
           ← Back to Work Experience
@@ -430,13 +430,13 @@ const Experience = () => {
           font-size: clamp(22px, 3.2vw, 38px);
           font-weight: 300;
           letter-spacing: -0.01em;
-          color: #fff;
+          color: var(--fg);
           transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
         }
         .exp-row:hover .exp-row-title { transform: translateX(-14px); }
         .exp-row-arrow {
           font-size: 18px;
-          color: rgba(255,255,255,0.4);
+          color: rgba(var(--fg-rgb),0.4);
           opacity: 0;
           transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
         }
@@ -472,7 +472,7 @@ const Experience = () => {
               style={{
                 fontSize: 11,
                 fontWeight: 300,
-                color: "rgba(255,255,255,0.28)",
+                color: "rgba(var(--fg-rgb),0.28)",
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
                 display: "block",
@@ -485,7 +485,7 @@ const Experience = () => {
               style={{
                 fontSize: "clamp(38px, 5vw, 64px)",
                 fontWeight: 300,
-                color: "#fff",
+                color: "var(--fg)",
                 letterSpacing: "-0.02em",
                 lineHeight: 1,
                 margin: 0,
@@ -495,7 +495,7 @@ const Experience = () => {
             </h2>
           </motion.div>
 
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.16)", borderBottom: "1px solid rgba(255,255,255,0.16)" }}>
+          <div style={{ borderTop: "1px solid rgba(var(--fg-rgb),0.16)", borderBottom: "1px solid rgba(var(--fg-rgb),0.16)" }}>
             {experiences.map((exp, i) => (
               <ExperienceRow
                 key={i}

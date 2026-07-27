@@ -14,7 +14,7 @@ const SoundToggle = () => {
       style={{
         position: "fixed", bottom: 24, right: 24, zIndex: 12000,
         width: 44, height: 44, borderRadius: "50%",
-        background: "rgba(14,14,14,0.9)", backdropFilter: "blur(8px)",
+        background: "rgba(var(--surface-solid-rgb),0.9)", backdropFilter: "blur(8px)",
         border: "1px solid rgba(212,180,100,0.3)",
         display: "flex", alignItems: "center", justifyContent: "center",
         cursor: "pointer", color: "rgba(212,180,100,0.9)",

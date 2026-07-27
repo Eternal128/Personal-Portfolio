@@ -32,7 +32,7 @@ export default defineConfig([
       'react/jsx-uses-vars': 'error',
       'react-refresh/only-export-components': ['error', {
         allowConstantExport: true,
-        allowExportNames: ['useSound', 'useLenis'],
+        allowExportNames: ['useSound', 'useLenis', 'useTheme'],
       }],
     },
   },

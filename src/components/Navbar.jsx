@@ -2,6 +2,33 @@ import React, { useEffect, useState } from "react";
 import { navLinks } from "../constants";
 import { useSound } from "../context/SoundContext";
 import { useLenis } from "../context/LenisContext";
+import { useTheme } from "../context/ThemeContext";
+
+const ThemeToggle = ({ className }) => {
+  const { theme, toggleTheme } = useTheme();
+  const { play } = useSound();
+  const isLight = theme === "light";
+
+  return (
+    <button
+      type="button"
+      className={className}
+      aria-label={isLight ? "Switch to dark mode" : "Switch to light mode"}
+      onClick={() => { play("click"); toggleTheme(); }}
+    >
+      {isLight ? (
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="4.5" />
+          <path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8l1.8-1.8M18 6l1.8-1.8" />
+        </svg>
+      ) : (
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.1" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z" />
+        </svg>
+      )}
+    </button>
+  );
+};
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
@@ -56,16 +83,16 @@ const Navbar = () => {
           max-width: 1100px;
           padding: 12px 16px 12px 20px;
           border-radius: 100px;
-          border: 1px solid rgba(255,255,255,0.08);
-          background: rgba(8,8,8,0.7);
+          border: 1px solid rgba(var(--fg-rgb),0.08);
+          background: rgba(var(--surface-solid-rgb),0.7);
           backdrop-filter: blur(20px);
           -webkit-backdrop-filter: blur(20px);
           transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
         }
 
         .nav-bar.scrolled {
-          background: rgba(6,6,6,0.88);
-          border-color: rgba(255,255,255,0.1);
+          background: rgba(var(--surface-solid-rgb),0.88);
+          border-color: rgba(var(--fg-rgb),0.1);
           box-shadow: 0 8px 32px rgba(0,0,0,0.5);
         }
 
@@ -82,8 +109,8 @@ const Navbar = () => {
           width: 28px;
           height: 28px;
           border-radius: 8px;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(var(--fg-rgb),0.08);
+          border: 1px solid rgba(var(--fg-rgb),0.1);
           display: flex;
           align-items: center;
           justify-content: center;
@@ -95,7 +122,7 @@ const Navbar = () => {
         .nav-logo-text {
           font-size: 14px;
           font-weight: 300;
-          color: rgba(255,255,255,0.85);
+          color: rgba(var(--fg-rgb),0.85);
           letter-spacing: 0.02em;
           white-space: nowrap;
         }
@@ -112,7 +139,7 @@ const Navbar = () => {
         .nav-link {
           font-size: 13px;
           font-weight: 300;
-          color: rgba(255,255,255,0.45);
+          color: rgba(var(--fg-rgb),0.45);
           text-decoration: none;
           padding: 7px 14px;
           border-radius: 100px;
@@ -127,8 +154,8 @@ const Navbar = () => {
 
         .nav-link:hover,
         .nav-link.active {
-          color: rgba(255,255,255,0.9);
-          background: rgba(255,255,255,0.06);
+          color: rgba(var(--fg-rgb),0.9);
+          background: rgba(var(--fg-rgb),0.06);
         }
 
         .nav-cta {
@@ -144,8 +171,8 @@ const Navbar = () => {
           gap: 6px;
           padding: 7px 14px;
           border-radius: 100px;
-          background: rgba(255,255,255,0.04);
-          border: 1px solid rgba(255,255,255,0.07);
+          background: rgba(var(--fg-rgb),0.04);
+          border: 1px solid rgba(var(--fg-rgb),0.07);
         }
 
         .nav-avail-dot {
@@ -166,7 +193,7 @@ const Navbar = () => {
         .nav-avail span {
           font-size: 12px;
           font-weight: 300;
-          color: rgba(255,255,255,0.45);
+          color: rgba(var(--fg-rgb),0.45);
           letter-spacing: 0.03em;
           white-space: nowrap;
         }
@@ -174,9 +201,9 @@ const Navbar = () => {
         .nav-contact-btn {
           padding: 8px 18px;
           border-radius: 100px;
-          background: rgba(255,255,255,0.08);
-          border: 1px solid rgba(255,255,255,0.1);
-          color: rgba(255,255,255,0.82);
+          background: rgba(var(--fg-rgb),0.08);
+          border: 1px solid rgba(var(--fg-rgb),0.1);
+          color: rgba(var(--fg-rgb),0.82);
           font-family: 'DM Sans', sans-serif;
           font-size: 13px;
           font-weight: 300;
@@ -188,9 +215,42 @@ const Navbar = () => {
         }
 
         .nav-contact-btn:hover {
-          background: rgba(255,255,255,0.13);
-          border-color: rgba(255,255,255,0.2);
-          color: #fff;
+          background: rgba(var(--fg-rgb),0.13);
+          border-color: rgba(var(--fg-rgb),0.2);
+          color: var(--fg);
+        }
+
+        .nav-theme-btn {
+          width: 34px;
+          height: 34px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(var(--fg-rgb),0.06);
+          border: 1px solid rgba(var(--fg-rgb),0.1);
+          color: rgba(var(--fg-rgb),0.75);
+          cursor: pointer;
+          flex-shrink: 0;
+          transition: background 0.2s ease, color 0.2s ease;
+        }
+
+        .nav-theme-btn:hover {
+          background: rgba(var(--fg-rgb),0.13);
+          color: var(--fg);
+        }
+
+        .nav-mobile-theme-btn {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          background: rgba(var(--fg-rgb),0.06);
+          border: 1px solid rgba(var(--fg-rgb),0.1);
+          color: rgba(var(--fg-rgb),0.75);
+          cursor: pointer;
         }
 
         .nav-hamburger {
@@ -209,14 +269,14 @@ const Navbar = () => {
           display: block;
           width: 18px;
           height: 1px;
-          background: rgba(255,255,255,0.6);
+          background: rgba(var(--fg-rgb),0.6);
           transition: transform 0.2s, opacity 0.2s;
         }
 
         .nav-mobile-menu {
           position: fixed;
           top: 0; left: 0; right: 0; bottom: 0;
-          background: rgba(0,0,0,0.96);
+          background: rgba(var(--bg-rgb),0.96);
           backdrop-filter: blur(20px);
           z-index: 99;
           display: flex;
@@ -240,7 +300,7 @@ const Navbar = () => {
           right: 28px;
           background: none;
           border: none;
-          color: rgba(255,255,255,0.5);
+          color: rgba(var(--fg-rgb),0.5);
           font-size: 24px;
           cursor: pointer;
           font-weight: 200;
@@ -249,7 +309,7 @@ const Navbar = () => {
         .nav-mobile-link {
           font-size: clamp(28px, 6vw, 48px);
           font-weight: 200;
-          color: rgba(255,255,255,0.7);
+          color: rgba(var(--fg-rgb),0.7);
           text-decoration: none;
           letter-spacing: -0.01em;
           transition: color 0.2s;
@@ -259,7 +319,7 @@ const Navbar = () => {
           font-family: 'DM Sans', sans-serif;
         }
 
-        .nav-mobile-link:hover { color: #fff; }
+        .nav-mobile-link:hover { color: var(--fg); }
 
         @media (max-width: 768px) {
           .nav-links { display: none; }
@@ -272,6 +332,9 @@ const Navbar = () => {
       {/* Mobile fullscreen menu */}
       <div className={`nav-mobile-menu${menuOpen ? ' open' : ''}`}>
         <button className="nav-mobile-close" aria-label="Close menu" onClick={() => { play("close"); setMenuOpen(false); }}>✕</button>
+        <div style={{ position: 'absolute', top: 24, left: 24 }}>
+          <ThemeToggle className="nav-mobile-theme-btn" />
+        </div>
         {navLinks.map((nav) => (
           <button
             key={nav.id}
@@ -298,10 +361,10 @@ const Navbar = () => {
           >
             <div className="nav-logo-icon">
               <svg viewBox="0 0 14 14" fill="none">
-                <rect x="1" y="1" width="5" height="5" rx="1.2" fill="rgba(255,255,255,0.7)" />
-                <rect x="8" y="1" width="5" height="5" rx="1.2" fill="rgba(255,255,255,0.4)" />
-                <rect x="1" y="8" width="5" height="5" rx="1.2" fill="rgba(255,255,255,0.4)" />
-                <rect x="8" y="8" width="5" height="5" rx="1.2" fill="rgba(255,255,255,0.7)" />
+                <rect x="1" y="1" width="5" height="5" rx="1.2" fill="rgba(var(--fg-rgb),0.7)" />
+                <rect x="8" y="1" width="5" height="5" rx="1.2" fill="rgba(var(--fg-rgb),0.4)" />
+                <rect x="1" y="8" width="5" height="5" rx="1.2" fill="rgba(var(--fg-rgb),0.4)" />
+                <rect x="8" y="8" width="5" height="5" rx="1.2" fill="rgba(var(--fg-rgb),0.7)" />
               </svg>
             </div>
             <span className="nav-logo-text">James Hanzell</span>
@@ -326,6 +389,7 @@ const Navbar = () => {
               <div className="nav-avail-dot" />
               <span>Available for work</span>
             </div>
+            <ThemeToggle className="nav-theme-btn" />
             <button className="nav-hamburger" aria-label="Open menu" onClick={() => { play("click"); setMenuOpen(true); }}>
               <span /><span /><span />
             </button>

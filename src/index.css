@@ -2,22 +2,62 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ── Theme tokens ──
+   --fg-rgb / --bg-rgb hold comma-separated RGB triplets so they can feed
+   straight into rgba(var(--fg-rgb), alpha) anywhere a color used to be
+   hardcoded as rgba(255,255,255, alpha) or rgba(0,0,0, alpha) — which
+   covers the overwhelming majority of colors in this codebase (text,
+   borders, and subtle card-tint backgrounds are all "foreground at some
+   opacity"). --surface-solid is for the few genuinely solid dark panels
+   (modals, the fixed detail overlay) that aren't alpha-blended. */
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #000000;
+  --bg-rgb: 0, 0, 0;
+  --fg: #ffffff;
+  --fg-rgb: 255, 255, 255;
+  --surface-solid: #0a0a0a;
+  --surface-solid-rgb: 10, 10, 10;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f5f3ee;
+  --bg-rgb: 245, 243, 238;
+  --fg: #17160f;
+  --fg-rgb: 23, 22, 15;
+  --surface-solid: #ffffff;
+  --surface-solid-rgb: 255, 255, 255;
+}
+
+/* Shimmer headline text — swaps to dark-on-light automatically since it's
+   built from --fg-rgb at varying alphas rather than fixed white/gray stops. */
+.theme-shimmer-text {
+  background: linear-gradient(135deg,
+    var(--fg) 0%, rgba(var(--fg-rgb),0.82) 30%,
+    var(--fg) 60%, rgba(var(--fg-rgb),0.68) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 /* ── Reset & Base ── */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   scroll-behavior: smooth;
-  color-scheme: dark;
   cursor: none !important;
 }
 
 body {
   font-family: "DM Sans", sans-serif;
-  background: #000;
-  color: #fff;
+  background: var(--bg);
+  color: var(--fg);
   overscroll-behavior: none;
   -webkit-overflow-scrolling: touch;
+  transition: background-color 0.4s ease, color 0.4s ease;
 }
 
 .skip-link {

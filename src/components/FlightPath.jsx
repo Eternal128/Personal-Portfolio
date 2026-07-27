@@ -66,8 +66,8 @@ const Particle = React.memo(({ x, y, onDone }) => {
       left: x, top: y,
       width: 3, height: 3,
       borderRadius: '50%',
-      background: '#fff',
-      boxShadow: '0 0 5px rgba(255,255,255,0.9)',
+      background: 'var(--fg)',
+      boxShadow: '0 0 5px rgba(var(--fg-rgb),0.9)',
       pointerEvents: 'none',
       zIndex: 9,
       transform: 'translate(-50%,-50%)',
@@ -239,14 +239,14 @@ const FlightPath = () => {
           zIndex: 1,
           pointerEvents: 'none',
           width: 22, height: 22,
-          filter: 'drop-shadow(0 0 7px rgba(255,255,255,0.85)) drop-shadow(0 0 16px rgba(255,255,255,0.3))',
+          filter: 'drop-shadow(0 0 7px rgba(var(--fg-rgb),0.85)) drop-shadow(0 0 16px rgba(var(--fg-rgb),0.3))',
         }}
       >
         <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
-          <path d="M12 2C12 2 7 7 7 13C7 16.31 9.69 19 13 19C13 19 13 21 12 22C13 22 16 20 16 19C16 19 17 18.5 17 17C17 16 16 15 16 15C16.5 14 17 13 17 13C17 7 12 2 12 2Z" fill="white" opacity="0.95" />
-          <circle cx="12" cy="11" r="1.5" fill="#000" opacity="0.55" />
-          <path d="M7 13C7 13 5 14 5 16C5 17 6 17 7 16.5L7 13Z" fill="white" opacity="0.7" />
-          <path d="M17 13C17 13 19 14 19 16C19 17 18 17 17 16.5L17 13Z" fill="white" opacity="0.7" />
+          <path d="M12 2C12 2 7 7 7 13C7 16.31 9.69 19 13 19C13 19 13 21 12 22C13 22 16 20 16 19C16 19 17 18.5 17 17C17 16 16 15 16 15C16.5 14 17 13 17 13C17 7 12 2 12 2Z" fill="var(--fg)" opacity="0.95" />
+          <circle cx="12" cy="11" r="1.5" fill="var(--bg)" opacity="0.55" />
+          <path d="M7 13C7 13 5 14 5 16C5 17 6 17 7 16.5L7 13Z" fill="var(--fg)" opacity="0.7" />
+          <path d="M17 13C17 13 19 14 19 16C19 17 18 17 17 16.5L17 13Z" fill="var(--fg)" opacity="0.7" />
           <path d="M10.5 19C10.5 19 10 21 12 22C14 21 13.5 19 13.5 19" stroke="rgba(255,160,40,0.9)" strokeWidth="1.2" strokeLinecap="round" fill="rgba(255,120,20,0.4)" />
         </svg>
       </div>

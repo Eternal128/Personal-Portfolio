@@ -41,7 +41,7 @@ const StarRating = ({ count }) => (
         height="15"
         viewBox="0 0 24 24"
         fill={i < count ? "#c9a84c" : "none"}
-        stroke={i < count ? "#c9a84c" : "rgba(255,255,255,0.15)"}
+        stroke={i < count ? "#c9a84c" : "rgba(var(--fg-rgb),0.15)"}
         strokeWidth="1.5"
       >
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
@@ -49,7 +49,7 @@ const StarRating = ({ count }) => (
     ))}
     <span
       className="ml-2 text-[12px]"
-      style={{ color: "rgba(255,255,255,0.3)" }}
+      style={{ color: "rgba(var(--fg-rgb),0.3)" }}
     >
       {count}.0
     </span>
@@ -60,8 +60,8 @@ const TestimonialCard = ({ name, role, text, rating, avatar }) => (
   <div
     className="flex-shrink-0 w-[460px] rounded-3xl p-12 flex flex-col justify-between backdrop-blur-md"
     style={{
-      background: "rgba(255,255,255,0.035)",
-      border: "1px solid rgba(255,255,255,0.08)",
+      background: "rgba(var(--fg-rgb),0.035)",
+      border: "1px solid rgba(var(--fg-rgb),0.08)",
       boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
       fontFamily: "'DM Sans', sans-serif",
     }}
@@ -74,16 +74,16 @@ const TestimonialCard = ({ name, role, text, rating, avatar }) => (
           className="w-12 h-12 rounded-full object-cover"
           style={{
             filter: "grayscale(50%)",
-            border: "1px solid rgba(255,255,255,0.15)",
+            border: "1px solid rgba(var(--fg-rgb),0.15)",
           }}
         />
         <div>
-          <p className="text-white font-light text-[17px] tracking-wide">
+          <p className="font-light text-[17px] tracking-wide" style={{ color: "var(--fg)" }}>
             {name}
           </p>
           <p
             className="text-[12px] font-light mt-1"
-            style={{ color: "rgba(255,255,255,0.4)" }}
+            style={{ color: "rgba(var(--fg-rgb),0.4)" }}
           >
             {role}
           </p>
@@ -92,12 +92,12 @@ const TestimonialCard = ({ name, role, text, rating, avatar }) => (
 
       <div
         className="h-[1px] mb-6"
-        style={{ background: "rgba(255,255,255,0.06)" }}
+        style={{ background: "rgba(var(--fg-rgb),0.06)" }}
       />
 
       <p
         className="text-[17px] font-light leading-relaxed"
-        style={{ color: "rgba(255,255,255,0.75)" }}
+        style={{ color: "rgba(var(--fg-rgb),0.75)" }}
       >
         "{text}"
       </p>
@@ -132,11 +132,11 @@ const Feedbacks = () => {
       <style>
         {`
 .testimonial-fade-left {
-          background: linear-gradient(to right, #000 0%, transparent 100%);
+          background: linear-gradient(to right, var(--bg) 0%, transparent 100%);
         }
 
         .testimonial-fade-right {
-          background: linear-gradient(to left, #000 0%, transparent 100%);
+          background: linear-gradient(to left, var(--bg) 0%, transparent 100%);
         }
       `}
       </style>
@@ -149,26 +149,18 @@ const Feedbacks = () => {
         <div className="px-6 sm:px-16 mb-20">
           <p
             className="text-[11px] uppercase tracking-[0.25em] mb-5"
-            style={{ color: "rgba(255,255,255,0.35)" }}
+            style={{ color: "rgba(var(--fg-rgb),0.35)" }}
           >
             Testimonials
           </p>
 
-          <h2
-            className="font-light text-[clamp(40px,5vw,80px)] leading-none tracking-tight"
-            style={{
-              background:
-                "linear-gradient(135deg, #ffffff 0%, #e8e8e8 30%, #ffffff 60%, #c8c8c8 100%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-            }}
-          >
+          <h2 className="theme-shimmer-text font-light text-[clamp(40px,5vw,80px)] leading-none tracking-tight">
             What others say.
           </h2>
 
           <div
             className="mt-8 h-[1px]"
-            style={{ background: "rgba(255,255,255,0.06)" }}
+            style={{ background: "rgba(var(--fg-rgb),0.06)" }}
           />
         </div>
 

@@ -21,7 +21,8 @@ const FlipLink = ({ children, href }) => (
           key={i}
           variants={{ initial: { y: 0 }, hovered: { y: "-100%" } }}
           transition={{ duration: DURATION, ease: "easeInOut", delay: STAGGER * i }}
-          className="inline-block text-white"
+          className="inline-block"
+          style={{ color: 'var(--fg)' }}
         >
           {l === " " ? "\u00A0" : l}
         </motion.span>
@@ -34,7 +35,7 @@ const FlipLink = ({ children, href }) => (
           variants={{ initial: { y: "100%" }, hovered: { y: 0 } }}
           transition={{ duration: DURATION, ease: "easeInOut", delay: STAGGER * i }}
           className="inline-block"
-          style={{ color: 'rgba(255,255,255,0.45)' }}
+          style={{ color: 'rgba(var(--fg-rgb),0.45)' }}
         >
           {l === " " ? "\u00A0" : l}
         </motion.span>
@@ -93,11 +94,11 @@ const ContactEnd = () => {
 
         .contact-input {
           width: 100%;
-          background: rgba(255,255,255,0.03);
-          border: 1px solid rgba(255,255,255,0.08);
+          background: rgba(var(--fg-rgb),0.03);
+          border: 1px solid rgba(var(--fg-rgb),0.08);
           border-radius: 12px;
           padding: 14px 18px;
-          color: #fff;
+          color: var(--fg);
           font-family: 'DM Sans', sans-serif;
           font-size: 14px;
           font-weight: 300;
@@ -105,10 +106,10 @@ const ContactEnd = () => {
           transition: border-color 0.3s ease, background 0.3s ease;
           resize: none;
         }
-        .contact-input::placeholder { color: rgba(255,255,255,0.22); }
+        .contact-input::placeholder { color: rgba(var(--fg-rgb),0.22); }
         .contact-input:focus {
-          border-color: rgba(255,255,255,0.22);
-          background: rgba(255,255,255,0.05);
+          border-color: rgba(var(--fg-rgb),0.22);
+          background: rgba(var(--fg-rgb),0.05);
         }
 
         .contact-submit {
@@ -125,7 +126,7 @@ const ContactEnd = () => {
           cursor: pointer;
           overflow: hidden;
           transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.05);
+          box-shadow: 0 0 0 1px rgba(var(--fg-rgb),0.08), 0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(var(--fg-rgb),0.05);
         }
         .contact-submit:disabled { opacity: 0.5; cursor: not-allowed; }
         .contact-submit::before {
@@ -142,20 +143,20 @@ const ContactEnd = () => {
         }
         .contact-submit:not(:disabled):hover {
           transform: translateY(-2px);
-          box-shadow: 0 0 0 1px rgba(255,255,255,0.2), 0 6px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
+          box-shadow: 0 0 0 1px rgba(var(--fg-rgb),0.2), 0 6px 30px rgba(0,0,0,0.5), inset 0 1px 0 rgba(var(--fg-rgb),0.08);
         }
         .contact-submit:not(:disabled):hover::before {
           background: linear-gradient(135deg,
-            rgba(255,255,255,0.0) 0%, rgba(255,255,255,0.22) 50%,
-            rgba(255,255,255,0.0) 100%);
+            rgba(var(--fg-rgb),0.0) 0%, rgba(var(--fg-rgb),0.22) 50%,
+            rgba(var(--fg-rgb),0.0) 100%);
         }
 
         .avail-pill {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: rgba(255,255,255,0.05);
-          border: 1px solid rgba(255,255,255,0.1);
+          background: rgba(var(--fg-rgb),0.05);
+          border: 1px solid rgba(var(--fg-rgb),0.1);
           padding: 7px 16px;
           border-radius: 100px;
           margin-bottom: 28px;
@@ -187,51 +188,45 @@ const ContactEnd = () => {
             >
               <div className="avail-pill">
                 <div className="avail-dot" />
-                <span className="text-[12px] font-light tracking-[0.1em]" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                <span className="text-[12px] font-light tracking-[0.1em]" style={{ color: 'rgba(var(--fg-rgb),0.6)' }}>
                   Available For Work
                 </span>
               </div>
 
               <h2
-                className="font-light leading-none tracking-tight mb-6"
-                style={{
-                  fontSize: 'clamp(36px, 5vw, 72px)',
-                  background: 'linear-gradient(135deg, #ffffff 0%, #e8e8e8 30%, #ffffff 60%, #c8c8c8 100%)',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text',
-                }}
+                className="theme-shimmer-text font-light leading-none tracking-tight mb-6"
+                style={{ fontSize: 'clamp(36px, 5vw, 72px)' }}
               >
                 Curious about me and what<br />we can create<br />
-                <span style={{ color: 'rgba(255,255,255,0.4)', WebkitTextFillColor: 'rgba(255,255,255,0.4)' }}>
+                <span style={{ color: 'rgba(var(--fg-rgb),0.4)', WebkitTextFillColor: 'rgba(var(--fg-rgb),0.4)' }}>
                   together?
                 </span>
               </h2>
 
-              <p className="text-[14px] font-light leading-relaxed max-w-sm mb-10" style={{ color: 'rgba(255,255,255,0.4)' }}>
+              <p className="text-[14px] font-light leading-relaxed max-w-sm mb-10" style={{ color: 'rgba(var(--fg-rgb),0.4)' }}>
                 Whether you want to work together or just say hi, I'd love to hear from you!
               </p>
 
               <div className="space-y-6 mb-12">
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.18em] mb-1.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Email</p>
-                  <a href="mailto:james.hanzell@mail.utoronto.ca" className="text-white text-[15px] font-light hover:opacity-60 transition-opacity">
+                  <p className="text-[10px] uppercase tracking-[0.18em] mb-1.5" style={{ color: 'rgba(var(--fg-rgb),0.3)' }}>Email</p>
+                  <a href="mailto:james.hanzell@mail.utoronto.ca" className="text-[15px] font-light hover:opacity-60 transition-opacity" style={{ color: 'var(--fg)' }}>
                     james.hanzell@mail.utoronto.ca
                   </a>
                 </div>
                 <div>
-                  <p className="text-[10px] uppercase tracking-[0.18em] mb-1.5" style={{ color: 'rgba(255,255,255,0.3)' }}>Location</p>
-                  <p className="text-white text-[15px] font-light">Toronto, Ontario</p>
+                  <p className="text-[10px] uppercase tracking-[0.18em] mb-1.5" style={{ color: 'rgba(var(--fg-rgb),0.3)' }}>Location</p>
+                  <p className="text-[15px] font-light" style={{ color: 'var(--fg)' }}>Toronto, Ontario</p>
                 </div>
               </div>
 
               <div>
-                <p className="text-[10px] uppercase tracking-[0.18em] mb-4" style={{ color: 'rgba(255,255,255,0.3)' }}>Follow Me</p>
+                <p className="text-[10px] uppercase tracking-[0.18em] mb-4" style={{ color: 'rgba(var(--fg-rgb),0.3)' }}>Follow Me</p>
                 <div className="flex items-center gap-8">
                   <FlipLink href="https://www.linkedin.com/in/james-william-hanzell/">LinkedIn</FlipLink>
-                  <div className="h-3 w-[1px]" style={{ background: 'rgba(255,255,255,0.1)' }} />
+                  <div className="h-3 w-[1px]" style={{ background: 'rgba(var(--fg-rgb),0.1)' }} />
                   <FlipLink href="https://github.com/Eternal128">GitHub</FlipLink>
-                  <div className="h-3 w-[1px]" style={{ background: 'rgba(255,255,255,0.1)' }} />
+                  <div className="h-3 w-[1px]" style={{ background: 'rgba(var(--fg-rgb),0.1)' }} />
                   <FlipLink href="https://editor-portfolio-james.vercel.app/">Editing Portfolio</FlipLink>
                 </div>
               </div>
@@ -250,28 +245,28 @@ const ContactEnd = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   className="flex flex-col items-center justify-center h-full py-20"
                 >
-                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-6" style={{ border: '1px solid rgba(255,255,255,0.15)' }}>
-                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="1.5">
+                  <div className="w-14 h-14 rounded-full flex items-center justify-center mb-6" style={{ border: '1px solid rgba(var(--fg-rgb),0.15)' }}>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--fg)" strokeWidth="1.5">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   </div>
-                  <p className="text-white text-[18px] font-light text-center">Message sent.</p>
-                  <p className="mt-2 text-[13px] font-light text-center" style={{ color: 'rgba(255,255,255,0.4)' }}>
+                  <p className="text-[18px] font-light text-center" style={{ color: 'var(--fg)' }}>Message sent.</p>
+                  <p className="mt-2 text-[13px] font-light text-center" style={{ color: 'rgba(var(--fg-rgb),0.4)' }}>
                     I'll get back to you as soon as possible.
                   </p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="flex flex-col gap-5">
                   <div>
-                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Your Name</label>
+                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(var(--fg-rgb),0.35)' }}>Your Name</label>
                     <input className="contact-input" type="text" name="name" value={form.name} onChange={handleChange} placeholder="What's your name?" required />
                   </div>
                   <div>
-                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Your Email</label>
+                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(var(--fg-rgb),0.35)' }}>Your Email</label>
                     <input className="contact-input" type="email" name="email" value={form.email} onChange={handleChange} placeholder="What's your email address?" required />
                   </div>
                   <div>
-                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(255,255,255,0.35)' }}>Your Message</label>
+                    <label className="block text-[11px] uppercase tracking-[0.15em] mb-2.5" style={{ color: 'rgba(var(--fg-rgb),0.35)' }}>Your Message</label>
                     <textarea className="contact-input" name="message" value={form.message} onChange={handleChange} placeholder="What do you want to say?" rows={6} required />
                   </div>
                   {error && (
@@ -281,7 +276,7 @@ const ContactEnd = () => {
                     <button type="submit" className="contact-submit" disabled={loading}>
                       {loading ? 'Sending...' : 'Send Message'}
                     </button>
-                    <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.2)' }}>
+                    <p className="text-[11px] font-light" style={{ color: 'rgba(var(--fg-rgb),0.2)' }}>
                       I usually reply within 24h
                     </p>
                   </div>
@@ -292,10 +287,10 @@ const ContactEnd = () => {
         </div>
 
         {/* Footer */}
-        <div className="relative z-10 px-6 sm:px-16 pb-10" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+        <div className="relative z-10 px-6 sm:px-16 pb-10" style={{ borderTop: '1px solid rgba(var(--fg-rgb),0.05)' }}>
           <div className="flex flex-col sm:flex-row justify-between items-center gap-3 pt-8">
-            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>© 2025 James William Hanzell</p>
-            <p className="text-[11px] font-light" style={{ color: 'rgba(255,255,255,0.25)' }}>Built with React</p>
+            <p className="text-[11px] font-light" style={{ color: 'rgba(var(--fg-rgb),0.25)' }}>© 2025 James William Hanzell</p>
+            <p className="text-[11px] font-light" style={{ color: 'rgba(var(--fg-rgb),0.25)' }}>Built with React</p>
           </div>
         </div>
       </section>

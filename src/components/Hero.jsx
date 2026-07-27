@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tilt from 'react-parallax-tilt';
 import { james } from '../assets';
 
@@ -7,33 +7,27 @@ const CONTENT_FADE_VH = 0.45;
 
 const REPEAT_HALF = 6; // words per half of the marquee track (x2 for a seamless loop)
 
-// `reverse` is each row's direction while scrolling down; scrolling up flips
-// every row the other way.
+// Each row's fixed scroll direction — doesn't change with scroll direction.
 const ROWS = [
-  { word: 'James', duration: 55, reverse: false },
-  { word: 'William', duration: 62, reverse: true },
-  { word: 'Hanzell', duration: 48, reverse: false },
+  { word: 'James', duration: 90, reverse: false },
+  { word: 'William', duration: 100, reverse: true },
+  { word: 'Hanzell', duration: 80, reverse: false },
 ];
 
-const RowTrack = ({ word, duration, reverse, scrollDir }) => {
-  const effectiveReverse = scrollDir === 'up' ? !reverse : reverse;
-  return (
-    <div
-      className="h3-row-track"
-      style={{ animationDuration: `${duration}s`, animationDirection: effectiveReverse ? 'reverse' : 'normal' }}
-    >
-      {Array.from({ length: REPEAT_HALF * 2 }).map((_, j) => (
-        <span key={j}>{word.toUpperCase()}</span>
-      ))}
-    </div>
-  );
-};
+const RowTrack = ({ word, duration, reverse }) => (
+  <div
+    className="h3-row-track"
+    style={{ animationDuration: `${duration}s`, animationDirection: reverse ? 'reverse' : 'normal' }}
+  >
+    {Array.from({ length: REPEAT_HALF * 2 }).map((_, j) => (
+      <span key={j}>{word.toUpperCase()}</span>
+    ))}
+  </div>
+);
 
 const Hero = ({ heroReady = true }) => {
   const [loaded, setLoaded] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const [scrollDir, setScrollDir] = useState('down');
-  const lastScrollY = useRef(0);
 
   // Reveal only once the loader hands off (the singularity pop)
   useEffect(() => {
@@ -47,12 +41,7 @@ const Hero = ({ heroReady = true }) => {
     const onScroll = () => {
       if (!ticking) {
         requestAnimationFrame(() => {
-          const y = window.scrollY;
-          if (Math.abs(y - lastScrollY.current) > 2) {
-            setScrollDir(y > lastScrollY.current ? 'down' : 'up');
-            lastScrollY.current = y;
-          }
-          setScrollY(y);
+          setScrollY(window.scrollY);
           ticking = false;
         });
         ticking = true;
@@ -73,21 +62,20 @@ const Hero = ({ heroReady = true }) => {
           position: relative;
           width: 100%;
           height: 100vh;
-          background: #000;
+          background: var(--bg);
           overflow: hidden;
           font-family: 'DM Sans', sans-serif;
         }
 
-        .h3-rows, .h3-invert-layer {
+        .h3-rows {
           position: absolute;
           inset: 0;
           display: flex;
           flex-direction: column;
           justify-content: center;
           gap: clamp(4px, 1.5vh, 20px);
+          will-change: transform, opacity;
         }
-        .h3-rows { will-change: transform, opacity; }
-        .h3-invert-layer { z-index: 3; pointer-events: none; }
 
         .h3-row { display: flex; overflow: hidden; white-space: nowrap; }
         .h3-row-track { display: flex; width: max-content; animation: h3Marquee linear infinite; }
@@ -101,17 +89,12 @@ const Hero = ({ heroReady = true }) => {
           font-size: clamp(52px, 13vw, 200px);
           font-weight: 800;
           letter-spacing: -0.02em;
-          color: #fff;
+          color: var(--fg);
           padding-right: clamp(20px, 3vw, 56px);
           line-height: 1;
         }
         .h3-row-1 span, .h3-row-3 span { opacity: 0.94; }
         .h3-row-2 span { opacity: 0.5; }
-
-        .h3-invert-layer .h3-row-3 span {
-          opacity: 1;
-          mix-blend-mode: difference;
-        }
 
         .h3-photo-wrap {
           position: absolute;
@@ -152,12 +135,8 @@ const Hero = ({ heroReady = true }) => {
           }}
         >
           {ROWS.map((row, i) => (
-            <div
-              key={row.word}
-              className={`h3-row h3-row-${i + 1}`}
-              style={i === 2 ? { visibility: 'hidden' } : undefined}
-            >
-              <RowTrack {...row} scrollDir={scrollDir} />
+            <div key={row.word} className={`h3-row h3-row-${i + 1}`}>
+              <RowTrack {...row} />
             </div>
           ))}
         </div>
@@ -169,20 +148,6 @@ const Hero = ({ heroReady = true }) => {
           >
             <img src={james} alt="James William Hanzell" />
           </Tilt>
-        </div>
-
-        {/* Row 3 rendered again on top of the photo, blended so it inverts
-            against the photo's own pixels wherever the two overlap. */}
-        <div className="h3-invert-layer" aria-hidden="true">
-          {ROWS.map((row, i) => (
-            <div
-              key={row.word}
-              className={`h3-row h3-row-${i + 1}`}
-              style={i !== 2 ? { visibility: 'hidden' } : undefined}
-            >
-              <RowTrack {...row} scrollDir={scrollDir} />
-            </div>
-          ))}
         </div>
       </section>
     </>

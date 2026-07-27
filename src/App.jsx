@@ -3,6 +3,7 @@ import { AnimatePresence } from "framer-motion";
 
 import { SoundProvider } from "./context/SoundContext";
 import { useLenis } from "./context/LenisContext";
+import { useTheme } from "./context/ThemeContext";
 import {
   About, Experience, Feedbacks, Hero,
   Navbar, Tech, Works, StarsCanvas, End, CustomCursor, Loader,
@@ -63,6 +64,7 @@ const App = () => {
 
   const { navThud, tick } = useSoundFX();
   const lenis = useLenis();
+  const { theme } = useTheme();
 
   const applyHistoryState = (state) => {
     if (!state || state.view === 'home') {
@@ -183,8 +185,16 @@ const App = () => {
       <>
         <a href="#main-container" className="skip-link">Skip to content</a>
 
-        {/* Stars stay behind the whole site and behind the loader */}
-        <div className="fixed inset-0 z-0" style={{ background: '#000' }}>
+        {/* Stars stay behind the whole site and behind the loader; fade out
+            in light mode since a starfield makes no sense on a light bg. */}
+        <div
+          className="fixed inset-0 z-0"
+          style={{
+            background: 'var(--bg)',
+            opacity: theme === 'light' ? 0 : 1,
+            transition: 'opacity 0.4s ease',
+          }}
+        >
           <StarsCanvas />
         </div>
 
