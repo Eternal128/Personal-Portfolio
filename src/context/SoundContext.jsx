@@ -19,7 +19,10 @@ export const SoundProvider = ({ children }) => {
   const ambientRef = useRef(null); // ambient Audio element
   const startedAmbient = useRef(false);
 
-  // Preload SFX + ambient once
+  // Preload the small SFX up front. The ambient track is ~6MB, so it's only
+  // created on first unmute below — nothing plays until then anyway, and
+  // buffering it unconditionally on mount competed with the loader intro
+  // for bandwidth/main-thread time for no benefit.
   useEffect(() => {
     Object.entries(SFX).forEach(([key, src]) => {
       const a = new Audio(src);
@@ -28,13 +31,8 @@ export const SoundProvider = ({ children }) => {
       buffers.current[key] = a;
     });
 
-    const amb = new Audio(AMBIENT);
-    amb.loop = true;
-    amb.volume = 0; // fade in later
-    ambientRef.current = amb;
-
     return () => {
-      amb.pause();
+      ambientRef.current?.pause();
     };
   }, []);
 
@@ -44,17 +42,24 @@ export const SoundProvider = ({ children }) => {
   // NOTE: there is intentionally NO "auto-unlock on first gesture" effect,
   // so the ambient never plays during the loader screen.
   useEffect(() => {
-    const amb = ambientRef.current;
-    if (!amb) return;
-
     if (muted) {
-      fade(amb, amb.volume, 0, 400, () => amb.pause());
-    } else {
-      startedAmbient.current = true;
-      amb.play()
-        .then(() => fade(amb, amb.volume || 0, 0.18, 900))
-        .catch(() => {});
+      const amb = ambientRef.current;
+      if (amb) fade(amb, amb.volume, 0, 400, () => amb.pause());
+      return;
     }
+
+    if (!ambientRef.current) {
+      const amb = new Audio(AMBIENT);
+      amb.loop = true;
+      amb.volume = 0;
+      ambientRef.current = amb;
+    }
+
+    const amb = ambientRef.current;
+    startedAmbient.current = true;
+    amb.play()
+      .then(() => fade(amb, amb.volume || 0, 0.18, 900))
+      .catch(() => {});
   }, [muted]);
 
   // Play a one-shot SFX by name
