@@ -105,7 +105,10 @@ const ExperienceRow = ({ experience, index, onOpen, onHoverChange }) => {
       style={{ borderTop: index === 0 ? "none" : "1px solid rgba(var(--fg-rgb),0.16)" }}
     >
       <h3 className="exp-row-title">{experience.company_name}</h3>
-      <span className="exp-row-arrow">↗</span>
+      <span className="exp-row-cta">
+        <span className="exp-row-cta-text">View role</span>
+        <span className="exp-row-arrow">↗</span>
+      </span>
     </motion.div>
   );
 };
@@ -434,17 +437,32 @@ const Experience = () => {
           transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
         }
         .exp-row:hover .exp-row-title { transform: translateX(-14px); }
+        .exp-row-cta {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .exp-row-cta-text {
+          font-size: 11px;
+          font-weight: 400;
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
+          color: rgba(var(--fg-rgb),0.34);
+          white-space: nowrap;
+          transition: color 0.3s ease;
+        }
         .exp-row-arrow {
           font-size: 18px;
           color: rgba(var(--fg-rgb),0.4);
-          opacity: 0;
-          transition: opacity 0.3s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
+          transition: color 0.3s ease, transform 0.4s cubic-bezier(0.16,1,0.3,1);
         }
-        .exp-row:hover .exp-row-arrow { opacity: 1; transform: translate(6px, -5px); }
+        .exp-row:hover .exp-row-cta-text { color: rgba(var(--fg-rgb),0.6); }
+        .exp-row:hover .exp-row-arrow { color: var(--fg); transform: translate(6px, -5px); }
 
         @media (max-width: 767px) {
           .exp-row { padding: 28px 0; }
           .exp-row:hover .exp-row-title, .exp-row:hover .exp-row-arrow { transform: none; }
+          .exp-row-cta-text { display: none; }
           .exp-cursor-preview { display: none !important; }
         }
       `}</style>

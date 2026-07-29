@@ -62,10 +62,35 @@ const App = () => {
   const [heroReady, setHeroReady] = useState(false);
   const [blogOpen, setBlogOpen] = useState(false);
   const [initialPost, setInitialPost] = useState(null);
+  const [starsReady, setStarsReady] = useState(false);
+  const [flightPathReady, setFlightPathReady] = useState(false);
 
   const { navThud, tick } = useSoundFX();
   const lenis = useLenis();
   const { theme } = useTheme();
+
+  // The loader's own root is a fixed, fully opaque full-viewport div from
+  // its very first frame (regardless of phase), so nothing behind it is
+  // visible until it unmounts at the very end of the zoom — there's no
+  // visual cost to delaying purely-decorative background mounts, only a
+  // main-thread one to *not* delaying them. Two such mounts were still
+  // stuttering the Loader's 2.4s counter even after the ambient-audio and
+  // Lenis deferrals:
+  //  - StarsCanvas: a full react-three-fiber WebGL scene (context creation
+  //    + shader compilation for PointMaterial + first render).
+  //  - FlightPath: forces a synchronous `document.body.scrollHeight` layout
+  //    reflow of the *entire* page on mount (every section is already in
+  //    the DOM at that point), then starts an indefinitely-repeating GSAP
+  //    wobble tween that ticks every frame from the moment it mounts.
+  // Both are deferred past the counter's window, staggered a bit apart
+  // from each other and from Lenis's own 2600ms delay (see LenisContext)
+  // so none of these deferred inits land on the same frame and reintroduce
+  // the exact jank they're each meant to avoid.
+  useEffect(() => {
+    const t1 = setTimeout(() => setStarsReady(true), 2900);
+    const t2 = setTimeout(() => setFlightPathReady(true), 3200);
+    return () => { clearTimeout(t1); clearTimeout(t2); };
+  }, []);
 
   const applyHistoryState = (state) => {
     if (!state || state.view === 'home') {
@@ -196,7 +221,7 @@ const App = () => {
             transition: 'opacity 0.4s ease',
           }}
         >
-          <StarsCanvas />
+          {starsReady && <StarsCanvas />}
         </div>
 
         {/* Loader is NOT part of browser history. Reveal happens AFTER the
@@ -229,7 +254,7 @@ const App = () => {
               pointerEvents: 'none',
             }}
           >
-            <FlightPath />
+            {flightPathReady && <FlightPath />}
           </div>
 
           <Navbar revealed={navReady} />
