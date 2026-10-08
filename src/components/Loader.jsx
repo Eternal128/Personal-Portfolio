@@ -24,6 +24,7 @@ const LOADER_TEXT_DIM = 'rgba(23,21,18,0.4)';
 const LOADER_TEXT_FAINT = 'rgba(23,21,18,0.32)';
 const LOADER_CROSSHAIR = 'rgba(23,21,18,0.3)';
 
+const DRAW_MS = 2400;   // box outline draw + counter 0 -> 100
 const PAUSE_MS = 300;   // beat after the box finishes drawing
 const FILL_MS = 550;    // box fill transitions from outline to solid --bg
 const CHROME_FADE_S = 0.25; // monogram/tagline/counter fade-out
@@ -34,6 +35,10 @@ const CROSSHAIR_EXPLODE_MARGIN = 90; // px, how far the marks burst out before s
 const CROSSHAIR_BURST_S = 0.9; // seconds — near -> exploded -> near
 const CROSSHAIR_SPIN_S = 1.2; // seconds per rotation while the box draws
 const ZOOM_BUFFER = 1.02; // slight overshoot so no hairline gap at the true viewport edge
+
+// Sine in-out: settles gently into the final corner without the long,
+// near-stationary tail of a cubic ease-out.
+const easeDraw = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
 
 // Defined at module scope (not inside Loader's render body) so it keeps a
 // stable identity across re-renders — Loader re-renders ~60x/sec while
@@ -106,6 +111,7 @@ const Loader = ({ onComplete }) => {
   const [burstDone, setBurstDone] = useState(false);
 
   const frameRef = useRef(null);
+  const rectRef = useRef(null);
   const phaseRef = useRef('drawing');
   const completeCalledRef = useRef(false);
 
@@ -160,21 +166,32 @@ const Loader = ({ onComplete }) => {
     return () => clearTimeout(t);
   }, []);
 
-  // Loading counter — also drives the box-draw dashoffset directly below.
+  // Loading counter + box draw. The stroke is driven from the continuous
+  // eased value and written straight to the DOM every frame, so the line
+  // glides instead of jumping in 1% steps (which was most visible near the
+  // end, where the ease slows and each integer step lingers). React state
+  // only updates when the displayed integer actually changes.
   useEffect(() => {
     let start = null;
     let raf;
-
-    const duration = 2400;
+    let lastShown = -1;
 
     const step = (timestamp) => {
       if (!start) start = timestamp;
 
       const elapsed = timestamp - start;
-      const raw = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - raw, 3);
+      const raw = Math.min(elapsed / DRAW_MS, 1);
+      const eased = easeDraw(raw);
 
-      setProgress(Math.floor(eased * 100));
+      if (rectRef.current) {
+        rectRef.current.setAttribute('stroke-dashoffset', PERIMETER * (1 - eased));
+      }
+
+      const shown = Math.floor(eased * 100);
+      if (shown !== lastShown) {
+        lastShown = shown;
+        setProgress(shown);
+      }
 
       if (raw < 1) {
         raf = requestAnimationFrame(step);
@@ -216,7 +233,6 @@ const Loader = ({ onComplete }) => {
   const zooming = phase === 'zoom';
   const boxComplete = progress >= 100;
   const spinning = drawing && burstDone && !boxComplete;
-  const dashOffset = PERIMETER * (1 - progress / 100);
 
   return (
     <>
@@ -315,14 +331,17 @@ const Loader = ({ onComplete }) => {
             style={{ width: '100%', height: '100%', display: 'block' }}
           >
             <rect
+              ref={rectRef}
               x={BOX_INSET}
               y={BOX_INSET}
               width={BOX_SIDE}
               height={BOX_SIDE}
               stroke={LOADER_STROKE}
               strokeWidth={1.5}
-              strokeDasharray={PERIMETER}
-              strokeDashoffset={dashOffset}
+              // Once drawn, drop the dash so the start corner gets a proper
+              // closed join instead of two butt-capped ends meeting.
+              strokeDasharray={boxComplete ? 'none' : PERIMETER}
+              strokeDashoffset={PERIMETER}
               style={{
                 fill: drawing ? 'transparent' : 'var(--bg)',
                 transition: `fill ${FILL_MS}ms ease`,
