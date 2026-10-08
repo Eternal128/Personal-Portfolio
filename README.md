@@ -1,34 +1,83 @@
 # James William Hanzell — Personal Portfolio
 
-A minimal, motion-driven portfolio and blog built with React. It opens with a custom loader, scrolls on Lenis smooth scrolling with GSAP-driven reveals, and includes a built-in blog with interactive posts.
+A minimal, motion-driven portfolio and blog built with React. It opens on a drawn-box loader, then moves through a scrolling name marquee, a word-by-word intro, work experience, skills, a pinned project carousel, a blog with interactive posts, testimonials and a contact form. Everything is available in dark and light mode.
 
 **Live site:** https://jameswilliamhanzell.vercel.app/
 
-<img width="1700" height="870" alt="Screenshot 2026-07-23 at 22 26 20" src="https://github.com/user-attachments/assets/4a54e4b1-d274-43f4-987b-59d7ff335c44" />
+<p align="center">
+  <img src="docs/screenshots/hero-dark.jpg" alt="Hero: the name in three scrolling marquee rows (dark mode)" width="100%" />
+</p>
+
+## 🖼️ Tour
+
+### Loader
+A square outline draws itself around the `JH` monogram while a counter runs from 0 to 100%. When it finishes, the box fills with the page colour and zooms out to fullscreen, handing off into the site.
+
+<img src="docs/screenshots/loader.jpg" alt="Loader: outline drawing around the JH monogram" width="100%" />
+
+### Hero and About
+The hero spells out **JAMES / WILLIAM / HANZELL** in three oversized marquee rows that scroll in alternating directions. The About section is pinned while you scroll, and its intro lights up word by word.
+
+<img src="docs/screenshots/about.jpg" alt="About: intro text revealing word by word on scroll" width="100%" />
+
+### Work Experience
+Each company is a row with a **View role** link. It opens a full-screen role page with the key numbers highlighted. You can step between roles with the arrows (01 / 04).
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/experience.jpg" alt="Work Experience list" /></td>
+    <td><img src="docs/screenshots/experience-role.jpg" alt="Role detail page with highlighted metrics" /></td>
+  </tr>
+</table>
+
+### Technical Skills
+A grid of skill cards, each with a proficiency level. Click a skill to see where it was used.
+
+<img src="docs/screenshots/skills-dark.jpg" alt="Technical Skills grid" width="100%" />
+
+### Projects
+A pinned, horizontally scrolling carousel of 10 projects with a counter, arrow controls and a clickable project index. Cards link to the GitHub source and live demos. They open a detail view with a problem / approach / outcome case study where one exists.
+
+<img src="docs/screenshots/projects.jpg" alt="Projects: pinned horizontal carousel" width="100%" />
+
+### Blog
+The **Thoughts & process.** section previews the latest posts, and **See all posts** opens a full-screen blog. Posts have their own URLs (`#blog/<post-id>`), and several include interactive pieces:
+- a 46-node Jakarta road network where you can run Dijkstra or Kruskal
+- a neural network playground
+- an easing playground
+- a text generator
+- a Messi shot map and heatmap
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/blog.jpg" alt="Blog section preview cards" /></td>
+    <td><img src="docs/screenshots/blog-post.jpg" alt="Interactive Jakarta graph inside a blog post" /></td>
+  </tr>
+</table>
+
+### Testimonials and Contact
+Testimonials sit in a horizontally scrolling row of cards. The contact section has a form that sends email through EmailJS, plus direct email, location and social links.
+
+<img src="docs/screenshots/contact.jpg" alt="Contact form" width="100%" />
+
+### Light mode
+The sun/moon button in the navbar switches themes, and the choice is remembered. The starfield fades out in light mode.
+
+<table>
+  <tr>
+    <td><img src="docs/screenshots/hero-light.jpg" alt="Hero in light mode" /></td>
+    <td><img src="docs/screenshots/skills-light.jpg" alt="Technical Skills in light mode" /></td>
+  </tr>
+</table>
 
 ## ✨ Features
 
-- **Custom loader**: an animated box outline with a progress counter, which fills and morphs into the page as it opens
-- **Smooth scrolling**: Lenis with GSAP ScrollTrigger reveals and a scroll-linked flight path across the page
-- **Light and dark mode**: theme toggle backed by CSS variables
-- **Sound design**: optional ambient audio and UI sound effects, with a mute toggle
-- **Custom cursor**: context-aware cursor with hover labels
-- **Experience and projects**: expandable role details, tilt project cards, and project modals (problem, approach, outcome)
-- **Blog**: lazy-loaded, hash-routed posts (`#blog/<post-id>`) with interactive pieces such as a Jakarta shortest-path graph, a neural network playground, an easing playground and a Messi shot map/heatmap
-- **Contact form**: sends email through EmailJS
-- **Performance and accessibility**: code-split bundles, gzip/brotli compression, optimized images, SEO meta tags, keyboard support and a skip-to-content link
-
-## 📸 Screenshots
-
-<img width="1699" height="874" alt="Screenshot 2026-07-23 at 22 26 34" src="https://github.com/user-attachments/assets/8745d700-a3b3-4bcc-8b2e-e3623037f1f5" />
-<img width="1701" height="865" alt="Screenshot 2026-07-23 at 22 26 55" src="https://github.com/user-attachments/assets/c4503f13-bd46-4f25-884d-8d5ba691f73f" />
-<img width="1670" height="855" alt="Screenshot 2026-07-23 at 22 27 16" src="https://github.com/user-attachments/assets/d8ec2e98-9d27-4473-a279-5247665c9b86" />
-<img width="1680" height="864" alt="Screenshot 2026-07-23 at 22 27 30" src="https://github.com/user-attachments/assets/7c498ef1-2c29-4577-bf86-e706674d3dc4" />
-<img width="1682" height="857" alt="Screenshot 2026-07-23 at 22 27 52" src="https://github.com/user-attachments/assets/8734aee8-7196-4621-8fa5-d6e984e62974" />
-<img width="1669" height="839" alt="Screenshot 2026-07-23 at 22 28 06" src="https://github.com/user-attachments/assets/8eb5b1c4-3936-4ffb-8aa9-a6fb14159979" />
-<img width="1696" height="870" alt="Screenshot 2026-07-23 at 22 28 23" src="https://github.com/user-attachments/assets/8402d2a1-2c92-4bfa-b513-154ae6eec0c7" />
-<img width="1686" height="865" alt="Screenshot 2026-07-23 at 22 28 40" src="https://github.com/user-attachments/assets/cd226225-7838-4443-ba1d-a4fef9292ce7" />
-<img width="1677" height="859" alt="Screenshot 2026-07-23 at 22 29 01" src="https://github.com/user-attachments/assets/88070d7f-8a2f-4d87-9045-6e0bc0674752" />
+- **Floating pill navbar** with section links, an "Available for work" badge and the theme toggle
+- **Smooth scrolling** with Lenis and GSAP ScrollTrigger: pinned sections, scrubbed text reveals and a rocket that flies along a curved path down the page
+- **Starfield background** rendered with React Three Fiber (dark mode)
+- **Custom cursor** with hover states
+- **Synthesized UI sounds** for clicks and navigation, generated with the Web Audio API
+- **Performance and accessibility**: the 3D scene and flight path mount only after the loader finishes; code-split bundles, gzip/brotli compression, optimized images, SEO meta tags, keyboard support and a skip-to-content link
 
 ## 🛠️ Tech Stack
 
@@ -81,19 +130,19 @@ src/
 │   ├── Experience.jsx
 │   ├── Tech.jsx
 │   ├── Works.jsx
-│   ├── Feedbacks.jsx
 │   ├── BlogSection.jsx
 │   ├── Blog.jsx
+│   ├── Feedbacks.jsx    # Testimonials
 │   ├── End.jsx          # Contact form and footer
 │   ├── FlightPath.jsx
-│   ├── CustomCursor.jsx
-│   └── SoundToggle.jsx
+│   └── CustomCursor.jsx
 ├── constants/           # Site content and blog posts
 ├── context/             # Theme, sound and Lenis providers
 ├── hooks/
 ├── utils/
 ├── App.jsx
 └── main.jsx
+docs/screenshots/        # Images used in this README
 scripts/
 └── optimize-loader-images.mjs
 ```
