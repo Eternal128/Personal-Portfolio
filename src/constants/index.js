@@ -213,6 +213,7 @@ const projects = [
   // ── VORTEX ──
   {
     name: "Vortex",
+    tagline: "YouTube's best lessons, in order.",
     description:
       "Turns YouTube videos into real courses: ordered lessons with notes, saved progress and a quiz after every video. Plain-English search jumps to the exact second a topic is taught, and it can build a personal plan from any goal.",
     tags: [
@@ -228,6 +229,7 @@ const projects = [
   // ── CARVER — private repo, so no source link ──
   {
     name: "Carver",
+    tagline: "Your semester, sorted.",
     description:
       "A daily brief and calendar for university students. It reads syllabus PDFs and Quercus, turns every deadline into a confirmed calendar event, and sends one short morning brief.",
     tags: [
@@ -241,6 +243,7 @@ const projects = [
   // ── COVEN — team project ──
   {
     name: "Coven",
+    tagline: "A survival planner for UofT's monsters.",
     description:
       "A Halloween-themed survival planner for UofT, built with a team of four. Each monster maps to a real student need. I built the app shell and the Vampire: sun-safe routing that computes building shadows from the sun's position to find the shadiest path across St. George.",
     tags: [
