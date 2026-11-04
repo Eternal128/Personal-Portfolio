@@ -65,6 +65,7 @@ import hero_editor from "./projects/hero_editor.png";
 import vortex from "./projects/vortex.jpg";
 import carver from "./projects/carver.jpg";
 import coven from "./projects/coven.jpg";
+import covenApp from "./projects/coven-app.jpg";
 
 import blogGraphAlgorithms from "./blog/graph-algorithms.png";
 import blogBuildingThings from "./blog/building-things.png";
@@ -131,6 +132,7 @@ export {
   vortex,
   carver,
   coven,
+  covenApp,
   pytorch,
   nextjs,
   php,
