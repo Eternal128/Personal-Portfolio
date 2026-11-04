@@ -83,12 +83,9 @@ const Hero = ({ heroReady = true }) => {
           padding: clamp(120px, 17vh, 160px) 0 clamp(72px, 10vh, 112px);
           background: var(--bg);
           color: var(--fg);
-          font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "DM Sans", "Helvetica Neue", sans-serif;
+          font-family: 'DM Sans', sans-serif;
           text-align: center;
           overflow: hidden;
-          --ah-blue: #0071e3;
-          --ah-blue-hover: #0077ed;
-          --ah-link: #2997ff;
           --ah-muted: rgba(var(--fg-rgb), 0.56);
           --ah-track: #1d1d1f;
           --ah-thumb: #424245;
@@ -96,7 +93,6 @@ const Hero = ({ heroReady = true }) => {
           --ah-alu-edge: #1f1f21;
         }
         :root[data-theme="light"] .ah {
-          --ah-link: #0066cc;
           --ah-track: #e8e8ed;
           --ah-thumb: #ffffff;
           --ah-alu: #e3e4e6;
@@ -108,8 +104,8 @@ const Hero = ({ heroReady = true }) => {
           margin: 0;
           font-size: clamp(48px, 6.2vw, 88px);
           font-weight: 600;
-          line-height: 1.05;
-          letter-spacing: -0.015em;
+          line-height: 1.02;
+          letter-spacing: -0.035em;
         }
         .ah-tagline {
           margin: 10px 0 0;
@@ -142,21 +138,23 @@ const Hero = ({ heroReady = true }) => {
           height: 44px;
           padding: 0 22px;
           border-radius: 980px;
-          background: var(--ah-blue);
-          color: #fff;
+          background: var(--fg);
+          color: var(--bg);
           font-size: 17px;
+          font-weight: 500;
           text-decoration: none;
           cursor: none;
-          transition: background-color 0.2s, transform 0.2s;
+          transition: opacity 0.2s, transform 0.2s;
         }
-        .ah-btn:hover { background: var(--ah-blue-hover); }
+        .ah-btn:hover { opacity: 0.86; }
         .ah-btn:active { transform: scale(0.98); }
         .ah-link {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          color: var(--ah-link);
+          color: var(--fg);
           font-size: 17px;
+          font-weight: 500;
           text-decoration: none;
           background: none;
           border: 0;
@@ -168,7 +166,7 @@ const Hero = ({ heroReady = true }) => {
         .ah-chev { transition: transform 0.2s; }
         .ah-link:hover .ah-chev { transform: translateX(2px); }
         .ah-btn:focus-visible, .ah-link:focus-visible, .ah-seg:focus-visible {
-          outline: 2px solid var(--ah-link);
+          outline: 2px solid var(--fg);
           outline-offset: 3px;
         }
 

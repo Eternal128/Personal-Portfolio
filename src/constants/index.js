@@ -30,6 +30,7 @@ import {
   vortex,
   carver,
   coven,
+  covenApp,
   // ── new tech icons ──
   java,
   cplusplus,
@@ -239,6 +240,7 @@ const projects = [
       { name: "llm",        color: "gold-text-gradient"   },
     ],
     image: carver,
+    live_demo_link: "https://carver-ten.vercel.app/",
   },
   // ── COVEN — team project ──
   {
@@ -253,6 +255,7 @@ const projects = [
       { name: "zustand",    color: "red-yellow-text-gradient" },
     ],
     image: coven,
+    gallery: [coven, covenApp],
     source_code_link: "https://github.com/faisal4-27/coven",
     live_demo_link: "https://coven-henna.vercel.app/",
   },

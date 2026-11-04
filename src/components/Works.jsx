@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
 import Tilt from 'react-parallax-tilt';
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useReducedMotion } from "framer-motion";
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -29,275 +29,233 @@ const ExternalLinkIcon = () => (
 );
 
 // ── Modal ──────────────────────────────────────────────────────
+// Tag names are stored lowercase for the cards ("#nextjs"); the sheet shows
+// them as proper names.
+const TAG_LABELS = {
+  nextjs: 'Next.js', typescript: 'TypeScript', javascript: 'JavaScript', react: 'React',
+  tailwind: 'Tailwind', threejs: 'Three.js', 'three js': 'Three.js', python: 'Python',
+  tensorflow: 'TensorFlow', sanity: 'Sanity', ai: 'AI', llm: 'LLM', postgres: 'Postgres',
+  leaflet: 'Leaflet', zustand: 'Zustand', java: 'Java', php: 'PHP',
+};
+const tagLabel = (name) => TAG_LABELS[name] || name.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
+
+const SHEET_SPRING = { type: 'spring', stiffness: 320, damping: 32, mass: 0.9 };
+const EASE_OUT = [0.16, 1, 0.3, 1];
+const EASE_IN = [0.4, 0, 1, 1];
+
+const ArrowUpRight = () => (
+  <svg width="11" height="11" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+    <path d="M1.5 10.5 10.5 1.5M10.5 1.5H4M10.5 1.5V8" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 const ProjectModal = ({ project, onClose }) => {
+  const closeRef = useRef(null);
+  const lenis = useLenis();
+  const reduce = useReducedMotion();
+  const [isPhone] = useState(() => typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches);
+  const [shot, setShot] = useState(0);
+  const images = project.gallery && project.gallery.length ? project.gallery : [project.image];
+
   useEffect(() => {
+    const opener = document.activeElement;
     const onKey = (e) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
+    lenis?.stop();
+    closeRef.current?.focus({ preventScroll: true });
     return () => {
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
+      lenis?.start();
+      if (opener && opener.focus) opener.focus({ preventScroll: true });
     };
-  }, [onClose]);
+  }, [onClose, lenis]);
+
+  // Desktop: the sheet springs up from slightly below and smaller. Phone: it
+  // slides up from the bottom edge. Reduced motion: opacity only.
+  const sheet = reduce
+    ? { hidden: { opacity: 0 }, shown: { opacity: 1, transition: { duration: 0.2 } }, exit: { opacity: 0, transition: { duration: 0.15 } } }
+    : isPhone
+      ? { hidden: { y: '100%' }, shown: { y: 0, transition: { ...SHEET_SPRING, staggerChildren: 0.05, delayChildren: 0.12 } }, exit: { y: '100%', transition: { duration: 0.28, ease: EASE_IN } } }
+      : {
+          hidden: { opacity: 0, y: 40, scale: 0.96 },
+          shown: { opacity: 1, y: 0, scale: 1, transition: { ...SHEET_SPRING, opacity: { duration: 0.25 }, staggerChildren: 0.05, delayChildren: 0.12 } },
+          exit: { opacity: 0, y: 24, scale: 0.98, transition: { duration: 0.2, ease: EASE_IN } },
+        };
+  const item = reduce
+    ? { hidden: { opacity: 1 }, shown: { opacity: 1 } }
+    : { hidden: { opacity: 0, y: 14 }, shown: { opacity: 1, y: 0, transition: { duration: 0.45, ease: EASE_OUT } } };
+
+  const study = [['Problem', project.problem], ['Approach', project.approach], ['Outcome', project.outcome]].filter(([, t]) => t);
 
   return (
     <motion.div
+      className="ps-backdrop"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.22 }}
+      transition={{ duration: 0.3 }}
       onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0,
-        zIndex: 99998,
-        background: 'rgba(var(--bg-rgb),0.88)',
-        backdropFilter: 'blur(10px)',
-        WebkitBackdropFilter: 'blur(10px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '24px',
-        fontFamily: "'DM Sans', sans-serif",
-      }}
     >
+      <style>{`
+        .ps-backdrop {
+          position: fixed; inset: 0; z-index: 99998;
+          display: flex; align-items: center; justify-content: center;
+          padding: 24px;
+          background: rgba(var(--bg-rgb), 0.72);
+          backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+          font-family: 'DM Sans', sans-serif;
+        }
+        .ps-sheet {
+          position: relative;
+          width: min(1080px, 100%);
+          max-height: 90vh;
+          display: flex; flex-direction: column;
+          border-radius: 24px;
+          background: var(--surface-solid);
+          color: var(--fg);
+          overflow: hidden;
+        }
+        .ps-body {
+          display: grid; grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+          gap: 40px; align-items: start;
+          overflow-y: auto; padding: 28px; overscroll-behavior: contain;
+        }
+        .ps-info { padding: 10px 44px 8px 0; }
+        .ps-text { margin-top: 28px; }
+        .ps-close {
+          position: absolute; top: 16px; right: 16px; z-index: 2;
+          width: 36px; height: 36px; border-radius: 50%;
+          display: flex; align-items: center; justify-content: center;
+          border: 0; background: rgba(var(--fg-rgb), 0.10); color: var(--fg);
+          cursor: none; transition: background-color 0.2s;
+        }
+        .ps-close:hover { background: rgba(var(--fg-rgb), 0.18); }
+        .ps-shot {
+          position: relative; aspect-ratio: 16 / 10; overflow: hidden;
+          border-radius: 14px; background: rgba(var(--fg-rgb), 0.05);
+        }
+        .ps-shot img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+        .ps-thumbs { display: flex; gap: 10px; margin-top: 12px; overflow-x: auto; }
+        .ps-thumb {
+          flex: 0 0 auto; height: 96px; aspect-ratio: 16 / 10; padding: 0; border: 0;
+          border-radius: 10px; overflow: hidden; background: none; cursor: none;
+          opacity: 0.45; transition: opacity 0.2s;
+        }
+        .ps-thumb:hover { opacity: 0.8; }
+        .ps-thumb[aria-pressed="true"] { opacity: 1; }
+        .ps-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
+        .ps-title { margin: 0; color: var(--fg); font-size: clamp(32px, 3.4vw, 44px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+        .ps-tagline { margin: 10px 0 0; font-size: 21px; line-height: 1.35; color: rgba(var(--fg-rgb), 0.85); }
+        .ps-tags { margin: 16px 0 0; font-size: 15px; color: rgba(var(--fg-rgb), 0.56); }
+        .ps-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+        .ps-btn {
+          display: inline-flex; align-items: center; gap: 8px;
+          height: 44px; padding: 0 22px; border-radius: 980px;
+          font-size: 15px; font-weight: 500; text-decoration: none; cursor: none;
+          transition: opacity 0.2s, background-color 0.2s, transform 0.2s;
+        }
+        .ps-btn:active { transform: scale(0.98); }
+        .ps-btn-primary { background: var(--fg); color: var(--bg); }
+        .ps-btn-primary:hover { opacity: 0.86; }
+        .ps-btn-secondary { background: rgba(var(--fg-rgb), 0.08); color: var(--fg); }
+        .ps-btn-secondary:hover { background: rgba(var(--fg-rgb), 0.14); }
+        .ps-close:focus-visible, .ps-thumb:focus-visible, .ps-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
+        .ps-text p { margin: 0; font-size: 17px; line-height: 1.6; color: rgba(var(--fg-rgb), 0.82); }
+        .ps-text h3 { margin: 24px 0 6px; font-size: 17px; font-weight: 600; color: var(--fg); }
+        @media (max-width: 640px) {
+          .ps-backdrop { align-items: flex-end; padding: 0; }
+          .ps-sheet { max-height: 92vh; border-radius: 24px 24px 0 0; }
+          .ps-body { grid-template-columns: 1fr; gap: 24px; padding: 20px 20px 32px; }
+          .ps-info { padding: 0; }
+          .ps-thumb { height: 72px; }
+        }
+      `}</style>
+
       <motion.div
-        initial={{ opacity: 0, y: 28, scale: 0.97 }}
-        animate={{ opacity: 1, y: 0,  scale: 1    }}
-        exit={{    opacity: 0, y: 14, scale: 0.98  }}
-        transition={{ duration: 0.38, ease: [0.16, 1, 0.3, 1] }}
+        className="ps-sheet"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="ps-title"
+        variants={sheet}
+        initial="hidden"
+        animate="shown"
+        exit="exit"
         onClick={(e) => e.stopPropagation()}
-        style={{
-          width: '100%',
-          maxWidth: 800,
-          maxHeight: '95vh',
-          background: 'var(--surface-solid)',
-          border: '1px solid rgba(var(--fg-rgb),0.08)',
-          borderRadius: 14,
-          overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
       >
-        {/* Hero image */}
-        <div style={{ position: 'relative', width: '100%', height: 200, flexShrink: 0 }}>
-          <img
-            src={project.image}
-            alt={project.name}
-            style={{
-              width: '100%', height: '100%',
-              objectFit: 'cover', objectPosition: 'center',
-              filter: 'brightness(0.6)',
-              display: 'block',
-            }}
-          />
-          <div style={{
-            position: 'absolute', inset: 0,
-            background: 'linear-gradient(to bottom, transparent 20%, var(--surface-solid) 100%)',
-            pointerEvents: 'none',
-          }} />
+        <button ref={closeRef} type="button" className="ps-close" onClick={onClose} aria-label="Close project details">
+          <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true">
+            <path d="M1.5 1.5l9 9M10.5 1.5l-9 9" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+          </svg>
+        </button>
 
-          {/* Close */}
-          <button
-            onClick={onClose}
-            aria-label="Close project details"
-            style={{
-              position: 'absolute', top: 14, right: 14,
-              width: 32, height: 32, borderRadius: '50%',
-              background: 'rgba(0,0,0,0.65)',
-              border: '1px solid rgba(var(--fg-rgb),0.14)',
-              backdropFilter: 'blur(12px)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'none', color: 'rgba(var(--fg-rgb),0.75)',
-              fontSize: 13, lineHeight: 1,
-            }}
-          >
-            ✕
-          </button>
-
-          {/* Live badge */}
-          {project.live_demo_link && (
-            <div style={{
-              position: 'absolute', top: 14, left: 14,
-              display: 'inline-flex', alignItems: 'center', gap: 6,
-              background: 'rgba(0,0,0,0.6)',
-              border: '1px solid rgba(var(--fg-rgb),0.14)',
-              backdropFilter: 'blur(12px)',
-              borderRadius: 100, padding: '5px 12px',
-              fontSize: 10, fontWeight: 300,
-              color: 'rgba(var(--fg-rgb),0.8)',
-              letterSpacing: '0.08em', textTransform: 'uppercase',
-              pointerEvents: 'none',
-            }}>
-              <span style={{
-                width: 5, height: 5, borderRadius: '50%',
-                background: '#6ee99e',
-                boxShadow: '0 0 6px rgba(110,233,158,0.9)',
-                animation: 'modalLivePulse 2s ease-in-out infinite',
-              }} />
-              Live
-            </div>
-          )}
-
-          {/* Title */}
-          <div style={{ position: 'absolute', bottom: 14, left: 22 }}>
-            <h2 style={{
-              margin: 0,
-              fontSize: 'clamp(18px, 3vw, 28px)',
-              fontWeight: 300, color: 'var(--fg)',
-              letterSpacing: '-0.02em', lineHeight: 1,
-              fontFamily: "'DM Sans', sans-serif",
-            }}>
-              {project.name}
-            </h2>
-          </div>
-        </div>
-
-        {/* Body */}
-        <div style={{ padding: '18px 24px 28px', overflowY: 'auto' }}>
-          {/* Tags */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8, marginBottom: 16 }}>
-            {project.tags.map((tag) => (
-              <span
-                key={tag.name}
-                style={{
-                  fontSize: 11, fontWeight: 300,
-                  color: 'rgba(var(--fg-rgb),0.45)',
-                  padding: '4px 12px', borderRadius: 100,
-                  border: '1px solid rgba(var(--fg-rgb),0.09)',
-                  background: 'rgba(var(--fg-rgb),0.03)',
-                  letterSpacing: '0.04em',
-                  fontFamily: "'DM Sans', sans-serif",
-                }}
-              >
-                #{tag.name}
-              </span>
-            ))}
-          </div>
-
-          <div style={{ height: 1, background: 'rgba(var(--fg-rgb),0.06)', marginBottom: 16 }} />
-
-          {/* Description */}
-          <p style={{
-            fontSize: 14, fontWeight: 300,
-            color: 'rgba(var(--fg-rgb),0.52)',
-            lineHeight: 1.85,
-            marginBottom: 24,
-            maxWidth: 600,
-            fontFamily: "'DM Sans', sans-serif",
-          }}>
-            {project.description}
-          </p>
-
-          {/* Case study: problem / approach / outcome, shown only when a project has them */}
-          {(project.problem || project.approach || project.outcome) && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 18, marginBottom: 24, maxWidth: 600 }}>
-              {[
-                ['Problem', project.problem],
-                ['Approach', project.approach],
-                ['Outcome', project.outcome],
-              ].map(([label, text]) => text && (
-                <div key={label}>
-                  <div style={{
-                    fontSize: 10.5, fontWeight: 500,
-                    letterSpacing: '0.18em', textTransform: 'uppercase',
-                    color: 'rgba(var(--fg-rgb),0.35)', marginBottom: 6,
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}>
-                    {label}
-                  </div>
-                  <p style={{
-                    fontSize: 13.5, fontWeight: 300,
-                    color: 'rgba(var(--fg-rgb),0.55)',
-                    lineHeight: 1.8,
-                    fontFamily: "'DM Sans', sans-serif",
-                  }}>
-                    {text}
-                  </p>
-                </div>
-              ))}
-            </div>
-          )}
-
-          {/* Screenshot gallery, shown only when a project has one */}
-          {project.gallery && project.gallery.length > 0 && (
-            <div style={{ display: 'flex', gap: 10, overflowX: 'auto', marginBottom: 24 }}>
-              {project.gallery.map((src, i) => (
-                <img
-                  key={i}
-                  src={src}
-                  alt={`${project.name} screenshot ${i + 1}`}
-                  style={{ height: 120, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }}
+        <div className="ps-body" data-lenis-prevent>
+          <motion.div className="ps-media" variants={item}>
+            <div className="ps-shot">
+              <AnimatePresence initial={false}>
+                <motion.img
+                  key={images[shot]}
+                  src={images[shot]}
+                  alt={`${project.name} screenshot ${shot + 1}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: reduce ? 0 : 0.35 }}
                 />
-              ))}
+              </AnimatePresence>
             </div>
-          )}
+            {images.length > 1 && (
+              <div className="ps-thumbs" role="group" aria-label={`${project.name} screenshots`}>
+                {images.map((src, i) => (
+                  <button
+                    key={src}
+                    type="button"
+                    className="ps-thumb"
+                    aria-pressed={i === shot}
+                    aria-label={`Show screenshot ${i + 1}`}
+                    onClick={() => setShot(i)}
+                  >
+                    <img src={src} alt="" />
+                  </button>
+                ))}
+              </div>
+            )}
+          </motion.div>
 
-          {/* CTAs */}
-          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-            {project.live_demo_link && (
-              <a
-                href={project.live_demo_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  padding: '10px 22px', borderRadius: 100,
-                  background: 'var(--fg)', color: 'var(--bg)',
-                  fontSize: 12, fontWeight: 400,
-                  letterSpacing: '0.06em', textTransform: 'uppercase',
-                  textDecoration: 'none', cursor: 'none',
-                  transition: 'opacity 0.2s',
-                  fontFamily: "'DM Sans', sans-serif",
-                }}
-                onMouseEnter={e => e.currentTarget.style.opacity = '0.82'}
-                onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-              >
-                View Live Site
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                  <path d="M1 11L11 1M11 1H4M11 1V8" stroke="var(--bg)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
-            )}
-            {project.source_code_link && (
-              <a
-                href={project.source_code_link}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: 8,
-                  padding: '10px 22px', borderRadius: 100,
-                  background: 'rgba(var(--fg-rgb),0.05)',
-                  border: '1px solid rgba(var(--fg-rgb),0.11)',
-                  color: 'rgba(var(--fg-rgb),0.65)',
-                  fontSize: 12, fontWeight: 300,
-                  letterSpacing: '0.06em', textTransform: 'uppercase',
-                  textDecoration: 'none', cursor: 'none',
-                  transition: 'background 0.2s, color 0.2s',
-                  fontFamily: "'DM Sans', sans-serif",
-                }}
-                onMouseEnter={e => {
-                  e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.10)';
-                  e.currentTarget.style.color = 'var(--fg)';
-                }}
-                onMouseLeave={e => {
-                  e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.05)';
-                  e.currentTarget.style.color = 'rgba(var(--fg-rgb),0.65)';
-                }}
-              >
-                GitHub Repo
-                <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                  <path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </a>
-            )}
+          <div className="ps-info">
+            <motion.div variants={item}>
+              <h2 id="ps-title" className="ps-title">{project.name}</h2>
+              {project.tagline && <p className="ps-tagline">{project.tagline}</p>}
+              <p className="ps-tags">{project.tags.map((t) => tagLabel(t.name)).join(' · ')}</p>
+              {(project.live_demo_link || project.source_code_link) && (
+                <div className="ps-actions">
+                  {project.live_demo_link && (
+                    <a className="ps-btn ps-btn-primary" href={project.live_demo_link} target="_blank" rel="noopener noreferrer">
+                      View live site <ArrowUpRight />
+                    </a>
+                  )}
+                  {project.source_code_link && (
+                    <a className="ps-btn ps-btn-secondary" href={project.source_code_link} target="_blank" rel="noopener noreferrer">
+                      GitHub <ArrowUpRight />
+                    </a>
+                  )}
+                </div>
+              )}
+            </motion.div>
+
+            <motion.div className="ps-text" variants={item}>
+              <p>{project.description}</p>
+              {study.map(([label, text]) => (
+                <React.Fragment key={label}>
+                  <h3>{label}</h3>
+                  <p>{text}</p>
+                </React.Fragment>
+              ))}
+            </motion.div>
           </div>
         </div>
       </motion.div>
-
-      <style>{`
-        @keyframes modalLivePulse {
-          0%, 100% { opacity: 1; }
-          50%       { opacity: 0.4; }
-        }
-      `}</style>
     </motion.div>
   );
 };
