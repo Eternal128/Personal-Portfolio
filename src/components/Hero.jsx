@@ -15,6 +15,14 @@ const firstSentence = (text = '') => text.split(/(?<=[.!?])\s/)[0];
 const taglineOf = (p) => p.tagline || firstSentence(p.description);
 const shotOf = (p) => heroShots[p.name] || { src: p.image, srcSet: undefined, width: 1440, height: 900 };
 
+const RESUME = '/James-Hanzell-Resume.pdf';
+
+const ArrowUpRight = () => (
+  <svg className="ah-arrow" width="10" height="10" viewBox="0 0 12 12" aria-hidden="true">
+    <path d="M1.5 10.5 10.5 1.5M10.5 1.5H4M10.5 1.5V8" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 const Chevron = () => (
   <svg className="ah-chev" width="8" height="12" viewBox="0 0 8 12" aria-hidden="true">
     <path d="M1.5 1.5 6 6l-4.5 4.5" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
@@ -102,15 +110,15 @@ const Hero = ({ heroReady = true }) => {
 
         .ah-title {
           margin: 0;
-          font-size: clamp(48px, 6.2vw, 88px);
-          font-weight: 600;
-          line-height: 1.02;
-          letter-spacing: -0.035em;
+          font-size: clamp(52px, 7.2vw, 104px);
+          font-weight: 300;
+          line-height: 1;
+          letter-spacing: -0.02em;
         }
         .ah-tagline {
           margin: 10px 0 0;
           font-size: clamp(22px, 2.3vw, 32px);
-          font-weight: 500;
+          font-weight: 300;
           line-height: 1.2;
           letter-spacing: -0.01em;
           text-wrap: balance;
@@ -119,7 +127,8 @@ const Hero = ({ heroReady = true }) => {
           margin: 14px auto 0;
           max-width: 46ch;
           font-size: 17px;
-          line-height: 1.47;
+          font-weight: 300;
+          line-height: 1.5;
           color: var(--ah-muted);
           text-wrap: balance;
         }
@@ -132,29 +141,36 @@ const Hero = ({ heroReady = true }) => {
           gap: 14px 32px;
           margin-top: 28px;
         }
+        /* Same pill as the contact section's Send Message button (End.jsx .contact-submit). */
         .ah-btn {
           display: inline-flex;
           align-items: center;
-          height: 44px;
-          padding: 0 22px;
-          border-radius: 980px;
-          background: var(--fg);
-          color: var(--bg);
-          font-size: 17px;
-          font-weight: 500;
+          height: 48px;
+          padding: 0 36px;
+          border-radius: 100px;
+          background: #1f1f1f;
+          color: #fff;
+          font-size: 14px;
+          font-weight: 300;
+          letter-spacing: 0.06em;
           text-decoration: none;
           cursor: none;
-          transition: opacity 0.2s, transform 0.2s;
+          box-shadow: 0 0 0 1px rgba(var(--fg-rgb), 0.08), 0 4px 20px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05); /* taste-skill-ignore: matches the contact button, by request */
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .ah-btn:hover { opacity: 0.86; }
-        .ah-btn:active { transform: scale(0.98); }
+        .ah-btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 0 0 1px rgba(var(--fg-rgb), 0.2), 0 6px 30px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.08); /* taste-skill-ignore: matches the contact button, by request */
+        }
+        .ah-btn:active { transform: translateY(0) scale(0.98); }
         .ah-link {
           display: inline-flex;
           align-items: center;
           gap: 6px;
           color: var(--fg);
-          font-size: 17px;
-          font-weight: 500;
+          font-size: 14px;
+          font-weight: 400;
+          letter-spacing: 0.06em;
           text-decoration: none;
           background: none;
           border: 0;
@@ -165,6 +181,8 @@ const Hero = ({ heroReady = true }) => {
         .ah-link:hover { text-decoration: underline; text-underline-offset: 3px; }
         .ah-chev { transition: transform 0.2s; }
         .ah-link:hover .ah-chev { transform: translateX(2px); }
+        .ah-link:hover .ah-arrow { transform: translate(2px, -2px); }
+        .ah-arrow { transition: transform 0.2s; }
         .ah-btn:focus-visible, .ah-link:focus-visible, .ah-seg:focus-visible {
           outline: 2px solid var(--fg);
           outline-offset: 3px;
@@ -180,7 +198,7 @@ const Hero = ({ heroReady = true }) => {
           padding: 1.9% 1.9% 2.3%;
           border-radius: clamp(10px, 1.8vw, 22px) clamp(10px, 1.8vw, 22px) 0 0;
           background: #0b0b0c;
-          box-shadow: inset 0 0 0 1.5px #333336;
+          box-shadow: inset 0 0 0 1.5px #333336; /* taste-skill-ignore: the laptop's drawn bezel edge */
         }
         .ah-notch {
           position: absolute;
@@ -257,6 +275,7 @@ const Hero = ({ heroReady = true }) => {
           color: var(--fg);
           font: inherit;
           font-size: 15px;
+          font-weight: 400;
           cursor: none;
           opacity: 0.72;
           transition: background-color 0.25s, opacity 0.25s;
@@ -265,16 +284,16 @@ const Hero = ({ heroReady = true }) => {
         .ah-seg[aria-pressed="true"] {
           background: var(--ah-thumb);
           opacity: 1;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.18);
         }
         .ah-caption {
           margin: 18px auto 0;
           max-width: 56ch;
           font-size: 17px;
-          line-height: 1.47;
+          font-weight: 300;
+          line-height: 1.5;
         }
-        .ah-caption strong { font-weight: 600; }
-        .ah-caption .ah-link { margin-left: 10px; }
+        .ah-caption strong { font-weight: 500; }
+        .ah-caption .ah-link { margin-left: 12px; font-size: 15px; letter-spacing: 0.02em; }
 
         @media (prefers-reduced-motion: no-preference) {
           .ah-rise {
@@ -288,7 +307,7 @@ const Hero = ({ heroReady = true }) => {
           .ah.is-ready .ah-rise { opacity: 1; transform: none; }
         }
         @media (prefers-reduced-motion: reduce) {
-          .ah-screen img, .ah-seg, .ah-btn, .ah-chev { transition: none; }
+          .ah-screen img, .ah-seg, .ah-btn, .ah-chev, .ah-arrow { transition: none; }
         }
         @media (max-width: 600px) {
           .ah-seg { min-width: 0; padding: 0 14px; }
@@ -301,11 +320,11 @@ const Hero = ({ heroReady = true }) => {
           <h1 id="ah-title" className="ah-title ah-rise">James Hanzell</h1>
           <p className="ah-tagline ah-rise" style={{ '--d': '80ms' }}>Software for the way students work.</p>
           <p className="ah-sub ah-rise" style={{ '--d': '140ms' }}>
-            Computer Science at the University of Toronto. Interning at Lirvana Labs, previously EY.
+            Mathematics and Computer Science at the University of Toronto. Interning at Lirvana Labs, previously EY.
           </p>
           <div className="ah-actions ah-rise" style={{ '--d': '200ms' }}>
             <a className="ah-btn" href="#projects" onClick={scrollToId('projects')}>See projects</a>
-            <a className="ah-link" href="#contact" onClick={scrollToId('contact')}>Get in touch <Chevron /></a>
+            <a className="ah-link" href={RESUME} target="_blank" rel="noopener noreferrer">View resume <ArrowUpRight /></a>
           </div>
         </div>
 

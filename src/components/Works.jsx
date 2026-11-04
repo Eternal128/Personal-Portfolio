@@ -146,7 +146,7 @@ const ProjectModal = ({ project, onClose }) => {
         .ps-thumb:hover { opacity: 0.8; }
         .ps-thumb[aria-pressed="true"] { opacity: 1; }
         .ps-thumb img { width: 100%; height: 100%; object-fit: cover; object-position: top center; display: block; }
-        .ps-title { margin: 0; color: var(--fg); font-size: clamp(32px, 3.4vw, 44px); font-weight: 600; letter-spacing: -0.03em; line-height: 1.05; }
+        .ps-title { margin: 0; color: var(--fg); font-size: clamp(34px, 3.6vw, 48px); font-weight: 300; letter-spacing: -0.025em; line-height: 1.05; }
         .ps-tagline { margin: 10px 0 0; font-size: 21px; line-height: 1.35; color: rgba(var(--fg-rgb), 0.85); }
         .ps-tags { margin: 16px 0 0; font-size: 15px; color: rgba(var(--fg-rgb), 0.56); }
         .ps-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
@@ -163,7 +163,7 @@ const ProjectModal = ({ project, onClose }) => {
         .ps-btn-secondary:hover { background: rgba(var(--fg-rgb), 0.14); }
         .ps-close:focus-visible, .ps-thumb:focus-visible, .ps-btn:focus-visible { outline: 2px solid var(--fg); outline-offset: 3px; }
         .ps-text p { margin: 0; font-size: 17px; line-height: 1.6; color: rgba(var(--fg-rgb), 0.82); }
-        .ps-text h3 { margin: 24px 0 6px; font-size: 17px; font-weight: 600; color: var(--fg); }
+        .ps-text h3 { margin: 24px 0 6px; font-size: 17px; font-weight: 500; color: var(--fg); }
         @media (max-width: 640px) {
           .ps-backdrop { align-items: flex-end; padding: 0; }
           .ps-sheet { max-height: 92vh; border-radius: 24px 24px 0 0; }
