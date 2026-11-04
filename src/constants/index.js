@@ -242,7 +242,7 @@ const projects = [
   {
     name: "Coven",
     description:
-      "A Halloween-themed survival planner for UofT, built with a team of four. Pick a monster, and each one maps to a real student need: sun-safe routes, deadline crunch planning, budget meals and low-energy days.",
+      "A Halloween-themed survival planner for UofT, built with a team of four. Each monster maps to a real student need. I built the app shell and the Vampire: sun-safe routing that computes building shadows from the sun's position to find the shadiest path across St. George.",
     tags: [
       { name: "react",      color: "ocean-text-gradient"  },
       { name: "typescript", color: "blue-text-gradient"   },
