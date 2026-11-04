@@ -27,6 +27,9 @@ import {
   roomie,
   quietspace,
   editor,
+  vortex,
+  carver,
+  coven,
   // ── new tech icons ──
   java,
   cplusplus,
@@ -207,6 +210,49 @@ const testimonials = [
 ];
 
 const projects = [
+  // ── VORTEX ──
+  {
+    name: "Vortex",
+    description:
+      "Turns YouTube videos into real courses: ordered lessons with notes, saved progress and a quiz after every video. Plain-English search jumps to the exact second a topic is taught, and it can build a personal plan from any goal.",
+    tags: [
+      { name: "nextjs",     color: "ocean-text-gradient"      },
+      { name: "typescript", color: "blue-text-gradient"       },
+      { name: "sanity",     color: "pink-orange-text-gradient" },
+      { name: "ai",         color: "purple-blue-text-gradient" },
+    ],
+    image: vortex,
+    source_code_link: "https://github.com/Eternal128/vortex",
+    live_demo_link: "https://vortex-seven-self.vercel.app",
+  },
+  // ── CARVER — private repo, so no source link ──
+  {
+    name: "Carver",
+    description:
+      "A daily brief and calendar for university students. It reads syllabus PDFs and Quercus, turns every deadline into a confirmed calendar event, and sends one short morning brief.",
+    tags: [
+      { name: "nextjs",     color: "ocean-text-gradient"  },
+      { name: "typescript", color: "blue-text-gradient"   },
+      { name: "postgres",   color: "teal-lime-text-gradient" },
+      { name: "llm",        color: "gold-text-gradient"   },
+    ],
+    image: carver,
+  },
+  // ── COVEN — team project ──
+  {
+    name: "Coven",
+    description:
+      "A Halloween-themed survival planner for UofT, built with a team of four. Each monster maps to a real student need. I built the app shell and the Vampire: sun-safe routing that computes building shadows from the sun's position to find the shadiest path across St. George.",
+    tags: [
+      { name: "react",      color: "ocean-text-gradient"  },
+      { name: "typescript", color: "blue-text-gradient"   },
+      { name: "leaflet",    color: "green-text-gradient"  },
+      { name: "zustand",    color: "red-yellow-text-gradient" },
+    ],
+    image: coven,
+    source_code_link: "https://github.com/faisal4-27/coven",
+    live_demo_link: "https://coven-henna.vercel.app/",
+  },
   // ── Editing Portfolio — featured first, has both GitHub + live demo ──
   {
     name: "Editing Portfolio",

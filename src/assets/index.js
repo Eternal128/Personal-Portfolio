@@ -62,6 +62,9 @@ import roomie from "./projects/roomie.png";
 import quietspace from "./projects/quietspace.png";
 import editor from "./projects/editor.png";
 import hero_editor from "./projects/hero_editor.png";
+import vortex from "./projects/vortex.jpg";
+import carver from "./projects/carver.jpg";
+import coven from "./projects/coven.jpg";
 
 import blogGraphAlgorithms from "./blog/graph-algorithms.png";
 import blogBuildingThings from "./blog/building-things.png";
@@ -125,6 +128,9 @@ export {
   quietspace,
   editor,
   hero_editor,
+  vortex,
+  carver,
+  coven,
   pytorch,
   nextjs,
   php,
