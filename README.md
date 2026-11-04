@@ -1,11 +1,11 @@
 # James William Hanzell — Personal Portfolio
 
-A minimal, motion-driven portfolio and blog built with React. It opens on a drawn-box loader, then moves through a scrolling name marquee, a word-by-word intro, work experience, skills, a pinned project carousel, a blog with interactive posts, testimonials and a contact form. Everything is available in dark and light mode.
+A minimal, motion-driven portfolio and blog built with React. It opens on a drawn-box loader, then moves through an Apple-style hero showing recent projects on a laptop, a word-by-word intro, work experience, skills, a pinned project carousel, a blog with interactive posts, testimonials and a contact form. Everything is available in dark and light mode.
 
 **Live site:** https://jameswilliamhanzell.vercel.app/
 
 <p align="center">
-  <img src="docs/screenshots/hero-dark.jpg" alt="Hero: the name in three scrolling marquee rows (dark mode)" width="100%" />
+  <img src="docs/screenshots/hero-dark.jpg" alt="Hero: the name, tagline and a laptop showing Vortex (dark mode)" width="100%" />
 </p>
 
 ## 🖼️ Tour
@@ -16,7 +16,7 @@ A square outline draws itself around the `JH` monogram while a counter runs from
 <img src="docs/screenshots/loader.jpg" alt="Loader: outline drawing around the JH monogram" width="100%" />
 
 ### Hero and About
-The hero spells out **JAMES / WILLIAM / HANZELL** in three oversized marquee rows that scroll in alternating directions. The About section is pinned while you scroll, and its intro lights up word by word.
+The hero is laid out like an Apple product page: the name, a one-line tagline, a **See projects** button and a **Get in touch** link, then a laptop drawn in CSS that grows as you scroll. A segmented control under it switches the laptop's screen between the three newest projects (Vortex, Carver and Coven). Its screenshots are small WebP copies made by `scripts/optimize-hero-images.mjs`. The About section below is pinned while you scroll, and its intro lights up word by word.
 
 <img src="docs/screenshots/about.jpg" alt="About: intro text revealing word by word on scroll" width="100%" />
 
@@ -36,7 +36,7 @@ A grid of skill cards, each with a proficiency level. Click a skill to see where
 <img src="docs/screenshots/skills-dark.jpg" alt="Technical Skills grid" width="100%" />
 
 ### Projects
-A pinned, horizontally scrolling carousel of 10 projects with a counter, arrow controls and a clickable project index. Cards link to the GitHub source and live demos. They open a detail view with a problem / approach / outcome case study where one exists.
+A pinned, horizontally scrolling carousel of 13 projects with a counter, arrow controls and a clickable project index. Cards link to the GitHub source and live demos. They open a detail view with a problem / approach / outcome case study where one exists.
 
 <img src="docs/screenshots/projects.jpg" alt="Projects: pinned horizontal carousel" width="100%" />
 
@@ -119,7 +119,7 @@ Then run:
 
 ```
 src/
-├── assets/              # Images, icons, loader and blog images
+├── assets/              # Images, icons, hero, loader and blog images
 ├── components/
 │   ├── blog/            # Interactive blog widgets
 │   ├── canvas/          # Three.js starfield
@@ -144,6 +144,7 @@ src/
 └── main.jsx
 docs/screenshots/        # Images used in this README
 scripts/
+├── optimize-hero-images.mjs     # Small WebP screenshots for the hero
 └── optimize-loader-images.mjs
 ```
 
