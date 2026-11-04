@@ -1,6 +1,6 @@
 # James William Hanzell — Personal Portfolio
 
-A minimal, motion-driven portfolio and blog built with React. It opens on a drawn-box loader, then moves through an Apple-style hero showing recent projects on a laptop, a word-by-word intro, work experience, skills, a pinned project carousel, a blog with interactive posts, testimonials and a contact form. Everything is available in dark and light mode.
+A minimal, motion-driven portfolio and blog built with React. It opens on a drawn-box loader, then moves through an Apple-style hero showing recent projects on a laptop, a word-by-word intro, work experience, skills, a pinned project carousel, a blog with interactive posts, testimonials and a contact form. It opens in light mode, with dark mode one click away.
 
 **Live site:** https://jameswilliamhanzell.vercel.app/
 
@@ -16,7 +16,7 @@ A square outline draws itself around the `JH` monogram while a counter runs from
 <img src="docs/screenshots/loader.jpg" alt="Loader: outline drawing around the JH monogram" width="100%" />
 
 ### Hero and About
-The hero is laid out like an Apple product page: the name, a one-line tagline, a **See projects** button and a **Get in touch** link, then a laptop drawn in CSS that grows as you scroll. A segmented control under it switches the laptop's screen between the three newest projects (Vortex, Carver and Coven). Its screenshots are small WebP copies made by `scripts/optimize-hero-images.mjs`. The About section below is pinned while you scroll, and its intro lights up word by word.
+The hero is laid out like an Apple product page: the name, a one-line tagline, a **See projects** button and a **View resume** link to the PDF in `public/`, then a laptop drawn in CSS that grows as you scroll. A segmented control under it switches the laptop's screen between the three newest projects (Vortex, Carver and Coven). Its screenshots are small WebP copies made by `scripts/optimize-hero-images.mjs`. The About section below is pinned while you scroll, and its intro lights up word by word.
 
 <img src="docs/screenshots/about.jpg" alt="About: intro text revealing word by word on scroll" width="100%" />
 
@@ -60,8 +60,8 @@ Testimonials sit in a horizontally scrolling row of cards. The contact section h
 
 <img src="docs/screenshots/contact.jpg" alt="Contact form" width="100%" />
 
-### Light mode
-The sun/moon button in the navbar switches themes, and the choice is remembered. The starfield fades out in light mode.
+### Light and dark mode
+The site opens in light mode. The sun/moon button in the navbar switches to dark mode, and that choice is remembered. The starfield shows only in dark mode.
 
 <table>
   <tr>

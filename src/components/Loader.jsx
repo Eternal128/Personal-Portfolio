@@ -281,7 +281,7 @@ const Loader = ({ onComplete }) => {
           align-items: center;
           justify-content: center;
           font-size: clamp(30px, 5vw, 44px);
-          font-weight: 600;
+          font-weight: 700;
           letter-spacing: -0.02em;
           color: ${LOADER_TEXT};
         }
