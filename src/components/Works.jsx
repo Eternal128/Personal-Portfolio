@@ -256,36 +256,38 @@ const ProjectModal = ({ project, onClose }) => {
                 </svg>
               </a>
             )}
-            <a
-              href={project.source_code_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{
-                display: 'inline-flex', alignItems: 'center', gap: 8,
-                padding: '10px 22px', borderRadius: 100,
-                background: 'rgba(var(--fg-rgb),0.05)',
-                border: '1px solid rgba(var(--fg-rgb),0.11)',
-                color: 'rgba(var(--fg-rgb),0.65)',
-                fontSize: 12, fontWeight: 300,
-                letterSpacing: '0.06em', textTransform: 'uppercase',
-                textDecoration: 'none', cursor: 'none',
-                transition: 'background 0.2s, color 0.2s',
-                fontFamily: "'DM Sans', sans-serif",
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.10)';
-                e.currentTarget.style.color = 'var(--fg)';
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.05)';
-                e.currentTarget.style.color = 'rgba(var(--fg-rgb),0.65)';
-              }}
-            >
-              GitHub Repo
-              <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
-                <path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-              </svg>
-            </a>
+            {project.source_code_link && (
+              <a
+                href={project.source_code_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 8,
+                  padding: '10px 22px', borderRadius: 100,
+                  background: 'rgba(var(--fg-rgb),0.05)',
+                  border: '1px solid rgba(var(--fg-rgb),0.11)',
+                  color: 'rgba(var(--fg-rgb),0.65)',
+                  fontSize: 12, fontWeight: 300,
+                  letterSpacing: '0.06em', textTransform: 'uppercase',
+                  textDecoration: 'none', cursor: 'none',
+                  transition: 'background 0.2s, color 0.2s',
+                  fontFamily: "'DM Sans', sans-serif",
+                }}
+                onMouseEnter={e => {
+                  e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.10)';
+                  e.currentTarget.style.color = 'var(--fg)';
+                }}
+                onMouseLeave={e => {
+                  e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.05)';
+                  e.currentTarget.style.color = 'rgba(var(--fg-rgb),0.65)';
+                }}
+              >
+                GitHub Repo
+                <svg width="10" height="10" viewBox="0 0 12 12" fill="none">
+                  <path d="M1 11L11 1M11 1H4M11 1V8" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              </a>
+            )}
           </div>
         </div>
       </motion.div>
@@ -331,18 +333,20 @@ const ProjectCard = ({
             alt='project_image'
             className='w-full h-full object-cover rounded-2xl'
           />
-          <div className='absolute inset-0 flex justify-end m-3 card-img_hover gap-2'>
-            <button
-              type="button"
-              onClick={(e) => { e.stopPropagation(); window.open(source_code_link, "_blank"); }}
-              className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'
-              style={{ border: 'none', padding: 0 }}
-              aria-label={`View source code for ${name} on GitHub`}
-              title="View Source Code"
-            >
-              <img src={github} alt='' className='w-1/2 h-1/2 object-contain' />
-            </button>
-          </div>
+          {source_code_link && (
+            <div className='absolute inset-0 flex justify-end m-3 card-img_hover gap-2'>
+              <button
+                type="button"
+                onClick={(e) => { e.stopPropagation(); window.open(source_code_link, "_blank"); }}
+                className='black-gradient w-10 h-10 rounded-full flex justify-center items-center cursor-pointer'
+                style={{ border: 'none', padding: 0 }}
+                aria-label={`View source code for ${name} on GitHub`}
+                title="View Source Code"
+              >
+                <img src={github} alt='' className='w-1/2 h-1/2 object-contain' />
+              </button>
+            </div>
+          )}
         </div>
 
         <div className='mt-5'>
