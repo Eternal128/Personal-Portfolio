@@ -286,13 +286,16 @@ const Navbar = ({ revealed = true }) => {
           justify-content: center;
           gap: 32px;
           opacity: 0;
+          visibility: hidden;
           pointer-events: none;
-          transition: opacity 0.3s ease;
+          transition: opacity 0.3s ease, visibility 0s linear 0.3s;
         }
 
         .nav-mobile-menu.open {
           opacity: 1;
+          visibility: visible;
           pointer-events: all;
+          transition: opacity 0.3s ease, visibility 0s;
         }
 
         .nav-mobile-close {
