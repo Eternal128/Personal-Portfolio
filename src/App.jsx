@@ -231,6 +231,7 @@ const App = () => {
         {loading && (
           <Loader
             onComplete={() => {
+              document.documentElement.removeAttribute('data-loading');
               setLoading(false);
               setNavReady(true);
               setTimeout(() => setHeroReady(true), 300);
