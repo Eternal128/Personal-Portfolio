@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
+import { useTheme } from '../context/ThemeContext';
 
 // SVG viewBox is a fixed coordinate space (independent of the box's actual
 // rendered/responsive pixel size), so the dash-array perimeter math below
@@ -11,18 +12,28 @@ const PERIMETER = BOX_SIDE * 4;
 
 const TAGLINE = 'CODE · CREATE · CONNECT';
 
-// The loader's own canvas is a fixed, theme-independent neutral — a
-// deliberate "waiting room" surface distinct from the site itself, not an
-// attempt to match dark/light mode. Theme-correctness happens at the one
-// moment it actually matters: the box fills with the site's real `--bg`
-// right before it zooms to fullscreen, so the handoff into Hero lands on
-// the exact right color for whichever theme is active.
-const LOADER_BG = '#d1d1ce';
-const LOADER_STROKE = 'rgba(23,21,18,0.45)';
-const LOADER_TEXT = '#1c1a17';
-const LOADER_TEXT_DIM = 'rgba(23,21,18,0.4)';
-const LOADER_TEXT_FAINT = 'rgba(23,21,18,0.32)';
-const LOADER_CROSSHAIR = 'rgba(23,21,18,0.3)';
+// The loader inverts the active theme: a dark canvas with a white box and
+// white type in light mode, a light grey canvas with dark marks in dark mode.
+// Either way the box then fills with the site's real `--bg` right before it
+// zooms to fullscreen, so the handoff into Hero lands on the page's colour.
+const LOADER_COLORS = {
+  light: {
+    bg: '#0b0b0b',
+    stroke: 'rgba(255,255,255,0.85)',
+    text: '#ffffff',
+    textDim: 'rgba(255,255,255,0.6)',
+    textFaint: 'rgba(255,255,255,0.45)',
+    crosshair: 'rgba(255,255,255,0.5)',
+  },
+  dark: {
+    bg: '#d1d1ce',
+    stroke: 'rgba(23,21,18,0.45)',
+    text: '#1c1a17',
+    textDim: 'rgba(23,21,18,0.4)',
+    textFaint: 'rgba(23,21,18,0.32)',
+    crosshair: 'rgba(23,21,18,0.3)',
+  },
+};
 
 const DRAW_MS = 2400;   // box outline draw + counter 0 -> 100
 const PAUSE_MS = 300;   // beat after the box finishes drawing
@@ -104,6 +115,8 @@ const Corner = React.memo(({ c, zooming, burstDone, spinning }) => {
 });
 
 const Loader = ({ onComplete }) => {
+  const { theme } = useTheme();
+  const C = LOADER_COLORS[theme === 'dark' ? 'dark' : 'light'];
   const [progress, setProgress] = useState(0);
   const [phase, setPhaseState] = useState('drawing'); // drawing | filling | zoom
   const [visible, setVisible] = useState(true);
@@ -248,7 +261,7 @@ const Loader = ({ onComplete }) => {
           font-family: 'DM Sans', sans-serif;
           overflow: hidden;
           pointer-events: none;
-          background: ${LOADER_BG};
+          background: ${C.bg};
         }
 
         .loader-frame-wrap {
@@ -261,7 +274,7 @@ const Loader = ({ onComplete }) => {
           font-size: 26px;
           font-weight: 200;
           line-height: 1;
-          color: ${LOADER_CROSSHAIR};
+          color: ${C.crosshair};
           user-select: none;
         }
 
@@ -283,7 +296,7 @@ const Loader = ({ onComplete }) => {
           font-size: clamp(30px, 5vw, 44px);
           font-weight: 700;
           letter-spacing: -0.02em;
-          color: ${LOADER_TEXT};
+          color: ${C.text};
         }
 
         .loader-tagline {
@@ -293,7 +306,7 @@ const Loader = ({ onComplete }) => {
           font-weight: 400;
           letter-spacing: 0.28em;
           text-transform: uppercase;
-          color: ${LOADER_TEXT_DIM};
+          color: ${C.textDim};
         }
 
         .loader-counter {
@@ -302,7 +315,7 @@ const Loader = ({ onComplete }) => {
           font-size: 11px;
           font-weight: 300;
           letter-spacing: 0.15em;
-          color: ${LOADER_TEXT_FAINT};
+          color: ${C.textFaint};
         }
       `}</style>
 
@@ -336,7 +349,7 @@ const Loader = ({ onComplete }) => {
               y={BOX_INSET}
               width={BOX_SIDE}
               height={BOX_SIDE}
-              stroke={LOADER_STROKE}
+              stroke={C.stroke}
               strokeWidth={1.5}
               // Once drawn, drop the dash so the start corner gets a proper
               // closed join instead of two butt-capped ends meeting.

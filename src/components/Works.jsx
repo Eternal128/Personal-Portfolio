@@ -10,15 +10,21 @@ import { projects } from "../constants";
 import { fadeIn, textVariant } from "../utils/motion";
 import { useSound } from "../context/SoundContext";
 import { useLenis } from "../context/LenisContext";
+import { useTheme } from "../context/ThemeContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
 // Muted, moody backdrop tones cycling per project — deliberately dark
 // variations rather than saturated brand colors, so the rail still reads
 // as part of this site's restrained black/gold system, not a bright carousel.
-const RAIL_COLORS = ['#0d0d0d', '#15100a', '#0a0e14', '#120a0e', '#0a120e', '#0d0d14'];
+// Light mode gets the same idea in pale tints, so the cards and controls stay readable.
+const RAIL_COLORS = {
+  dark:  ['#0d0d0d', '#15100a', '#0a0e14', '#120a0e', '#0a120e', '#0d0d14'],
+  light: ['#ebe8e1', '#ede7dd', '#e4e8ec', '#ece4e7', '#e3eae5', '#e6e6ec'],
+};
 
 const SLIDE_WIDTH = 420;
+const CARD_HEIGHT = 520; // every card the same height; long descriptions clamp to 3 lines
 const SLIDE_GAP = 56;
 const CARD_SCROLL_PX = 650; // vertical scroll px consumed per horizontal card step
 
@@ -269,6 +275,7 @@ const ProjectCard = ({
 
   return (
     <div
+      className="works-card"
       style={{ cursor: 'none', flex: `0 0 ${SLIDE_WIDTH}px` }}
       role="button"
       tabIndex={0}
@@ -284,6 +291,7 @@ const ProjectCard = ({
       <Tilt
         options={{ max: 12, scale: 1, speed: 450 }}
         className='bg-tertiary p-5 rounded-2xl w-full'
+        style={{ height: CARD_HEIGHT, display: 'flex', flexDirection: 'column' }}
       >
         <div className='relative w-full h-[230px]'>
           <img
@@ -347,10 +355,15 @@ const ProjectCard = ({
               </button>
             )}
           </div>
-          <p className='mt-2 text-secondary text-[14px]'>{description}</p>
+          <p
+            className='mt-2 text-secondary text-[14px]'
+            style={{ display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', lineHeight: 1.5 }}
+          >
+            {description}
+          </p>
         </div>
 
-        <div className='mt-4 flex flex-wrap gap-2'>
+        <div className='mt-4 flex flex-wrap gap-2' style={{ maxHeight: 21, overflow: 'hidden' }}>
           {tags.map((tag) => (
             <p key={`${name}-${tag.name}`} className={`text-[14px] ${tag.color}`}>
               #{tag.name}
@@ -358,13 +371,13 @@ const ProjectCard = ({
           ))}
         </div>
 
-        {live_demo_link && (
+        {live_demo_link ? (
           <button
             type="button"
             onClick={(e) => { e.stopPropagation(); window.open(live_demo_link, "_blank"); }}
             aria-label={`Open live demo of ${name}`}
             style={{
-              marginTop: 16,
+              marginTop: 'auto',
               width: '100%',
               display: 'flex', alignItems: 'center', justifyContent: 'space-between',
               padding: '10px 14px', borderRadius: 10,
@@ -385,6 +398,36 @@ const ProjectCard = ({
           >
             <span style={{ fontSize: 12, fontWeight: 300, color: 'rgba(var(--fg-rgb),0.6)', letterSpacing: '0.04em' }}>
               View Live Demo
+            </span>
+            <ExternalLinkIcon />
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={(e) => { e.stopPropagation(); openProject(); }}
+            aria-label={`Open the ${name} details`}
+            style={{
+              marginTop: 'auto',
+              width: '100%',
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '10px 14px', borderRadius: 10,
+              background: 'rgba(var(--fg-rgb),0.04)',
+              border: '1px solid rgba(var(--fg-rgb),0.08)',
+              cursor: 'pointer',
+              transition: 'background 0.2s, border-color 0.2s',
+              fontFamily: "'DM Sans', sans-serif",
+            }}
+            onMouseEnter={e => {
+              e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.08)';
+              e.currentTarget.style.borderColor = 'rgba(var(--fg-rgb),0.16)';
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.background = 'rgba(var(--fg-rgb),0.04)';
+              e.currentTarget.style.borderColor = 'rgba(var(--fg-rgb),0.08)';
+            }}
+          >
+            <span style={{ fontSize: 12, fontWeight: 300, color: 'rgba(var(--fg-rgb),0.6)', letterSpacing: '0.04em' }}>
+              View Details
             </span>
             <ExternalLinkIcon />
           </button>
@@ -453,7 +496,7 @@ const RailControls = ({ activeIndex, count, onPrev, onNext, onJump, names }) => 
       </button>
     </div>
 
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '6px 18px', maxWidth: '90vw', pointerEvents: 'auto' }}>
+    <div className="works-index" style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: '6px 18px', maxWidth: '90vw', pointerEvents: 'auto' }}>
       {names.map((name, i) => (
         <button
           key={name}
@@ -478,6 +521,8 @@ const RailControls = ({ activeIndex, count, onPrev, onNext, onJump, names }) => 
 // ── Works ──────────────────────────────────────────────────────
 const Works = () => {
   const [activeProject, setActiveProject] = useState(null);
+  const { theme } = useTheme();
+  const rail = RAIL_COLORS[theme] || RAIL_COLORS.dark;
   const [activeIndex, setActiveIndex] = useState(0);
   const { play } = useSound();
   const lenis = useLenis();
@@ -543,9 +588,10 @@ const Works = () => {
           child.style.scrollSnapAlign = 'start';
         });
 
-        const slideStep = SLIDE_WIDTH + SLIDE_GAP;
+        // Cards are narrower than SLIDE_WIDTH on phones, so measure the real step.
+        const slideStep = () => (track.children[0]?.offsetWidth || SLIDE_WIDTH) + SLIDE_GAP;
         const onScroll = () => {
-          const idx = Math.round(track.scrollLeft / slideStep);
+          const idx = Math.round(track.scrollLeft / slideStep());
           if (idx !== activeIndexRef.current) {
             activeIndexRef.current = idx;
             setActiveIndex(idx);
@@ -574,12 +620,27 @@ const Works = () => {
       lenis.scrollTo(target, { duration: 1 });
     } else if (trackRef.current) {
       const slide = trackRef.current.children[clamped];
-      if (slide) trackRef.current.scrollTo({ left: slide.offsetLeft, behavior: 'smooth' });
+      const pad = parseFloat(getComputedStyle(trackRef.current).scrollPaddingLeft) || 0;
+      if (slide) trackRef.current.scrollTo({ left: slide.offsetLeft - pad, behavior: 'smooth' });
     }
   }, [n, lenis]);
 
   return (
     <section style={{ position: 'relative', padding: 'clamp(60px,10vh,100px) 0 0' }}>
+      <style>{`
+        /* Phones: cards fill the width with a 20px margin and sit at the top of
+           the rail; the long project-name index gives way to swipe + arrows. */
+        @media (max-width: 1024px), (hover: none) {
+          .works-track { scroll-padding-inline: 20px; }
+          .works-card:first-child { margin-left: 20px; }
+          .works-card:last-child { margin-right: 20px; }
+        }
+        @media (max-width: 640px) {
+          .works-track { align-items: flex-start !important; padding-top: 24px; }
+          .works-card { flex-basis: calc(100vw - 40px) !important; }
+          .works-index { display: none !important; }
+        }
+      `}</style>
       <span className='hash-span' id="projects" />
 
       <div style={{ width: '100%', padding: '0 clamp(24px, 6vw, 120px)' }}>
@@ -603,12 +664,13 @@ const Works = () => {
       <div ref={pinWrapRef} style={{ position: 'relative', height: '100vh', marginTop: 48, overflow: 'hidden' }}>
         <div style={{
           position: 'absolute', inset: 0, zIndex: 0,
-          background: RAIL_COLORS[activeIndex % RAIL_COLORS.length],
+          background: rail[activeIndex % rail.length],
           transition: 'background-color 0.6s ease',
         }} />
 
         <div
           ref={trackRef}
+          className="works-track"
           style={{
             position: 'relative', zIndex: 1,
             display: 'flex', alignItems: 'center', height: '100%',

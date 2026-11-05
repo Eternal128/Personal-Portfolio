@@ -19,6 +19,7 @@
   --fg-rgb: 255, 255, 255;
   --surface-solid: #0a0a0a;
   --surface-solid-rgb: 10, 10, 10;
+  --surface-card: #0d0d0d;
 }
 
 [data-theme="light"] {
@@ -29,6 +30,7 @@
   --fg-rgb: 23, 22, 15;
   --surface-solid: #ffffff;
   --surface-solid-rgb: 255, 255, 255;
+  --surface-card: #ffffff;
 }
 
 /* Shimmer headline text — swaps to dark-on-light automatically since it's
@@ -86,7 +88,7 @@ h2 {
   font-weight: 300;
   letter-spacing: -0.025em;
   line-height: 0.97;
-  color: #fff;
+  color: var(--fg);
 }
 
 .sectionSubText {
@@ -95,7 +97,7 @@ h2 {
   font-weight: 300;
   letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.3) !important;
+  color: rgba(var(--fg-rgb), 0.45) !important;
 }
 
 /* Tailwind overrides */
@@ -111,7 +113,7 @@ h2 {
 }
 
 .bg-tertiary {
-  background: #0d0d0d !important;
+  background: var(--surface-card) !important;
 }
 
 .bg-black-100 {
@@ -123,7 +125,7 @@ h2 {
 }
 
 .text-secondary {
-  color: rgba(255, 255, 255, 0.42) !important;
+  color: rgba(var(--fg-rgb), 0.6) !important;
 }
 
 /* ── Gradients ── */

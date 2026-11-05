@@ -27,17 +27,24 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,200;9..40,300;9..40,400;9..40,500;9..40,700;9..40,800&family=DM+Mono:wght@300;400&family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500&display=swap"
     />
-  </head>
-  <body>
     <script>
       (function () {
         try {
           // Light is the default; dark only when the visitor chose it with the toggle.
           var t = localStorage.getItem('theme-choice');
           document.documentElement.setAttribute('data-theme', t === 'dark' ? 'dark' : 'light');
+          document.documentElement.setAttribute('data-loading', '');
         } catch (e) {}
       })();
     </script>
+    <style>
+      /* Until the loader finishes, paint the page in the loader's own colour
+         so there is no flash of the page background before it mounts. */
+      html[data-loading][data-theme="light"], html[data-loading][data-theme="light"] body { background: #0b0b0b; }
+      html[data-loading][data-theme="dark"], html[data-loading][data-theme="dark"] body { background: #d1d1ce; }
+    </style>
+  </head>
+  <body>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
