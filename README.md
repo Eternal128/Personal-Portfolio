@@ -21,14 +21,9 @@ The hero is laid out like an Apple product page: the name, a one-line tagline, a
 <img src="docs/screenshots/about.jpg" alt="About: intro text revealing word by word on scroll" width="100%" />
 
 ### Work Experience
-Each company is a row with a **View role** link. It opens a full-screen role page with the key numbers highlighted. You can step between roles with the arrows (01 / 04).
+Every role is open on the page, so there's nothing to click. The company, logo and dates sit on the left. The job title and results sit on the right, with the key numbers in full ink. A **Full resume** link at the end opens the PDF.
 
-<table>
-  <tr>
-    <td><img src="docs/screenshots/experience.jpg" alt="Work Experience list" /></td>
-    <td><img src="docs/screenshots/experience-role.jpg" alt="Role detail page with highlighted metrics" /></td>
-  </tr>
-</table>
+<img src="docs/screenshots/experience.jpg" alt="Work Experience: each role with its company, dates, title and results" width="100%" />
 
 ### Technical Skills
 A grid of skill cards, each with a proficiency level. Click a skill to see where it was used.
